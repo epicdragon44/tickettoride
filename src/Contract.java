@@ -4,6 +4,6 @@ public class Contract {
 	private int value;
 public Contract(String s, String e, int v)
 {
-	
+	System.out.println();
 }
 }
