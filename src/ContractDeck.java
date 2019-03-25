@@ -11,12 +11,12 @@ public class ContractDeck {
 		Scanner s = new Scanner(new File("elleh"));
 		deck = new LinkedList<Contract>();
 	}
-	private ArrayList<Contract> draw(int num)
-	{
+
+	private ArrayList<Contract> draw(int num) {
 		ArrayList<Contract> c = new ArrayList<Contract>();
-		for(int i = 0; i <num;i++)
-		{
-			deck.remove();
+		for (int i = 0; i < num; i++) {
+			c.add(deck.remove());
 		}
+		return c;
 	}
 }
