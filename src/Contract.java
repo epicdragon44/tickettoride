@@ -4,6 +4,20 @@ public class Contract {
 	private int value;
 public Contract(String s, String e, int v)
 {
-	System.out.println();
+	start = s;
+	end = e;
+	value = v;
+}
+private String getStart()
+{
+	return start;
+}
+private String getEnd()
+{
+	return end;
+}
+private int getValue()
+{
+	return value;
 }
 }
