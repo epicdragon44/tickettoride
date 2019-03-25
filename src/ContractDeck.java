@@ -12,11 +12,15 @@ public class ContractDeck {
 		deck = new LinkedList<Contract>();
 	}
 
-	private ArrayList<Contract> draw(int num) {
+	public ArrayList<Contract> draw(int num) {
 		ArrayList<Contract> c = new ArrayList<Contract>();
 		for (int i = 0; i < num; i++) {
 			c.add(deck.remove());
 		}
 		return c;
+	}
+
+	public void replace(ArrayList<Contract> c) {
+		deck.addAll(c);
 	}
 }
