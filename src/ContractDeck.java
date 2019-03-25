@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.LinkedList;
 import java.io.*;
 
 public class ContractDeck {
@@ -8,7 +9,7 @@ public class ContractDeck {
 
 	public ContractDeck() throws IOException {
 		Scanner s = new Scanner(new File("elleh"));
-		deck = LinkedList<Contract>();
+		deck = new LinkedList<Contract>();
 	}
 	private ArrayList<Contract> draw(int num)
 	{
