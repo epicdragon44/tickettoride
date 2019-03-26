@@ -10,7 +10,7 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
 
-        gamepanel = new GamePanel();
+        gamePanel = new GamePanel();
         add(gamePanel);
 
         setVisible(true);

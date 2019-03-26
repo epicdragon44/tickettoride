@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.util.*;
+
 public class Player 
 {
 	private String name;
@@ -20,7 +21,7 @@ public class Player
 	
 	public void addPoints(int num)
 	{
-		points = num;
+		points += num;
 	}
 	
 	public ArrayList<Contract> getContract()
@@ -50,6 +51,15 @@ public class Player
 	
 	public int getScore()
 	{
-		return p
+		return points;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.name.equals(((Player)(obj)).name);
+	}
+
+	private void decrementtrainsLeft(int num) {
+		trainsLeft-=num;
 	}
 }
