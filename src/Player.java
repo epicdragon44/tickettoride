@@ -9,6 +9,23 @@ public class Player
 	private ArrayList<Contract> contracts;
 	private HashMap<TrainCard, Integer> trainCards;
 	
+	public Player(String n)
+	{
+		name=n;
+		points=0;
+		trainsLeft=45;
+		contracts=new ArrayList<Contract>();
+		trainCards=new HashMap<TrainCard, Integer>();
+		trainCards.put(key, 0);
+		trainCards.put(key, 0);
+		trainCards.put(key, 0);
+		trainCards.put(key, 0);
+		trainCards.put(key, 0);
+		trainCards.put(key, 0);
+		trainCards.put(key, 0);
+		trainCards.put(key, 0);
+	}
+	
 	public String getName()
 	{
 		return name;
@@ -31,17 +48,25 @@ public class Player
 	
 	public void deleteContract(Contract c)
 	{
-		//to be implemented
+		for(int i=0;i<contracts.size();i++)
+		{
+			Contract cs=contracts.get(i);
+			if(cs.getStart().equals(c.getStart())&&cs.getEnd().equals(c.getEnd()))
+			{
+				contracts.remove(i);
+				return;
+			}
+		}
 	}
 	
-	public HashMap<TrainCard, Integer>getTrainCards()
+	public HashMap<TrainCard, Integer> getTrainCards()
 	{
-		//to be implemented
+		return trainCards;
 	}
 	
 	public void drawTrainCards(TrainCard train)
 	{
-		//to be implemented
+		trainCards.set(train,trainCards.get(train)+1);
 	}
 	
 	public void placeTrains(int num, Color col)
