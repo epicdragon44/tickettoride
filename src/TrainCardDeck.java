@@ -7,7 +7,7 @@ public class TrainCardDeck {
 	private TrainCard[] faceup;
 
 	public TrainCardDeck() {
-		deck = new ArrayList<TrainCard>();
+		deck = new ArrayList<>();
 		restartDeck();
 		faceup = new TrainCard[5];
 	}

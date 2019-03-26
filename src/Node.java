@@ -7,15 +7,14 @@ public class Node {
     private String name;
 
     public Node(String name, int x, int y) {
-
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        connections = new ArrayList<>();
     }
 
     public boolean equals(Object o) {
         return this.name.equals(((Node) (o)).name);
-    }
-
-    public int connectionCost(String start, String end) {
-
     }
 
     public ArrayList<Track> getConnections() {
