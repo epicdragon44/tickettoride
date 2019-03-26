@@ -3,10 +3,12 @@ import java.util.Collections;
 
 public class TrainCardDeck {
 	private ArrayList<TrainCard> deck;
+	private TrainCard[] faceup;
 
 	public TrainCardDeck() {
 		deck = new ArrayList<TrainCard>();
 		restartDeck();
+		faceup = new TrainCard[5];
 	}
 
 	public void restartDeck() {
@@ -42,5 +44,9 @@ public class TrainCardDeck {
 
 	public TrainCard draw(int index) {
 		return deck.remove(index);
+	}
+
+	public boolean checkWildLim() {
+
 	}
 }
