@@ -1,13 +1,4 @@
-/TrainCard.class
-/tickettoride/
-/Player.class
-/Contract.class
-/ContractDeck.class
-/TrainCardDeck.class
-/Board.class
-/GameEngine.class
-/GameFrame.class
-/GamePanel.class
-/GameTextRunner.class
-/Node.class
-/Track.class
+.idea/*
+.metadata/*
+.settings/*
+bin/*
