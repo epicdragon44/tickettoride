@@ -34,7 +34,7 @@ public class Player
 		//to be implemented
 	}
 	
-	public HashMap<TrainCard, Integer>getTrainCards()
+	public HashMap<TrainCard, Integer> getTrainCards()
 	{
 		//to be implemented
 	}
