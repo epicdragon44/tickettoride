@@ -16,7 +16,19 @@ public class Contract {
         return end;
     }
 
-    private int getValue() {
+    public void setStart(String start) {
+		this.start = start;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	private int getValue() {
         return value;
     }
 }
