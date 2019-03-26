@@ -4,15 +4,18 @@ import java.util.List;
 public class Board {
 	private Node[] cities;
 	private boolean found;
-	private int maxLen, bestPlayer;
+	private int maxLen;
+	private Player bestPlayer;
 	
-	public Board()
-	{
+	public Board() {
 		
 	}
+
+	public int connectionCost(String start, String end) {
+
+	}
 	
-	public boolean isComplete(Contract c)
-	{
+	public boolean isComplete(Contract c) {
 		
 	}
 	
@@ -33,15 +36,19 @@ public class Board {
 	}
 
 	private void visit(Node n, int cnt, List<Track> visited, Player p) {
+		if (cnt > maxLen) {
+			maxLen = cnt;
+			bestPlayer = p;
+		}
 
+		for (Track t : n.getConnections())
+		if (p.equals(t.getPlayer()) && visited.contains(t)) {
+			visited.add(t);
+			visit(t.getOtherNode(n), cnt + 1, visited, p);
+		}
 	}
 
 	public boolean placeTrains(int player, String start, String end) {
 
 	}
-
-	/* //wtf lol why is this even here
-	public Track getTrack() {
-
-	}*/
 }

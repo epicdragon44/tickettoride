@@ -5,7 +5,7 @@ public class TrainCardDeck {
 	private ArrayList<TrainCard> deck;
 
 	public TrainCardDeck() {
-		deck = new ArrayList<TrainCard>();
+		deck = new ArrayList<>();
 		restartDeck();
 	}
 
