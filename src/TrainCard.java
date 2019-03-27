@@ -11,7 +11,6 @@ public class TrainCard {
 	}
 
 	public boolean getwild() 
-	{
 		return isWild;
 	}
 

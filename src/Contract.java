@@ -7,12 +7,12 @@ public class Contract {
         end = e;
         value = v;
     }
-
-    public String getStart() {
+    
+    protected String getStart() {
         return start;
     }
 
-    public String getEnd() {
+    protected String getEnd() {
         return end;
     }
 
