@@ -3,6 +3,7 @@ import java.util.List;
 
 public class Board {
 	private Node[] cities;
+	private GameEngine daddyEngine;
 
 	private boolean found;
 
@@ -13,8 +14,16 @@ public class Board {
 		
 	}
 
-	public int connectionCost(String start, String end) {
-		
+	public int connectionCost(String s, String e) {
+		Node start = findNode(s);
+		Node end = findNode(e);
+		ArrayList<Track> tracks = start.getConnections();
+		for (Track t : tracks) {
+			if (t.getOtherNode(start).equals(end)) {
+				return t.getCost();
+			}
+		}
+		return -1;
 	}
 	
 	public boolean isComplete(Contract c) {
@@ -74,7 +83,16 @@ public class Board {
 		}
 	}
 
-	public boolean placeTrains(int player, String start, String end) {
-
+	public boolean placeTrains(int player, Node start, Node end) {
+		ArrayList<Track> tracks = start.getConnections();
+		for (Track t : tracks) {
+			if (t.getOtherNode(start).equals(end)) {
+				if (daddyEngine.getPlayers()[player].getTrainCards().get(t.getColor())>=t.getCost()) {
+					t.setPlayer(player);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
