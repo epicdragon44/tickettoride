@@ -19,6 +19,8 @@ public class TrainCard {
 	}
 
 	public boolean equals(TrainCard b) {
+		if (isWild == b.getWild())
+			return true;
 		if (color.equals(b.getColor()))
 			return true;
 		return false;
