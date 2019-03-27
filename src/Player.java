@@ -16,14 +16,14 @@ public class Player
 		trainsLeft=45;
 		contracts=new ArrayList<Contract>();
 		trainCards=new HashMap<TrainCard, Integer>();
-		trainCards.put(key, 0);
-		trainCards.put(key, 0);
-		trainCards.put(key, 0);
-		trainCards.put(key, 0);
-		trainCards.put(key, 0);
-		trainCards.put(key, 0);
-		trainCards.put(key, 0);
-		trainCards.put(key, 0);
+		trainCards.put(new TrainCard(Color.black,false), 0);
+		trainCards.put(new TrainCard(Color.orange,false), 0);
+		trainCards.put(new TrainCard(Color.red,false), 0);
+		trainCards.put(new TrainCard(Color.blue,false), 0);
+		trainCards.put(new TrainCard(Color.green,false), 0);
+		trainCards.put(new TrainCard(Color.pink,false), 0);
+		trainCards.put(new TrainCard(Color.white,false), 0);
+		trainCards.put(new TrainCard(null,true), 0);
 	}
 	
 	public String getName()
@@ -38,7 +38,7 @@ public class Player
 	
 	public void addPoints(int num)
 	{
-		points += num;
+		points+=num;
 	}
 	
 	public ArrayList<Contract> getContract()
@@ -51,7 +51,7 @@ public class Player
 		for(int i=0;i<contracts.size();i++)
 		{
 			Contract cs=contracts.get(i);
-			if(cs.getStart().equals(c.getStart())&&cs.getEnd().equals(c.getEnd()))
+			if(cs.equals(c))
 			{
 				contracts.remove(i);
 				return;
@@ -66,12 +66,24 @@ public class Player
 	
 	public void drawTrainCards(TrainCard train)
 	{
-		trainCards.set(train,trainCards.get(train)+1);
+		trainCards.put(train,trainCards.get(train)+1);
 	}
 	
 	public void placeTrains(int num, Color col)
 	{
-		//to be implemented
+		TrainCard temp=new TrainCard(col,false);
+		decrementtrainsLeft(num);
+		while(num!=0&&trainCards.get(temp)!=0)
+		{
+			trainCards.put(temp,trainCards.get(temp)-1);
+			num--;
+		}
+		temp=new TrainCard(null,true);
+		while(num!=0)
+		{
+			trainCards.put(temp,trainCards.get(temp)-1);
+			num--;
+		}
 	}
 	
 	public int getScore()
@@ -80,11 +92,13 @@ public class Player
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		return this.name.equals(((Player)(obj)).name);
+	public boolean equals(Object obj) 
+	{
+		return name.equals(((Player)(obj)).getName());
 	}
 
-	private void decrementtrainsLeft(int num) {
+	private void decrementtrainsLeft(int num)
+	{
 		trainsLeft-=num;
 	}
 }
