@@ -14,7 +14,7 @@ public class TrainCardDeck {
 			faceup[i] = deck.remove(0);
 		}
 	}
-
+// add in more reset decks after the faceup clear
 	public void restartDeck() {
 		for (int i = 0; i < 12; i++) {
 			deck.add(new TrainCard(null, true));
