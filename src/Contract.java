@@ -8,11 +8,11 @@ public class Contract {
         value = v;
     }
 
-    private String getStart() {
+    public String getStart() {
         return start;
     }
 
-    private String getEnd() {
+    public String getEnd() {
         return end;
     }
 
@@ -28,7 +28,13 @@ public class Contract {
 		this.value = value;
 	}
 
-	private int getValue() {
+	public int getValue() {
         return value;
     }
+	
+	public boolean equals(Object o)
+	{
+		Contract c=(Contract)o;
+		return start.equals(c.getStart())&&end.equals(c.getEnd());
+	}
 }
