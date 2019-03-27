@@ -14,7 +14,7 @@ public class TrainCardDeck {
 
 	public void restartDeck() {
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard("", true));
+			deck.add(new TrainCard(null, true));
 		}
 		for (int i = 0; i < 12; i++) {
 			deck.add(new TrainCard(Color.orange, false));
@@ -48,6 +48,8 @@ public class TrainCardDeck {
 	}
 
 	public boolean checkWildLim() {
-
+		//incomplete method here
+		return false;
+		
 	}
 }
