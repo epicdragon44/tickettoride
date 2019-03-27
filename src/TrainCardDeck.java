@@ -10,8 +10,7 @@ public class TrainCardDeck {
 		deck = new ArrayList<>();
 		restartDeck();
 		faceup = new TrainCard[5];
-		for(int i =0;i<5;i++)
-		{
+		for (int i = 0; i < 5; i++) {
 			faceup[i] = deck.remove(0);
 		}
 	}
@@ -48,12 +47,19 @@ public class TrainCardDeck {
 	}
 
 	public TrainCard draw(int index) {
-		return deck.remove(index);
+		if (index < 5) {
+			TrainCard p = faceup[index];
+			faceup[index] = draw(5);
+			checkWildLim();
+		}
+		if (deck.size() == 1)
+			restartDeck();
+		return deck.remove(0);
 	}
 
 	public boolean checkWildLim() {
-		//incomplete method here
+		// incomplete method here
 		return false;
-		
+
 	}
 }
