@@ -4,3 +4,10 @@
 /Contract.class
 /ContractDeck.class
 /TrainCardDeck.class
+/Board.class
+/GameEngine.class
+/GameFrame.class
+/GamePanel.class
+/GameTextRunner.class
+/Node.class
+/Track.class
