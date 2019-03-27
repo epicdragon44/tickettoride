@@ -8,11 +8,11 @@ public class Contract {
         value = v;
     }
 
-    private String getStart() {
+    protected String getStart() {
         return start;
     }
 
-    private String getEnd() {
+    protected String getEnd() {
         return end;
     }
 

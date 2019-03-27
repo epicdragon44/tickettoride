@@ -24,4 +24,8 @@ public class Node {
     public boolean contains(int x, int y) {
         return (Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2)) <= RADIUS);
     }
+
+    public String toString() {
+        return name;
+    }
 }
