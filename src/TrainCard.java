@@ -4,11 +4,9 @@ public class TrainCard {
 	private Color color;
 	private boolean isWild;
 
-	
-	public TrainCard(Color col,boolean wild)
-	{
-		color=col;
-		isWild=wild;
+	public TrainCard(Color col, boolean wild) {
+		color = col;
+		isWild = wild;
 	}
 
 	public boolean getwild() {
@@ -20,6 +18,8 @@ public class TrainCard {
 	}
 
 	public boolean equals(TrainCard b) {
+		if (isWild == b.getwild())
+			return true;
 		if (color.equals(b.getColor()))
 			return true;
 		return false;

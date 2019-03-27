@@ -10,6 +10,10 @@ public class TrainCardDeck {
 		deck = new ArrayList<>();
 		restartDeck();
 		faceup = new TrainCard[5];
+		for(int i =0;i<5;i++)
+		{
+			faceup[i] = deck.remove(0);
+		}
 	}
 
 	public void restartDeck() {
