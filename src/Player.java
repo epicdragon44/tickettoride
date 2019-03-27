@@ -51,7 +51,7 @@ public class Player
 		for(int i=0;i<contracts.size();i++)
 		{
 			Contract cs=contracts.get(i);
-			if(cs.getStart().equals(c.getStart())&&cs.getEnd().equals(c.getEnd()))
+			if(cs.equals(c))
 			{
 				contracts.remove(i);
 				return;

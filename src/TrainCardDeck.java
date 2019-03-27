@@ -10,6 +10,9 @@ public class TrainCardDeck {
 		deck = new ArrayList<>();
 		restartDeck();
 		faceup = new TrainCard[5];
+		for (int i = 0; i < 5; i++) {
+			faceup[i] = deck.remove(0);
+		}
 	}
 
 	public void restartDeck() {
@@ -44,12 +47,42 @@ public class TrainCardDeck {
 	}
 
 	public TrainCard draw(int index) {
-		return deck.remove(index);
+		TrainCard f = null;
+		if (index < 5) {
+			TrainCard p = faceup[index];
+			faceup[index] = draw(5);
+			checkWildLim();
+			return p;
+		}
+		if (deck.size() == 1) {
+			f = deck.remove(0);
+			restartDeck();
+			return f;
+		} else
+			return deck.remove(0);
+
 	}
 
-	public boolean checkWildLim() {
-		//incomplete method here
-		return false;
-		
+	public void checkWildLim() {
+		int count = 0;
+		for (int i = 0; i < 5; i++) {
+			if (faceup[i].getWild())
+				count++;
+		}
+		if (count >= 3) {
+			for (int i = 0; i < 5; i++) {
+				faceup[i] = null;
+			}
+			resetFaceup();
+			checkWildLim();
+		}
+	}
+
+	private void resetFaceup() {
+		faceup[0] = draw(5);
+		faceup[1] = draw(5);
+		faceup[2] = draw(5);
+		faceup[3] = draw(5);
+		faceup[4] = draw(5);
 	}
 }

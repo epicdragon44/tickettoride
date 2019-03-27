@@ -14,13 +14,12 @@ public class TrainCard {
 		return isWild;
 	}
 
-	public Color getColor() {
+	public Color getColor() 
+	{
 		return color;
 	}
 
 	public boolean equals(TrainCard b) {
-		if (color.equals(b.getColor()))
-			return true;
-		return false;
+		return (isWild&&b.getwild())||color.equals(b.getColor());
 	}
 }
