@@ -31,5 +31,6 @@ hs_err_pid*
 .metadata/*
 .settings/*
 bin/*
+workspace.xml
 
 # End of https://www.gitignore.io/api/java
