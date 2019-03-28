@@ -14,7 +14,8 @@ public class TrainCard {
 		return isWild;
 	}
 
-	public Color getColor() {
+	public Color getColor() 
+	{
 		return color;
 	}
 
