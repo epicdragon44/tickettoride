@@ -8,14 +8,6 @@ public class TrainCardDeck {
 
 	public TrainCardDeck() {
 		deck = new ArrayList<>();
-		restartDeck();
-		faceup = new TrainCard[5];
-		for (int i = 0; i < 5; i++) {
-			faceup[i] = deck.remove(0);
-		}
-	}
-// add in more reset decks after the faceup clear
-	public void restartDeck() {
 		for (int i = 0; i < 12; i++) {
 			deck.add(new TrainCard(null, true));
 		}
@@ -44,45 +36,22 @@ public class TrainCardDeck {
 			deck.add(new TrainCard(Color.red, false));
 		}
 		Collections.shuffle(deck);
+		faceup = new TrainCard[5];
 	}
 
-	public TrainCard draw(int index) {
-		TrainCard f = null;
-		if (index < 5) {
-			TrainCard p = faceup[index];
-			faceup[index] = draw(5);
-			checkWildLim();
-			return p;
-		}
-		if (deck.size() == 1) {
-			f = deck.remove(0);
-			restartDeck();
-			return f;
-		} else
+	public void restartDeck(ArrayList<TrainCard> rep) {
+		deck.addAll(rep);
+		Collections.shuffle(deck);
+	}
+
+	public TrainCard draw() {
+		if(!needsReset())
 			return deck.remove(0);
+		return null;
 
 	}
 
-	public void checkWildLim() {
-		int count = 0;
-		for (int i = 0; i < 5; i++) {
-			if (faceup[i].getWild())
-				count++;
-		}
-		if (count >= 3) {
-			for (int i = 0; i < 5; i++) {
-				faceup[i] = null;
-			}
-			resetFaceup();
-			checkWildLim();
-		}
-	}
-
-	private void resetFaceup() {
-		faceup[0] = draw(5);
-		faceup[1] = draw(5);
-		faceup[2] = draw(5);
-		faceup[3] = draw(5);
-		faceup[4] = draw(5);
+	public boolean needsReset() {
+		return deck.size()==0;
 	}
 }
