@@ -2,21 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame extends JFrame {
-    private GamePanel gamePanel;
-    public GameFrame() {
-        super();
-        setSize(new Dimension(1000, 1000));
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
+	private GamePanel gamePanel;
 
-        gamePanel = new GamePanel();
-        add(gamePanel);
+	public GameFrame(String str) {
+		super(str);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gamePanel = new GamePanel();
+		add(gamePanel);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setVisible(true);
+	}
 
-        setVisible(true);
-    }
-    public static void main(String[] args) 
-    {
-    	GameFrame game = new GameFrame();
-    }
+	public static void main(String[] args) {
+		GameFrame game = new GameFrame("Ticket to Ride");
+	}
 }
