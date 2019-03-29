@@ -14,23 +14,30 @@ public class GameEngine {
     public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 
     public GameEngine() {
-
+    	players=new Player[4];
+    	players[0]=new Player("Red");
+    	players[1]=new Player("Green");
+    	players[2]=new Player("Blue");
+    	players[3]=new Player("Yellow");
+    	cDeck=new ContractDeck();
+    	tDeck=new TrainCardDeck();
+    	trashDeck=new ArrayList<>();
     }
 
     public void initGame() {
-
+    	
     }
 
     public void nextPlayer() {
-
+    	
     }
 
     public void placeTrain(String nodeOne, String nodeTwo, Color c) {
-
+    	
     }
 
     private boolean checkEligibility(String nodeOne, String nodeTwo, Color c) {
-
+    	
     }
 
     public Player[] getPlayers() {
@@ -38,55 +45,55 @@ public class GameEngine {
     }
 
     public void drawContract() {
-
+    	
     }
 
     public boolean checkWildLim() {
-
+    	
     }
 
     public Player getLongestTrain() {
-
+    	
     }
 
     private void resetVisitedTracks() {
-
+    	
     }
 
     public void updateTable() {
-
+    	
     }
 
     public boolean gameEnded() {
-
+    	
     }
 
     public TrainCard drawTrainCard(int pos) {
-
+    	
     }
 
     public void replacetDeck() {
-
+    	
     }
 
     public boolean hasThreeWildCards() {
-
+    	
     }
 
     private void clearAndRepopulateTableDeck() {
-
+    	
     }
 
     public void endGame() {
-
+    	
     }
 
     public void lastRound() {
-
+    	
     }
 
-    public String findNode(int x, int y) {
-
+    public Node findNode(int x, int y) {
+    	
     }
 }
 

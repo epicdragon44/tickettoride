@@ -20,4 +20,9 @@ public class ContractDeck {
 	public void replace(ArrayList<Contract> c) {
 		deck.addAll(c);
 	}
+	
+	public boolean hasCards()
+	{
+		return deck.size()!=0;
+	}
 }

@@ -10,7 +10,7 @@ public class TrainCard {
 		isWild=wild;
 	}
 
-	public boolean getwild() 
+	public boolean getwild() {
 		return isWild;
 	}
 
