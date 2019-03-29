@@ -8,12 +8,14 @@ public class GameFrame extends JFrame {
 		super(str);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new FlowLayout());
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gamePanel = new GamePanel();
 		add(gamePanel);
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 		setVisible(true);
 	}
-
+  
 	public static void main(String[] args) {
 		GameFrame game = new GameFrame("Ticket to Ride");
 	}
