@@ -7,8 +7,11 @@ public class TrainCardDeck {
 	private TrainCard[] faceup;
 
 	public TrainCardDeck() {
+		
 		deck = new ArrayList<>();
+		
 		for (int i = 0; i < 12; i++) {
+			
 			deck.add(new TrainCard(null, true));
 		}
 		for (int i = 0; i < 12; i++) {
@@ -35,6 +38,7 @@ public class TrainCardDeck {
 		for (int i = 0; i < 12; i++) {
 			deck.add(new TrainCard(Color.red, false));
 		}
+		
 		Collections.shuffle(deck);
 		faceup = new TrainCard[5];
 	}
