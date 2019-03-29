@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -13,7 +14,7 @@ public class GameEngine {
 
     public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 
-    public GameEngine() {
+    public GameEngine() throws IOException {
     	players=new Player[4];
     	players[0]=new Player("Red");
     	players[1]=new Player("Green");
@@ -22,14 +23,26 @@ public class GameEngine {
     	cDeck=new ContractDeck();
     	tDeck=new TrainCardDeck();
     	trashDeck=new ArrayList<>();
+    	gBoard=new Board();
+    	tableDeck=new TrainCard[5];
+    	currentPlayer=0;
+    	for(Player p:players)
+    		for(int i=0;i<4;i++)
+    			p.drawTrainCards(tDeck.draw());
+    	for(int i=0;i<5;i++)
+    		tableDeck[i]=tDeck.draw();
     }
-
+    
+    //consider moving to GamePanel
     public void initGame() {
     	
     }
 
     public void nextPlayer() {
-    	
+    	if(currentPlayer==3)
+    		currentPlayer=0;
+    	else
+    		currentPlayer++;
     }
 
     public void placeTrain(String nodeOne, String nodeTwo, Color c) {
