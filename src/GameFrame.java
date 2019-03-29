@@ -15,7 +15,7 @@ public class GameFrame extends JFrame {
 
 		setVisible(true);
 	}
-
+  
 	public static void main(String[] args) {
 		GameFrame game = new GameFrame("Ticket to Ride");
 	}

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Node {
@@ -19,6 +20,11 @@ public class Node {
 
     public ArrayList<Track> getConnections() {
         return connections;
+    }
+
+    public void addConnection(Node n, Color color, int cost) {
+        this.connections.add(new Track(this, n, color, cost));
+        n.connections.add(new Track(this, n, color, cost));
     }
 
     public boolean contains(int x, int y) {

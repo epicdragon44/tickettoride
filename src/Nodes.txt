@@ -1,0 +1,5 @@
+Vancouver   57      55
+Seattle Gray 1,Seattle Gray 1,Calgary Gray 3
+Calgary     165     41
+Vancouver Gray 3,Seattle Gray 4
+

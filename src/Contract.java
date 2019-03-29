@@ -2,7 +2,8 @@ public class Contract {
     private String start, end;
     private int value;
 
-    public Contract(String s, String e, int v) {
+    public Contract(int v,String s, String e) 
+    {
         start = s;
         end = e;
         value = v;

@@ -1,5 +1,10 @@
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Board {
 	private Node[] cities;
@@ -10,8 +15,27 @@ public class Board {
 	private int maxLen;
 	private Player bestPlayer;
 	
-	public Board() {
-		
+	public Board() throws IOException {
+		daddyEngine = new GameEngine();
+		Scanner sc = new Scanner(new File("Nodes.txt"));
+		while (sc.hasNextLine()) {
+			StringTokenizer st = new StringTokenizer(sc.nextLine());
+			Node node = new Node(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+			String[] connections = sc.nextLine().split(",");
+			for (String s : connections) {
+				StringTokenizer yeet = new StringTokenizer(s);
+				Node connex = null;
+				if (findNode(yeet.nextToken())!=null) {
+					connex = findNode(yeet.nextToken());
+					node.addConnection(connex, Color.getColor(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
+				}
+			}
+		}
+		sc.close();
+
+		found = false;
+		maxLen = Integer.MIN_VALUE;
+		bestPlayer = null;
 	}
 
 	public int connectionCost(String s, String e) {
