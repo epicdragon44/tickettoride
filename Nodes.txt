@@ -1,0 +1,23 @@
+Vancouver 57 55
+Seattle Gray 1,Seattle Gray 1,Calgary Gray 3
+Calgary 165 41
+Vancouver Gray 3,Seattle Gray 4,Winnipeg White 6,Helena Gray 4
+Winnipeg 352 50
+Calgary White 6,Helena Blue 4,Duluth Black 4,Sault_St._Marie Gray 6
+Sault_St._Marie 552 91
+Winnipeg Gray 6,Duluth Gray 3, Montreal Black 5, Toronto Gray 2
+Montreal 712 36
+Sault_St._Marie Black 5,Toronto Gray 3,New_York Blue 3,Boston Gray 2,Boston Gray 2
+Seattle 53 101
+Vancouver Gray 1,Vancover Gray 1,Calgary Gray 4,Helena Yellow 6,Portland Gray 1,Portland Gray 1
+Helena 249 150
+Calgary Gray 4,Winnipeg Blue 4,Duluth Orange 6,Omaha Orange 5,Denver Green 4,Salt_Lake_City Pink 3,Portland Yellow 6
+Duluth 445 146
+Winnipeg Black 4,Sault_St._Marie Gray 3,Toronto Pink 6,Chicago Red 3,Omaha Gray 2,Omaha Gray 2,Helena Orange 6
+Toronto 643 109
+Sault_St._Marie Gray 2,Montreal Gray 3,Pittsburgh Gray 2,Chicago White 4,Duluth Pink 6
+Boston 771 85
+Montreal Gray 2,Montreal Gray 2,New York Yellow 2,New York Red 2
+
+
+
