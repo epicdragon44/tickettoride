@@ -106,14 +106,27 @@ public class Board {
 			visit(t.getOtherNode(n), cnt + 1, visited, p);
 		}
 	}
-
-	public boolean placeTrains(int player, Node start, Node end) {
+	
+	public boolean placeTrains(int player, Color c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();
+		boolean available=false;
 		for (Track t : tracks) {
-			if (t.getOtherNode(start).equals(end)) {
-				if (daddyEngine.getPlayers()[player].getTrainCards().get(t.getColor())>=t.getCost()) {
+			if (t.getOtherNode(start).equals(end)&&(t.getColor().equals(Color.GRAY)||t.getColor().equals(c))) {
+				if (t.getPlayer()==-1) {
 					t.setPlayer(player);
-					return true;
+					available=true;
+				}
+			}
+		}
+		if(available)
+		{
+			tracks=end.getConnections();
+			for (Track t : tracks) {
+				if (t.getOtherNode(start).equals(end)&&(t.getColor().equals(Color.GRAY)||t.getColor().equals(c))) {
+					if (t.getPlayer()==-1) {
+						t.setPlayer(player);
+						return true;
+					}
 				}
 			}
 		}

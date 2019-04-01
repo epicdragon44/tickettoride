@@ -45,12 +45,15 @@ public class GameEngine {
     		currentPlayer++;
     }
 
-    public void placeTrain(String nodeOne, String nodeTwo, Color c) {
-    	
+    public void placeTrain(Node nodeOne, Node nodeTwo, Color c) {
+    	if(!checkEligibilty(nodeOne, nodeTwo, c))
+    		return;
+    	if(gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
+    		players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c);
     }
 
-    private boolean checkEligibility(String nodeOne, String nodeTwo, Color c) {
-    	
+    private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {
+    	return players[currentPlayer].getTrainCards().get(new TrainCard(null,true));
     }
 
     public Player[] getPlayers() {
@@ -106,7 +109,7 @@ public class GameEngine {
     }
 
     public Node findNode(int x, int y) {
-    	
+    	return gBoard.findNode(x, y);
     }
 }
 
