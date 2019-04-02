@@ -41,6 +41,11 @@ public class Player
 		points+=num;
 	}
 	
+	public int trainsLeft()
+	{
+		return trainsLeft;
+	}
+	
 	public ArrayList<Contract> getContract()
 	{
 		return contracts;

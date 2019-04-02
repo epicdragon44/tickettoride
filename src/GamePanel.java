@@ -10,6 +10,14 @@ public class GamePanel extends JPanel implements MouseListener {
         setPreferredSize(new Dimension(1000, 1000));
         setVisible(true);
     }
+    
+    public void initGame() {
+    	
+    }
+    
+    public void lastRound() {
+    	
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
