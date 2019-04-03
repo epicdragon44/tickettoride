@@ -74,21 +74,25 @@ public class Player
 		trainCards.put(train,trainCards.get(train)+1);
 	}
 	
-	public void placeTrains(int num, Color col)
+	public ArrayList<TrainCard> placeTrains(int num, Color col)
 	{
 		TrainCard temp=new TrainCard(col,false);
 		decrementtrainsLeft(num);
+		ArrayList<TrainCard> rtn=new ArrayList<TrainCard>();
 		while(num!=0&&trainCards.get(temp)!=0)
 		{
 			trainCards.put(temp,trainCards.get(temp)-1);
+			rtn.add(new TrainCard(col,false));
 			num--;
 		}
 		temp=new TrainCard(null,true);
 		while(num!=0)
 		{
 			trainCards.put(temp,trainCards.get(temp)-1);
+			rtn.add(new TrainCard(null,true));
 			num--;
 		}
+		return rtn;
 	}
 	
 	public int getScore()
