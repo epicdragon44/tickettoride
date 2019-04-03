@@ -32,11 +32,6 @@ public class GameEngine {
     	for(int i=0;i<5;i++)
     		tableDeck[i]=tDeck.draw();
     }
-    
-    //consider moving to GamePanel
-    public void initGame() {
-    	
-    }
 
     public void nextPlayer() {
     	if(currentPlayer==3)
@@ -45,27 +40,34 @@ public class GameEngine {
     		currentPlayer++;
     }
 
+    //add to trash
     public void placeTrain(Node nodeOne, Node nodeTwo, Color c) {
-    	if(!checkEligibilty(nodeOne, nodeTwo, c))
+    	if(!checkEligibility(nodeOne, nodeTwo, c))
     		return;
     	if(gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
     		players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c);
     }
 
     private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {
-    	return players[currentPlayer].getTrainCards().get(new TrainCard(null,true));
+    	int rand=players[currentPlayer].getTrainCards().get(new TrainCard(null,true)),col=players[currentPlayer].getTrainCards().get(new TrainCard(c,false)),cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
+    	return rand-(cost-col)>0&&players[currentPlayer].trainsLeft()>cost-1;
     }
 
     public Player[] getPlayers() {
         return players;
     }
 
-    public void drawContract() {
-    	
+    public ArrayList<Contract> drawContract(int num) {
+    	return cDeck.draw(num);
     }
 
     public boolean checkWildLim() {
-    	
+    	int c=0;
+    	for(TrainCard t:tableDeck)
+    		if(t.getwild())
+    			if(++c==3)
+    				return true;
+    	return false;
     }
 
     public Player getLongestTrain() {
@@ -77,11 +79,24 @@ public class GameEngine {
     }
 
     public void updateTable() {
-    	
+    	for(int i=0;i<tableDeck.length;i++)
+    	{
+    		if(tableDeck[i].getwild())
+    		{
+    			trashDeck
+    		}
+    	}
     }
 
     public boolean gameEnded() {
     	
+    }
+    
+    public boolean lastRound() {
+    	for(Player p:players)
+    		if(p.trainsLeft()<3)
+    			return true;
+    	return false;
     }
 
     public TrainCard drawTrainCard(int pos) {
@@ -100,11 +115,7 @@ public class GameEngine {
     	
     }
 
-    public void endGame() {
-    	
-    }
-
-    public void lastRound() {
+    public Player[] endGame() {
     	
     }
 
