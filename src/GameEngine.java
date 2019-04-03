@@ -71,11 +71,7 @@ public class GameEngine {
     }
 
     public Player getLongestTrain() {
-    	
-    }
 
-    private void resetVisitedTracks() {
-    	
     }
 
     public void updateTable() {
