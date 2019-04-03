@@ -4,43 +4,90 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class GamePanel extends JPanel implements MouseListener {
-    private GameEngine g;
-    public GamePanel() {
-        setLayout(null);
-        setPreferredSize(new Dimension(1000, 1000));
-        setVisible(true);
-    }
-    
-    public void initGame() {
-    	
-    }
-    
-    public void lastRound() {
-    	
-    }
+	private GameEngine g;
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+	public GamePanel() {
+		setLayout(null);
+		setPreferredSize(new Dimension(1000, 1000));
+		setVisible(true);
+	}
 
-    }
+	public void play() {
 
-    @Override
-    public void mousePressed(MouseEvent e) {
+	}
 
-    }
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
+	}
 
-    }
+	public void drawConnection(Node n1, Node n2) {
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+	}
 
-    }
+	public void drawBoard(Graphics g) {
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+	}
 
-    }
+	public void drawTracks(Graphics g) {
+
+	}
+
+	public void drawDecks(Graphics g) {
+
+	}
+
+	public void drawCities(Graphics g) {
+
+	}
+
+	public void drawNumbers(Graphics g) {
+
+	}
+
+	public void drawBackground(Graphics g) {
+
+	}
+
+	public void drawHand(Graphics g) {
+
+	}
+
+	public void drawRankings(Graphics g) {
+
+	}
+
+	public void drawCards(Graphics g) {
+
+	}
+
+	public void drawContracts(Graphics g) {
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
 }
