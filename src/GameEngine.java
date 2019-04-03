@@ -45,7 +45,7 @@ public class GameEngine {
     	if(!checkEligibility(nodeOne, nodeTwo, c))
     		return;
     	if(gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
-    		players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c);
+    		trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
     }
 
     private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {
