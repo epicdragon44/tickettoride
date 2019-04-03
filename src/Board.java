@@ -86,6 +86,10 @@ public class Board {
 		return null;
 	}
 
+	private void resetVisitedTracks() {
+
+	}
+
 	public Player findLongestTrainPlayer(Node[] nodes, Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)
