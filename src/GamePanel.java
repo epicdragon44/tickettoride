@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
 		// game = new GameEngine();
-		f = new Font("Brush Script MT", Font.BOLD, 20);
+		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
