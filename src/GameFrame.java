@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
 
-	public GameFrame(String str) {
+	public GameFrame(String str) throws IOException {
 		super(str);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -15,8 +16,8 @@ public class GameFrame extends JFrame {
 
 		setVisible(true);
 	}
-  
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws IOException {
 		GameFrame game = new GameFrame("Ticket to Ride");
 	}
 }
