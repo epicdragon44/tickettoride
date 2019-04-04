@@ -78,9 +78,27 @@ public class GameEngine {
     	{
     		if(tableDeck[i].getwild())
     		{
-    			trashDeck
+    			trashDeck.add(tableDeck[i]);
+    			tableDeck[i]=null;
     		}
     	}
+    	for(int i=0;i<tableDeck.length;i++)
+    	{
+    		if(tableDeck[i]==null)
+    		{
+    			trashDeck.add(tableDeck[i]);
+    			tableDeck[i]=null;
+    		}
+    	}
+    	if(checkWildLim())
+    		updateTable();
+    }
+    
+    public boolean lastRound() {
+    	for(Player p:players)
+    		if(p.trainsLeft()<3)
+    			return true;
+    	return false;
     }
 
 	public boolean gameEnded() {
