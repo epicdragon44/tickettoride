@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		// game = new GameEngine();
 		f = new Font("Brush Script MT", Font.BOLD, 20);
 		setLayout(null);
-		setPreferredSize(new Dimension(1000, 1000));
+		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 	}
 
@@ -43,7 +43,20 @@ public class GamePanel extends JPanel implements MouseListener {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		drawBackground(g);
+		g.setColor(Color.black);
+		g.fillRect(0, 0, 1000, 1000);
+		printLetters(g);
+		g.setColor(gold);
+		g.fillRect(100, 100, 100, 100);
+	}
+
+	private void printLetters(Graphics g) {
+		g.setFont(f);
+		g.setColor(gray);
+		g.drawString("RailCars", 100, 900);
+		g.drawString("Contracts", 500, 500);
+		g.drawString("ScoreBoard", 700, 700);
+
 	}
 
 	public void drawConnection(Node n1, Node n2) {
@@ -101,14 +114,6 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void play() {
-
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		g.setColor(gold);
-		g.fillRect(100, 100, 100, 100);
 
 	}
 
