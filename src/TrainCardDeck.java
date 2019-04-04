@@ -46,6 +46,7 @@ public class TrainCardDeck {
 	public void restartDeck(ArrayList<TrainCard> rep) {
 		deck.addAll(rep);
 		Collections.shuffle(deck);
+		rep=new ArrayList<TrainCard>();
 	}
 
 	public TrainCard draw() {
