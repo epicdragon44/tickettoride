@@ -69,27 +69,27 @@ public class GameEngine {
     				return true;
     	return false;
     }
-
-    public Player getLongestTrain() {
-    	
-    }
-
-    private void resetVisitedTracks() {
-    	
-    }
-
+    
+    //not done
     public void updateTable() {
     	for(int i=0;i<tableDeck.length;i++)
     	{
     		if(tableDeck[i].getwild())
     		{
-    			trashDeck
+    			trashDeck.add(tableDeck[i]);
+    			tableDeck[i]=null;
     		}
     	}
-    }
-
-    public boolean gameEnded() {
-    	
+    	for(int i=0;i<tableDeck.length;i++)
+    	{
+    		if(tableDeck[i]==null)
+    		{
+    			trashDeck.add(tableDeck[i]);
+    			tableDeck[i]=null;
+    		}
+    	}
+    	if(checkWildLim())
+    		updateTable();
     }
     
     public boolean lastRound() {
@@ -104,10 +104,6 @@ public class GameEngine {
     }
 
     public void replacetDeck() {
-    	
-    }
-
-    public boolean hasThreeWildCards() {
     	
     }
 

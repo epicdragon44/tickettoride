@@ -86,10 +86,10 @@ public class Board {
 		return null;
 	}
 
-	public Player findLongestTrainPlayer(Node[] nodes, Player[] players) {
+	public Player findLongestTrainPlayer(Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)
-			for (Node n : nodes)
+			for (Node n : cities)
 				visit(n, 0, new ArrayList<>(), p);
 		return bestPlayer;
 	}
