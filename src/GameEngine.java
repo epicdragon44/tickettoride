@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class GameEngine {
-	private Player[] players;
+	public Player[] players;
 	private ContractDeck cDeck;
 	private TrainCardDeck tDeck;
 	private ArrayList<TrainCard> trashDeck;
@@ -116,8 +116,9 @@ public class GameEngine {
 		return rtn;
 	}
 
-	public Player[] endGame() {
-		int[] contractCount= {0,0,0,0};
+	//returns contract payouts,then longest train,then globetrotter
+	public int[] endGame() {
+		int[][] contractCount= {{0,0,0,0},{0,0,0,0}};
 		for(int i=0;i<contractCount.length;i++)
 		{
 			for(Contract c:players[i].getContract())
@@ -125,22 +126,38 @@ public class GameEngine {
 				if(gBoard.isComplete(c))
 				{
 					players[i].addPoints(c.getValue());
-					contractCount[i]++;
+					contractCount[0][i]++;
+					contractCount[1][i]+=c.getValue();
 				}
 				else
+				{
 					players[i].addPoints(-1*c.getValue());
+					contractCount[1][i]-=c.getValue();
+				}
 			}
 		}
 		int val=-111,place=0;
 		for(int i=0;i<contractCount.length;i++)
 		{
-			if(contractCount[i]>val)
+			if(contractCount[0][i]>val)
 			{
-				val=contractCount[i];
+				val=contractCount[0][i];
 				place=i;
 			}
 		}
-		//Plaver[] rtn={gBoard.findLongestTrainPlayer(players),players[place]};
+		int[] rtn={contractCount[1][0],contractCount[1][1],contractCount[1][2],contractCount[1][3],findLongest(),place};
+		players[rtn[4]].addPoints(10);
+		players[place].addPoints(15);
+		return rtn;
+	}
+	
+	private int findLongest()
+	{
+		Player play=gBoard.findLongestTrainPlayer(players);
+		for(int i=0;i<players.length;i++)
+			if(players[i].getName().equals(play.getName()))
+				return i;
+		return -1;
 	}
 
 	public Node findNode(int x, int y) {
