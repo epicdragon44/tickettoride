@@ -70,10 +70,6 @@ public class GameEngine {
 		return false;
 	}
 	
-	public Player getLongestTrain() {
-		return gBoard.findLongestTrainPlayer(players);
-	}
-	
 	public void updateTable() {
 		for(int i=0;i<tableDeck.length;i++)
     	{
@@ -121,7 +117,30 @@ public class GameEngine {
 	}
 
 	public Player[] endGame() {
-		
+		int[] contractCount= {0,0,0,0};
+		for(int i=0;i<contractCount.length;i++)
+		{
+			for(Contract c:players[i].getContract())
+			{
+				if(gBoard.isComplete(c))
+				{
+					players[i].addPoints(c.getValue());
+					contractCount[i]++;
+				}
+				else
+					players[i].addPoints(-1*c.getValue());
+			}
+		}
+		int val=-111,place=0;
+		for(int i=0;i<contractCount.length;i++)
+		{
+			if(contractCount[i]>val)
+			{
+				val=contractCount[i];
+				place=i;
+			}
+		}
+		//Plaver[] rtn={gBoard.findLongestTrainPlayer(players),players[place]};
 	}
 
 	public Node findNode(int x, int y) {
