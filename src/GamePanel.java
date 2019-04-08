@@ -24,7 +24,7 @@ import java.io.IOException;
 		game = new GameEngine();
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
-		setPreferredSize(new Dimension(1163,721));
+		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 	}
 
