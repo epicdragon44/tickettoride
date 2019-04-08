@@ -24,7 +24,7 @@ import java.io.IOException;
 		game = new GameEngine();
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
-		setPreferredSize(new Dimension(1900, 1000));
+		setPreferredSize(new Dimension(1163,721));
 		setVisible(true);
 	}
 
@@ -45,6 +45,7 @@ import java.io.IOException;
 		super.paint(g);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 1000, 1000);
+		drawBackground(g);
 		printLetters(g);
 		g.setColor(gold);
 		g.fillRect(100, 100, 100, 100);
