@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
-		//game = new GameEngine();
+		// game = new GameEngine();
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		super.paint(g);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 1000, 1000);
+		drawBackground(g);
 		printLetters(g);
 		g.setColor(gold);
 		g.fillRect(100, 100, 100, 100);
