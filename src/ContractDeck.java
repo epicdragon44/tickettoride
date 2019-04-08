@@ -38,8 +38,8 @@ public class ContractDeck {
 		deck.addAll(c);
 	}
 	
-	public boolean hasCards(int num)
+	public boolean hasCards()
 	{
-		return deck.size()>num-1;
+		return deck.size()!=0;
 	}
 }
