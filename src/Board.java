@@ -20,7 +20,7 @@ public class Board {
 		Scanner sc = new Scanner(new File("Nodes.txt"));
 		while (sc.hasNextLine()) {
 			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			Node node = new Node(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+			Node node = new Node(st.nextToken(), (int)(Integer.parseInt(st.nextToken())*1.5), (int)(Integer.parseInt(st.nextToken())*1.5));
 			String[] connections = sc.nextLine().split(",");
 			for (String s : connections) {
 				StringTokenizer yeet = new StringTokenizer(s);
