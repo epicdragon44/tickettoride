@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.setColor(Color.black);
-	//	g.fillRect(0, 0, 1000, 1000);
+		g.fillRect(0, 0, 1000, 1000);
 		printLetters(g);
 		g.setColor(gold);
 		g.fillRect(100, 100, 100, 100);
