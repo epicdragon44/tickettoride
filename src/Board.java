@@ -11,24 +11,27 @@ public class Board {
 	private boolean found;
 	private int maxLen;
 	private Player bestPlayer;
-	
+
 	public Board() throws IOException {
 		Scanner sc = new Scanner(new File("Nodes.txt"));
+		cities = new Node[36];
+		int cnt = 0;
 		while (sc.hasNextLine()) {
 			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			Node node = new Node(st.nextToken(), (int)(Integer.parseInt(st.nextToken())*1.5), (int)(Integer.parseInt(st.nextToken())*1.5));
+			Node node = new Node(st.nextToken(), (int) (Integer.parseInt(st.nextToken()) * 1.5),
+					(int) (Integer.parseInt(st.nextToken()) * 1.5));
 			String[] connections = sc.nextLine().split(",");
 			for (String s : connections) {
 				StringTokenizer yeet = new StringTokenizer(s);
 				Node connex = null;
-				if (findNode(yeet.nextToken())!=null) {
+				if (findNode(yeet.nextToken()) != null) {
 					connex = findNode(yeet.nextToken());
 					node.addConnection(connex, Color.getColor(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
 				}
 			}
+			cities[cnt++] = node;
 		}
 		sc.close();
-
 		found = false;
 		maxLen = Integer.MIN_VALUE;
 		bestPlayer = null;
@@ -45,14 +48,14 @@ public class Board {
 		}
 		return -1;
 	}
-	
+
 	public boolean isComplete(Contract c) {
 		Node startNode = findNode(c.getStart());
 		Node endNode = findNode(c.getEnd());
 		searchFrom(startNode, new ArrayList<>(), endNode);
 		return found;
 	}
-	
+
 	private void searchFrom(Node n, ArrayList<Track> visited, Node target) {
 		if (n.equals(target)) {
 			found = true;
@@ -81,7 +84,7 @@ public class Board {
 		}
 		return null;
 	}
-	
+
 	public Player findLongestTrainPlayer(Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)
@@ -101,29 +104,28 @@ public class Board {
 		}
 
 		for (Track t : n.getConnections())
-		if (p.equals(t.getPlayer()) && visited.contains(t)) {
-			visited.add(t);
-			visit(t.getOtherNode(n), cnt + 1, visited, p);
-		}
+			if (p.equals(t.getPlayer()) && visited.contains(t)) {
+				visited.add(t);
+				visit(t.getOtherNode(n), cnt + 1, visited, p);
+			}
 	}
-	
+
 	public boolean placeTrains(int player, Color c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();
-		boolean available=false;
+		boolean available = false;
 		for (Track t : tracks) {
-			if (t.getOtherNode(start).equals(end)&&(t.getColor().equals(Color.GRAY)||t.getColor().equals(c))) {
-				if (t.getPlayer()==-1) {
+			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
+				if (t.getPlayer() == -1) {
 					t.setPlayer(player);
-					available=true;
+					available = true;
 				}
 			}
 		}
-		if(available)
-		{
-			tracks=end.getConnections();
+		if (available) {
+			tracks = end.getConnections();
 			for (Track t : tracks) {
-				if (t.getOtherNode(start).equals(end)&&(t.getColor().equals(Color.GRAY)||t.getColor().equals(c))) {
-					if (t.getPlayer()==-1) {
+				if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
+					if (t.getPlayer() == -1) {
 						t.setPlayer(player);
 						return true;
 					}
