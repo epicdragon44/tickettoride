@@ -60,8 +60,23 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	}
 
-	public void drawConnection(Node n1, Node n2) {
+	public void drawConnection(Node n1, Node n2, Graphics g) {
+		for (Track t : n1.getConnections()) {
+			if (t.getOtherNode(n1).equals(n2)) {
+				//TODO: check for a double track and implement differentiation. Make sure to check for which color is where
 
+				g.setColor(t.getColor());
+				int baseX1 = n1.getX();
+				int baseX2 = n2.getX();
+				int baseY1 = n1.getY();
+				int baseY2 = n2.getY();
+
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setStroke(new BasicStroke(7, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+
+				g2.drawLine(baseX1, baseY1, baseX2, baseY2);
+			}
+		}
 	}
 
 	public void drawBoard(Graphics g) {

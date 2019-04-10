@@ -14,6 +14,8 @@ public class Board {
 	
 	public Board() throws IOException {
 		Scanner sc = new Scanner(new File("Nodes.txt"));
+		cities = new Node[36];
+		int cnt = 0;
 		while (sc.hasNextLine()) {
 			StringTokenizer st = new StringTokenizer(sc.nextLine());
 			Node node = new Node(st.nextToken(), (int)(Integer.parseInt(st.nextToken())*1.5), (int)(Integer.parseInt(st.nextToken())*1.5));
@@ -26,6 +28,7 @@ public class Board {
 					node.addConnection(connex, Color.getColor(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
 				}
 			}
+			cities[cnt++] = node;
 		}
 		sc.close();
 
