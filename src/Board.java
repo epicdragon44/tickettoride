@@ -8,15 +8,11 @@ import java.util.StringTokenizer;
 
 public class Board {
 	private Node[] cities;
-	private GameEngine daddyEngine;
-
 	private boolean found;
-
 	private int maxLen;
 	private Player bestPlayer;
 	
 	public Board() throws IOException {
-		daddyEngine = new GameEngine();
 		Scanner sc = new Scanner(new File("Nodes.txt"));
 		while (sc.hasNextLine()) {
 			StringTokenizer st = new StringTokenizer(sc.nextLine());

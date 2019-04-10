@@ -8,7 +8,7 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
- public class GamePanel extends JPanel implements MouseListener {
+public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
 	private Color red, blue, yellow, green, dgreen, gray, gold;
 	private Font f;
@@ -21,7 +21,7 @@ import java.io.IOException;
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
-		game = new GameEngine();
+		// game = new GameEngine();
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
@@ -98,7 +98,7 @@ import java.io.IOException;
 		}
 	}
 
-  public void drawHand(Graphics g) {
+	public void drawHand(Graphics g) {
 
 	}
 
