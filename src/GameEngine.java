@@ -70,6 +70,10 @@ public class GameEngine {
 	  return false;
 	}
 	
+	public Player getLongestTrain() {
+		return gBoard.findLongestTrainPlayer(players);
+	}
+  
 	public void updateTable() {
     	for(int i=0;i<tableDeck.length;i++)
     	{
@@ -101,6 +105,10 @@ public class GameEngine {
     	return false;
     }
 
+	public boolean gameEnded() {
+
+	}
+  
 	public TrainCard drawTrainCard(int pos) {
 		TrainCard rtn;
 		if(pos==-1)
