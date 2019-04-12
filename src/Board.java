@@ -16,20 +16,22 @@ public class Board {
 		Scanner sc = new Scanner(new File("Nodes.txt"));
 		cities = new Node[36];
 		int cnt = 0;
+		ArrayList<String[]> cons=new ArrayList<String[]>();
 		while (sc.hasNextLine()) {
 			StringTokenizer st = new StringTokenizer(sc.nextLine());
 			Node node = new Node(st.nextToken(), (int) (Integer.parseInt(st.nextToken()) * 1.5),
 					(int) (Integer.parseInt(st.nextToken()) * 1.5));
-			String[] connections = sc.nextLine().split(",");
-			for (String s : connections) {
-				StringTokenizer yeet = new StringTokenizer(s);
-				Node connex = null;
-				if (findNode(yeet.nextToken()) != null) {
-					connex = findNode(yeet.nextToken());
-					node.addConnection(connex, Color.getColor(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
-				}
-			}
+			cons.add(sc.nextLine().split(","));
 			cities[cnt++] = node;
+		}
+		for (int i=0;i<cons.size();i++) {
+			for(int j=0;j<cons.get(i).length;j++)
+			{
+				StringTokenizer yeet = new StringTokenizer(cons.get(i)[j]);
+				Node connex = findNode(yeet.nextToken());
+				if (connex != null)
+					cities[i].addConnection(connex, Color.getColor(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
+			}
 		}
 		sc.close();
 		found = false;
@@ -71,7 +73,7 @@ public class Board {
 
 	public Node findNode(String name) {
 		for (Node n : cities) {
-			if (n.toString().equals(name))
+			if(n.toString().equals(name))
 				return n;
 		}
 		return null;

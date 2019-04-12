@@ -104,10 +104,6 @@ public class GameEngine {
     			return true;
     	return false;
     }
-
-	public boolean gameEnded() {
-
-	}
   
 	public TrainCard drawTrainCard(int pos) {
 		TrainCard rtn;

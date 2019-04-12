@@ -68,5 +68,5 @@ Dallas 438 411
 El_Paso Red 4,Oklahoma_City Gray 2,Oklahoma_City Gray 2,Little_Rock Gray 2,Houston Gray 2,Houston Gray 2
 Phoenix 189 401
 Los_Angeles Gray 3,Denver White 5,Santa_Fe Gray 3,El_Paso Gray 3
-Las Vegas 142 345
+Las_Vegas 142 345
 Los_Angeles Gray 2,Salt_Lake_City Orange 3

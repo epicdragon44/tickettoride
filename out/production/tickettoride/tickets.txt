@@ -36,8 +36,8 @@
 16|Portland|Houston
 12|Los Angeles|Calgary
 21|San Francisco|Washington
-10|Seattle|Las Vegas
-19|Las Vegas|New York
+10|Seattle|Las_Vegas
+19|Las_Vegas|New York
 8|Saint Louis|Miami
 11|Vancouver|Denver
 8|Helena|Los Angeles
@@ -66,4 +66,4 @@
 10|New York|Miami
 17|San Francisco|Atlanta
 2|Vancouver|Portland
-21|Las Vegas|Miami
+21|Las_Vegas|Miami

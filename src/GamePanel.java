@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
-		// game = new GameEngine();
+		game = new GameEngine();
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
@@ -46,15 +46,11 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 1000, 1000);
 		drawBackground(g);
-<<<<<<< Updated upstream
-		printLetters(g);
-		//g.setColor(gold);
-		//g.fillRect(100, 100, 100, 100);
-=======
+		// g.setColor(gold);
+		// g.fillRect(100, 100, 100, 100);
 		// printLetters(g);
 		// g.setColor(gold);
 		// g.fillRect(100, 100, 100, 100);
->>>>>>> Stashed changes
 	}
 
 	// private void printLetters(Graphics g) {
@@ -69,7 +65,8 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void drawConnection(Node n1, Node n2, Graphics g) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
-				//TODO: check for a double track and implement differentiation. Make sure to check for which color is where
+				// TODO: check for a double track and implement differentiation. Make sure to
+				// check for which color is where
 
 				g.setColor(t.getColor());
 				int baseX1 = n1.getX();
