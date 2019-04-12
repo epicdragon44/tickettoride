@@ -46,19 +46,25 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 1000, 1000);
 		drawBackground(g);
+<<<<<<< Updated upstream
 		printLetters(g);
-		g.setColor(gold);
-		g.fillRect(100, 100, 100, 100);
+		//g.setColor(gold);
+		//g.fillRect(100, 100, 100, 100);
+=======
+		// printLetters(g);
+		// g.setColor(gold);
+		// g.fillRect(100, 100, 100, 100);
+>>>>>>> Stashed changes
 	}
 
-	private void printLetters(Graphics g) {
-		g.setFont(f);
-		g.setColor(gray);
-		g.drawString("RailCars", 100, 900);
-		g.drawString("Contracts", 500, 500);
-		g.drawString("ScoreBoard", 700, 700);
+	// private void printLetters(Graphics g) {
+	// g.setFont(f);
+	// g.setColor(gray);
+	// g.drawString("RailCars", 100, 900);
+	// g.drawString("Contracts", 500, 500);
+	// g.drawString("ScoreBoard", 700, 700);
 
-	}
+	// }
 
 	public void drawConnection(Node n1, Node n2, Graphics g) {
 		for (Track t : n1.getConnections()) {
