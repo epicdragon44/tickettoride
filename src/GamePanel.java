@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
@@ -62,11 +63,26 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	// }
 
-	public void drawConnection(Node n1, Node n2, Graphics g) {
+	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
-				// TODO: check for a double track and implement differentiation. Make sure to
-				// check for which color is where
+				// TODO: check for a double track and implement differentiation.
+				if (containsDuple(t, n1.getConnections())!=null) {
+					Track orig = t;
+					Track newT = containsDuple(t, n1.getConnections());
+					if (orig.getTime()<newT.getTime()) {
+						if (orig.getColor().equals(c))
+							drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
+						else
+							drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, 7);
+					} else {
+						if (orig.getColor().equals(c))
+							drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
+						else
+							drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
+					}
+					return;
+				}
 
 				g.setColor(t.getColor());
 				int baseX1 = n1.getX();
@@ -80,6 +96,31 @@ public class GamePanel extends JPanel implements MouseListener {
 				g2.drawLine(baseX1, baseY1, baseX2, baseY2);
 			}
 		}
+	}
+	private void drawShiftedConnection(Node n1, Node n2, Graphics g, int yShift, int xShift) {
+		for (Track t : n1.getConnections()) {
+			if (t.getOtherNode(n1).equals(n2)) {
+				g.setColor(t.getColor());
+				int baseX1 = n1.getX()+xShift;
+				int baseX2 = n2.getX()+xShift;
+				int baseY1 = n1.getY()+yShift;
+				int baseY2 = n2.getY()+yShift;
+
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setStroke(new BasicStroke(7, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+
+				g2.drawLine(baseX1, baseY1, baseX2, baseY2);
+			}
+		}
+	}
+	private Track containsDuple(Track t, ArrayList<Track> tracks) {
+		ArrayList<Track> duplicate = new ArrayList<>();
+		duplicate.addAll(tracks);
+		duplicate.remove(t);
+		if (duplicate.contains(t))
+			return duplicate.get(duplicate.indexOf(t));
+		else
+			return null;
 	}
 
 	public void drawBoard(Graphics g) {
