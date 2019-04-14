@@ -10,7 +10,7 @@ public class TrainCardDeck {
 		
 		deck = new ArrayList<>();
 		
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 14; i++) {
 			
 			deck.add(new TrainCard(null, true));
 		}

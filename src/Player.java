@@ -7,7 +7,7 @@ public class Player
 	private int points;
 	private int trainsLeft;
 	private ArrayList<Contract> contracts;
-	private HashMap<TrainCard, Integer> trainCards;
+	private HashMap<Color, Integer> trainCards;
 	
 	public Player(String n)
 	{
@@ -15,15 +15,16 @@ public class Player
 		points=0;
 		trainsLeft=45;
 		contracts=new ArrayList<Contract>();
-		trainCards=new HashMap<TrainCard, Integer>();
-		trainCards.put(new TrainCard(Color.black,false), 0);
-		trainCards.put(new TrainCard(Color.orange,false), 0);
-		trainCards.put(new TrainCard(Color.red,false), 0);
-		trainCards.put(new TrainCard(Color.blue,false), 0);
-		trainCards.put(new TrainCard(Color.green,false), 0);
-		trainCards.put(new TrainCard(Color.pink,false), 0);
-		trainCards.put(new TrainCard(Color.white,false), 0);
-		trainCards.put(new TrainCard(null,true), 0);
+		trainCards=new HashMap<Color, Integer>();
+		trainCards.put(Color.black, 0);
+		trainCards.put(Color.orange, 0);
+		trainCards.put(Color.red, 0);
+		trainCards.put(Color.blue, 0);
+		trainCards.put(Color.green, 0);
+		trainCards.put(Color.pink, 0);
+		trainCards.put(Color.white, 0);
+		trainCards.put(Color.yellow, 0);
+		trainCards.put(null, 0);
 	}
 	
 	public String getName()
@@ -64,31 +65,29 @@ public class Player
 		}
 	}
 	
-	public HashMap<TrainCard, Integer> getTrainCards()
+	public HashMap<Color, Integer> getTrainCards()
 	{
 		return trainCards;
 	}
 	
 	public void drawTrainCards(TrainCard train)
 	{
-		trainCards.put(train,trainCards.get(train)+1);
+		trainCards.put(train.getColor(),trainCards.get(train.getColor())+1);
 	}
 	
 	public ArrayList<TrainCard> placeTrains(int num, Color col)
 	{
-		TrainCard temp=new TrainCard(col,false);
 		decrementtrainsLeft(num);
 		ArrayList<TrainCard> rtn=new ArrayList<TrainCard>();
-		while(num!=0&&trainCards.get(temp)!=0)
+		while(num!=0&&trainCards.get(col)!=0)
 		{
-			trainCards.put(temp,trainCards.get(temp)-1);
+			trainCards.put(col,trainCards.get(col)-1);
 			rtn.add(new TrainCard(col,false));
 			num--;
 		}
-		temp=new TrainCard(null,true);
 		while(num!=0)
 		{
-			trainCards.put(temp,trainCards.get(temp)-1);
+			trainCards.put(null,trainCards.get(null)-1);
 			rtn.add(new TrainCard(null,true));
 			num--;
 		}
