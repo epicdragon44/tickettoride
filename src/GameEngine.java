@@ -14,22 +14,22 @@ public class GameEngine {
 	public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 	
 	public GameEngine() throws IOException {
-		 players=new Player[4];
-		 players[0]=new Player("Red");
-		 players[1]=new Player("Green");
-		 players[2]=new Player("Blue");
-		 players[3]=new Player("Yellow");
-		 cDeck=new ContractDeck();
-		 tDeck=new TrainCardDeck();
-		 trashDeck=new ArrayList<>();
-		 gBoard=new Board();
-		 tableDeck=new TrainCard[5];
-		 currentPlayer=0;
-		 for(Player p:players)
-	  		for(int i=0;i<4;i++)
-	  			p.drawTrainCards(tDeck.draw());
-		 for(int i=0;i<5;i++)
-	  		tableDeck[i]=tDeck.draw();
+		players=new Player[4];
+		players[0]=new Player("Red");
+		players[1]=new Player("Green");
+		players[2]=new Player("Blue");
+		players[3]=new Player("Yellow");
+		cDeck=new ContractDeck();
+		tDeck=new TrainCardDeck();
+		trashDeck=new ArrayList<>();
+		gBoard=new Board();
+		tableDeck=new TrainCard[5];
+		currentPlayer=0;
+		for(Player p:players)
+			for(int i=0;i<4;i++)
+				p.drawTrainCards(tDeck.draw());
+		for(int i=0;i<5;i++)
+			tableDeck[i]=tDeck.draw();
 	}
 	
 	public void nextPlayer() {
@@ -47,7 +47,7 @@ public class GameEngine {
 	}
 	
 	private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {
-		int rand=players[currentPlayer].getTrainCards().get(new TrainCard(null,true)),col=players[currentPlayer].getTrainCards().get(new TrainCard(c,false)),cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
+		int rand=players[currentPlayer].getTrainCards().get(null),col=players[currentPlayer].getTrainCards().get(c),cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
 		return rand-(cost-col)>0&&players[currentPlayer].trainsLeft()>cost-1;
 	}
 	
