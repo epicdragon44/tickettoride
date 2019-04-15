@@ -11,8 +11,11 @@ public class Board {
 	private boolean found;
 	private int maxLen;
 	private Player bestPlayer;
+	private GameEngine daddyEngine;
 
-	public Board() throws IOException {
+	public Board(GameEngine game) throws IOException {
+		this.daddyEngine = game;
+
 		Scanner sc = new Scanner(new File("Nodes.txt"));
 		cities = new Node[36];
 		int cnt = 0;
@@ -50,6 +53,7 @@ public class Board {
 		return -1;
 	}
 
+	//beginning of contract completeness algorithm ...
 	public boolean isComplete(Contract c) {
 		Node startNode = findNode(c.getStart());
 		Node endNode = findNode(c.getEnd());
@@ -63,12 +67,13 @@ public class Board {
 			return;
 		}
 		for (Track t : n.getConnections()) {
-			if (!visited.contains(t)) {
+			if (!visited.contains(t) && t.getPlayer()==daddyEngine.getCurrentPlayer()) {
 				visited.add(t);
 				searchFrom(t.getOtherNode(n), visited, target);
 			}
 		}
 	}
+	//...end of contract completeness algorithm
 
 	public Node findNode(String name) {
 		for (Node n : cities) {
@@ -86,6 +91,7 @@ public class Board {
 		return null;
 	}
 
+	//beginning of longest train algorithm ...
 	public Player findLongestTrainPlayer(Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)
@@ -104,12 +110,16 @@ public class Board {
 			bestPlayer = p;
 		}
 
-		for (Track t : n.getConnections())
-			if (p.equals(t.getPlayer()) && visited.contains(t)) {
-				visited.add(t);
-				visit(t.getOtherNode(n), cnt + 1, visited, p);
+		for (Track t : n.getConnections()) {
+			if (t.getPlayer() != -1) { //check first to make sure someone actually owns the track lmfao
+				if (p.equals(daddyEngine.getPlayers()[t.getPlayer()]) && visited.contains(t)) {
+					visited.add(t);
+					visit(t.getOtherNode(n), cnt + 1, visited, p);
+				}
 			}
+		}
 	}
+	//... end of longest train algorithm
 
 	public boolean placeTrains(int player, Color c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();

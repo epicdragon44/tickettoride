@@ -22,7 +22,7 @@ public class GameEngine {
 		cDeck=new ContractDeck();
 		tDeck=new TrainCardDeck();
 		trashDeck=new ArrayList<>();
-		gBoard=new Board();
+		gBoard=new Board(this);
 		tableDeck=new TrainCard[5];
 		currentPlayer=0;
 		for(Player p:players)
@@ -31,7 +31,7 @@ public class GameEngine {
 		for(int i=0;i<5;i++)
 			tableDeck[i]=tDeck.draw();
 	}
-	
+
 	public void nextPlayer() {
 		if(currentPlayer==3)
 			currentPlayer=0;
@@ -47,12 +47,24 @@ public class GameEngine {
 	}
 	
 	private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {
-		int rand=players[currentPlayer].getTrainCards().get(null),col=players[currentPlayer].getTrainCards().get(c),cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
+		int rand=players[currentPlayer].getTrainCards().get(null);
+		int col=players[currentPlayer].getTrainCards().get(c);
+		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
 		return rand-(cost-col)>0&&players[currentPlayer].trainsLeft()>cost-1;
+		//return true;
 	}
 	
 	public Player[] getPlayers() {
 	    return players;
+	}
+	public Board getgBoard() {
+		return gBoard;
+	}
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+	public Player getLongestTrain() {
+		return gBoard.findLongestTrainPlayer(players);
 	}
 	
 	public ArrayList<Contract> drawContract(int num) {
@@ -68,10 +80,6 @@ public class GameEngine {
 				if(++c==3)
 					return true;
 	  return false;
-	}
-	
-	public Player getLongestTrain() {
-		return gBoard.findLongestTrainPlayer(players);
 	}
   
 	public void updateTable() {
