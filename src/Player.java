@@ -109,4 +109,9 @@ public class Player
 	{
 		trainsLeft-=num;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }
