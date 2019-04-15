@@ -30,6 +30,7 @@ public class GameEngine {
 				p.drawTrainCards(tDeck.draw());
 		for(int i=0;i<5;i++)
 			tableDeck[i]=tDeck.draw();
+		System.out.println(placeTrain(gBoard.findNode("Miami"),gBoard.findNode("Atlanta"),Color.BLUE));
 	}
 
 	public void nextPlayer() {
@@ -39,11 +40,14 @@ public class GameEngine {
 	  		currentPlayer++;
 	}
 	
-	public void placeTrain(Node nodeOne, Node nodeTwo, Color c) {
-		if(!checkEligibility(nodeOne, nodeTwo, c))
-			return;
-	  	if(gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
-	  		trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
+	public boolean placeTrain(Node nodeOne, Node nodeTwo, Color c) {
+		if(!checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
+		{
+			trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
+			return true;
+		}
+	  	else
+	  		return false;
 	}
 	
 	private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {

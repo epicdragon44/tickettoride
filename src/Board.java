@@ -125,6 +125,9 @@ public class Board {
 		ArrayList<Track> tracks = start.getConnections();
 		boolean available = false;
 		for (Track t : tracks) {
+			System.out.println(t.getOtherNode(start));
+			System.out.println(t.getOtherNode(end));
+			System.out.println(t.getColor());
 			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
 				if (t.getPlayer() == -1) {
 					t.setPlayer(player);

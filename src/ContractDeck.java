@@ -42,4 +42,9 @@ public class ContractDeck {
 	{
 		return deck.size()>num-1;
 	}
+	
+	public int numCards()
+	{
+		return deck.size();
+	}
 }
