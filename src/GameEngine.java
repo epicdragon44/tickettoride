@@ -13,7 +13,7 @@ public class GameEngine {
 	
 	public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 	
-	public GameEngine() throws IOException {
+	public GameEngine() throws Exception {
 		players=new Player[4];
 		players[0]=new Player("Red");
 		players[1]=new Player("Green");

@@ -14,10 +14,10 @@ public class GamePanel extends JPanel implements MouseListener {
 	private Color red, blue, yellow, green, dgreen, gray, gold;
 	private Font f;
 
-	public GamePanel() throws IOException {
+	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
 		red = new Color(255, 88, 88);
-		yellow = Color.yellow;
+		yellow = Color.YELLOW;
 		green = new Color(105, 242, 105);
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);

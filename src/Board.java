@@ -13,7 +13,7 @@ public class Board {
 	private Player bestPlayer;
 	private GameEngine daddyEngine;
 
-	public Board(GameEngine game) throws IOException {
+	public Board(GameEngine game) throws Exception {
 		this.daddyEngine = game;
 
 		Scanner sc = new Scanner(new File("Nodes.txt"));
@@ -32,7 +32,7 @@ public class Board {
 				StringTokenizer yeet = new StringTokenizer(cons.get(i)[j]);
 				Node connex = findNode(yeet.nextToken());
 				if (connex != null)
-					cities[i].addConnection(connex, Color.getColor(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
+					cities[i].addConnection(connex, Color.getColor(yeet.nextToken().toUpperCase()), Integer.parseInt(yeet.nextToken()));
 			}
 		}
 		sc.close();
@@ -125,8 +125,6 @@ public class Board {
 		ArrayList<Track> tracks = start.getConnections();
 		boolean available = false;
 		for (Track t : tracks) {
-			System.out.println(t.getOtherNode(start));
-			System.out.println(t.getOtherNode(end));
 			System.out.println(t.getColor());
 			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
 				if (t.getPlayer() == -1) {
