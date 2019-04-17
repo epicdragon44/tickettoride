@@ -1,5 +1,3 @@
-import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -30,7 +28,7 @@ public class GameEngine {
 				p.drawTrainCards(tDeck.draw());
 		for(int i=0;i<5;i++)
 			tableDeck[i]=tDeck.draw();
-		System.out.println(placeTrain(gBoard.findNode("Miami"),gBoard.findNode("Atlanta"),Color.BLUE));
+		System.out.println(placeTrain(gBoard.findNode("Miami"),gBoard.findNode("Atlanta"), ColorType.BLUE));
 	}
 
 	public void nextPlayer() {
@@ -40,7 +38,7 @@ public class GameEngine {
 	  		currentPlayer++;
 	}
 	
-	public boolean placeTrain(Node nodeOne, Node nodeTwo, Color c) {
+	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
 		if(!checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
 		{
 			trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
@@ -50,7 +48,7 @@ public class GameEngine {
 	  		return false;
 	}
 	
-	private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {
+	private boolean checkEligibility(Node nodeOne, Node nodeTwo, ColorType c) {
 		int rand=players[currentPlayer].getTrainCards().get(null);
 		int col=players[currentPlayer].getTrainCards().get(c);
 		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());

@@ -1,6 +1,4 @@
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +30,7 @@ public class Board {
 				StringTokenizer yeet = new StringTokenizer(cons.get(i)[j]);
 				Node connex = findNode(yeet.nextToken());
 				if (connex != null)
-					cities[i].addConnection(connex, Color.getColor(yeet.nextToken().toUpperCase()), Integer.parseInt(yeet.nextToken()));
+					cities[i].addConnection(connex, ColorType.getColor(yeet.nextToken().toUpperCase()), Integer.parseInt(yeet.nextToken()));
 			}
 		}
 		sc.close();
@@ -121,12 +119,12 @@ public class Board {
 	}
 	//... end of longest train algorithm
 
-	public boolean placeTrains(int player, Color c, Node start, Node end) {
+	public boolean placeTrains(int player, ColorType c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();
 		boolean available = false;
 		for (Track t : tracks) {
 			System.out.println(t.getColor());
-			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
+			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) {
 				if (t.getPlayer() == -1) {
 					t.setPlayer(player);
 					available = true;
@@ -136,7 +134,7 @@ public class Board {
 		if (available) {
 			tracks = end.getConnections();
 			for (Track t : tracks) {
-				if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
+				if (t.getOtherNode(start).equals(end) && (t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) {
 					if (t.getPlayer() == -1) {
 						t.setPlayer(player);
 						return true;
