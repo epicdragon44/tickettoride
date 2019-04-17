@@ -11,17 +11,17 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
-	private ColorType red, blue, yellow, green, dgreen, gray, gold;
+	private Color red, blue, yellow, green, dgreen, gray, gold;
 	private Font f;
 
 	public GamePanel() throws Exception {
-		blue = new ColorType(98, 151, 255);
-		red = new ColorType(255, 88, 88);
-		yellow = ColorType.YELLOW;
-		green = new ColorType(105, 242, 105);
-		dgreen = new ColorType(67, 216, 67);
-		gray = new ColorType(205, 208, 205);
-		gold = new ColorType(218, 218, 4);
+		blue = new Color(98, 151, 255);
+		red = new Color(255, 88, 88);
+		yellow = Color.YELLOW;
+		green = new Color(105, 242, 105);
+		dgreen = new Color(67, 216, 67);
+		gray = new Color(205, 208, 205);
+		gold = new Color(218, 218, 4);
 		game = new GameEngine();
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(ColorType.black);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1000, 1000);
 		drawBackground(g);
 		// g.setColor(gold);
@@ -63,7 +63,7 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	// }
 
-	public void drawConnection(Node n1, Node n2, Graphics g, ColorType c) {
+	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
 				// TODO: check for a double track and implement differentiation.

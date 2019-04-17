@@ -1,9 +1,6 @@
 import java.awt.*;
 
 public class ColorType extends java.awt.Color {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public static final ColorType RED = new ColorType(255, 0, 0);
 	public static final ColorType GREEN = new ColorType(0, 255, 0);
