@@ -2,9 +2,9 @@
 
 An Open-Source Java-based implementation of the popular board game.
 
-##To Code List:
+## To Code List:
 
-###Classes:
+### Classes:
 - [x] Board 
 - [x] ColorType
 - [x] Contract
@@ -17,12 +17,12 @@ An Open-Source Java-based implementation of the popular board game.
 - [x] TrainCard
 - [x] TrainCardDeck
 
-###Algorithms:
+### Algorithms:
 
 - [x] Longest Train
 - [x] Contract Completion
 
-###Graphics:
+### Graphics:
 - [ ] GamePanel
     - [ ] Draw Connections
     - [ ] Drawing Elements
@@ -32,4 +32,4 @@ An Open-Source Java-based implementation of the popular board game.
     - [x] Constructor
     - [x] Main Method
 
-##Known Bugs:
+## Known Bugs:
