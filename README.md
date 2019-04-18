@@ -2,7 +2,7 @@
 
 An Open-Source Java-based implementation of the popular board game.
 
-## To Code List:
+## To-Do List:
 
 ### Classes:
 - [x] Board 
