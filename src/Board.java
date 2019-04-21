@@ -65,7 +65,7 @@ public class Board {
 			return;
 		}
 		for (Track t : n.getConnections()) {
-			if (!visited.contains(t) && t.getPlayer()==daddyEngine.getCurrentPlayer()) {
+			if (!visited.contains(t) && t.getPlayer()==daddyEngine.currentPlayer) {
 				visited.add(t);
 				searchFrom(t.getOtherNode(n), visited, target);
 			}
@@ -110,7 +110,7 @@ public class Board {
 
 		for (Track t : n.getConnections()) {
 			if (t.getPlayer() != -1) { //check first to make sure someone actually owns the track lmfao
-				if (p.equals(daddyEngine.getPlayers()[t.getPlayer()]) && visited.contains(t)) {
+				if (p.equals(daddyEngine.players[t.getPlayer()]) && visited.contains(t)) {
 					visited.add(t);
 					visit(t.getOtherNode(n), cnt + 1, visited, p);
 				}
@@ -123,7 +123,6 @@ public class Board {
 		ArrayList<Track> tracks = start.getConnections();
 		boolean available = false;
 		for (Track t : tracks) {
-			System.out.println(t.getColor());
 			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) {
 				if (t.getPlayer() == -1) {
 					t.setPlayer(player);

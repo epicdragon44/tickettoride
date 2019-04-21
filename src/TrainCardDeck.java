@@ -4,7 +4,6 @@ import java.util.Collections;
 
 public class TrainCardDeck {
 	private ArrayList<TrainCard> deck;
-	private TrainCard[] faceup;
 
 	public TrainCardDeck() {
 		
@@ -40,7 +39,6 @@ public class TrainCardDeck {
 		}
 		
 		Collections.shuffle(deck);
-		faceup = new TrainCard[5];
 	}
 
 	public void restartDeck(ArrayList<TrainCard> rep) {
@@ -53,7 +51,6 @@ public class TrainCardDeck {
 		if(!needsReset())
 			return deck.remove(0);
 		return null;
-
 	}
 
 	public boolean needsReset() {
