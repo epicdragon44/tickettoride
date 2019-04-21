@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class GameEngine {
 	public Player[] players;
+
 	private ContractDeck cDeck;
 	private TrainCardDeck tDeck;
 	private ArrayList<TrainCard> trashDeck;
@@ -60,7 +61,7 @@ public class GameEngine {
 	
 	public int getNumContracts()
 	{
-		return cDeck.numCards();
+		return cDeck.size();
 	}
 	
 	public boolean haveTrainCards()
@@ -72,10 +73,18 @@ public class GameEngine {
 	{
 		return tableDeck;
 	}
+
+	public ContractDeck getcDeck() {
+		return cDeck;
+	}
+
+	public TrainCardDeck gettDeck() {
+		return tDeck;
+	}
 	
 	public ArrayList<Contract> drawContract() {
-		if(cDeck.numCards()>0)
-			return cDeck.draw(Math.min(cDeck.numCards(), 3));
+		if(cDeck.size()>0)
+			return cDeck.draw(Math.min(cDeck.size(), 3));
 		return null;
 	}
 	
