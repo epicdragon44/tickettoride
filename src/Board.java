@@ -1,6 +1,4 @@
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +11,7 @@ public class Board {
 	private Player bestPlayer;
 	private GameEngine daddyEngine;
 
-	public Board(GameEngine game) throws IOException {
+	public Board(GameEngine game) throws Exception {
 		this.daddyEngine = game;
 
 		Scanner sc = new Scanner(new File("Nodes.txt"));
@@ -32,7 +30,7 @@ public class Board {
 				StringTokenizer yeet = new StringTokenizer(cons.get(i)[j]);
 				Node connex = findNode(yeet.nextToken());
 				if (connex != null)
-					cities[i].addConnection(connex, Color.getColor(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
+					cities[i].addConnection(connex, ColorType.getColor(yeet.nextToken().toUpperCase()), Integer.parseInt(yeet.nextToken()));
 			}
 		}
 		sc.close();
@@ -67,7 +65,7 @@ public class Board {
 			return;
 		}
 		for (Track t : n.getConnections()) {
-			if (!visited.contains(t) && t.getPlayer()==daddyEngine.getCurrentPlayer()) {
+			if (!visited.contains(t) && t.getPlayer()==daddyEngine.currentPlayer) {
 				visited.add(t);
 				searchFrom(t.getOtherNode(n), visited, target);
 			}
@@ -112,7 +110,7 @@ public class Board {
 
 		for (Track t : n.getConnections()) {
 			if (t.getPlayer() != -1) { //check first to make sure someone actually owns the track lmfao
-				if (p.equals(daddyEngine.getPlayers()[t.getPlayer()]) && visited.contains(t)) {
+				if (p.equals(daddyEngine.players[t.getPlayer()]) && visited.contains(t)) {
 					visited.add(t);
 					visit(t.getOtherNode(n), cnt + 1, visited, p);
 				}
@@ -121,11 +119,11 @@ public class Board {
 	}
 	//... end of longest train algorithm
 
-	public boolean placeTrains(int player, Color c, Node start, Node end) {
+	public boolean placeTrains(int player, ColorType c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();
 		boolean available = false;
 		for (Track t : tracks) {
-			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
+			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) {
 				if (t.getPlayer() == -1) {
 					t.setPlayer(player);
 					available = true;
@@ -135,7 +133,7 @@ public class Board {
 		if (available) {
 			tracks = end.getConnections();
 			for (Track t : tracks) {
-				if (t.getOtherNode(start).equals(end) && (t.getColor().equals(Color.GRAY) || t.getColor().equals(c))) {
+				if (t.getOtherNode(start).equals(end) && (t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) {
 					if (t.getPlayer() == -1) {
 						t.setPlayer(player);
 						return true;

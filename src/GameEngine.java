@@ -1,5 +1,3 @@
-import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -13,7 +11,7 @@ public class GameEngine {
 	
 	public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 	
-	public GameEngine() throws IOException {
+	public GameEngine() throws Exception {
 		players=new Player[4];
 		players[0]=new Player("Red");
 		players[1]=new Player("Green");
@@ -39,38 +37,51 @@ public class GameEngine {
 	  		currentPlayer++;
 	}
 	
-	public void placeTrain(Node nodeOne, Node nodeTwo, Color c) {
-		if(!checkEligibility(nodeOne, nodeTwo, c))
-			return;
-	  	if(gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
-	  		trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
+	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
+		if(!checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
+		{
+			trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
+			return true;
+		}
+	  	else
+	  		return false;
 	}
 	
-	private boolean checkEligibility(Node nodeOne, Node nodeTwo, Color c) {
+	private boolean checkEligibility(Node nodeOne, Node nodeTwo, ColorType c) {
 		int rand=players[currentPlayer].getTrainCards().get(null);
 		int col=players[currentPlayer].getTrainCards().get(c);
 		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
 		return rand-(cost-col)>0&&players[currentPlayer].trainsLeft()>cost-1;
-		//return true;
 	}
 	
-	public Player[] getPlayers() {
-	    return players;
-	}
 	public Board getgBoard() {
 		return gBoard;
 	}
-	public int getCurrentPlayer() {
-		return currentPlayer;
-	}
-	public Player getLongestTrain() {
-		return gBoard.findLongestTrainPlayer(players);
+	
+	public int getNumContracts()
+	{
+		return cDeck.numCards();
 	}
 	
-	public ArrayList<Contract> drawContract(int num) {
-		if(cDeck.hasCards(num))
-			return cDeck.draw(num);
+	public boolean haveTrainCards()
+	{
+		return !tDeck.needsReset()&&trashDeck.size()!=0;
+	}
+	
+	public TrainCard[] getTable()
+	{
+		return tableDeck;
+	}
+	
+	public ArrayList<Contract> drawContract() {
+		if(cDeck.numCards()>0)
+			return cDeck.draw(Math.min(cDeck.numCards(), 3));
 		return null;
+	}
+	
+	public void takeContract(Contract c)
+	{
+		players[currentPlayer].addContract(c);
 	}
 	
 	public boolean checkWildLim() {
@@ -85,7 +96,7 @@ public class GameEngine {
 	public void updateTable() {
     	for(int i=0;i<tableDeck.length;i++)
     	{
-    		if(tableDeck[i].getwild())
+    		if(tableDeck[i]!=null)
     		{
     			trashDeck.add(tableDeck[i]);
     			tableDeck[i]=null;
@@ -95,7 +106,7 @@ public class GameEngine {
 			tDeck.restartDeck(trashDeck);
     	for(int i=0;i<tableDeck.length;i++)
     	{
-    		if(tableDeck[i]==null)
+    		if(tableDeck[i]==null&&haveTrainCards())
     		{
     			tableDeck[i]=tDeck.draw();
     			if(tDeck.needsReset())
@@ -112,21 +123,29 @@ public class GameEngine {
     			return true;
     	return false;
     }
-  
-	public TrainCard drawTrainCard(int pos) {
-		TrainCard rtn;
+    
+    //returns if face up wild drawn and takes if 1 card already drawn
+	public boolean drawTrainCard(int pos, boolean oneDrawn) {
+		TrainCard rtn=new TrainCard(null,false);
 		if(pos==-1)
-			rtn=tDeck.draw();
+			players[currentPlayer].drawTrainCards(tDeck.draw());
 		else
 		{
 			rtn=tableDeck[pos];
-			tableDeck[pos]=tDeck.draw();
+			if(!(rtn.getwild()&&oneDrawn))
+			{
+				players[currentPlayer].drawTrainCards(rtn);
+				if(!haveTrainCards())
+					tableDeck[pos]=tDeck.draw();
+				else
+					tableDeck[pos]=tDeck.draw();
+			}
 			if(checkWildLim())
 				updateTable();
 		}
 		if(tDeck.needsReset())
 			tDeck.restartDeck(trashDeck);
-		return rtn;
+		return rtn.getwild();
 	}
 
 	//returns contract payouts,then longest train,then globetrotter

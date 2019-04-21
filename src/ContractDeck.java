@@ -35,11 +35,13 @@ public class ContractDeck {
 
 	public void replace(ArrayList<Contract> c) 
 	{
+		while(c.contains(null))
+			c.remove(null);
 		deck.addAll(c);
 	}
 	
-	public boolean hasCards(int num)
+	public int numCards()
 	{
-		return deck.size()>num-1;
+		return deck.size();
 	}
 }
