@@ -52,6 +52,11 @@ public class Player
 		return contracts;
 	}
 	
+	public void addContract(Contract c)
+	{
+		contracts.add(c);
+	}
+	
 	public void deleteContract(Contract c)
 	{
 		for(int i=0;i<contracts.size();i++)
@@ -77,6 +82,16 @@ public class Player
 	
 	public ArrayList<TrainCard> placeTrains(int num, Color col)
 	{
+		if(num==1||num==2)
+			addPoints(num);
+		else if(num==3)
+			addPoints(4);
+		else if(num==4)
+			addPoints(7);
+		else if(num==5)
+			addPoints(10);
+		else if(num==6)
+			addPoints(15);
 		decrementtrainsLeft(num);
 		ArrayList<TrainCard> rtn=new ArrayList<TrainCard>();
 		while(num!=0&&trainCards.get(col)!=0)
