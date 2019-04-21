@@ -63,39 +63,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		//else
 			//draw game end background and fill shit in
 		//draw connections
-
-		/*DANIEL CODE TEST*/
-		game.getcDeck().getDeck().clear();
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-
-
-		drawContracts(g);
 	}
 
 	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
@@ -215,10 +182,9 @@ public class GamePanel extends JPanel implements MouseListener {
 		int topLeftX = 600;
 		int topLeftY = 815;
 		int maxWidth = 550;
-		int maxHeight = 260;
 		int numOfCols = size/modfactor+1;
 		int widthOfBox = (int)(maxWidth/(numOfCols+0.0));
-		int heightOfBox = /*(int)(maxHeight/(Math.min(modfactor+3, size)+0.0))*/27;
+		int heightOfBox = 27;
 
 		int staggerXCnt = 0;
 		for (int i = 0; i < size; i++) {

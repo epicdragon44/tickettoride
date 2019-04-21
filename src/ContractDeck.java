@@ -43,9 +43,4 @@ public class ContractDeck {
 	public Iterator<Contract> iterator() {
 		return deck.iterator();
 	}
-
-	/*DANIEL CODE TEST*/
-	public Queue<Contract> getDeck() {
-		return deck;
-	}
 }
