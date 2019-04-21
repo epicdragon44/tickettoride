@@ -74,15 +74,29 @@ public class GamePanel extends JPanel implements MouseListener {
 		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
 		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
 		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
 
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
-		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
+
+
+
 
 		drawContracts(g);
 	}
@@ -195,28 +209,28 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void drawContracts(Graphics g) {
 		int modfactor = 7;
 
+		g.setColor(Color.LIGHT_GRAY);
+		g.setFont(new Font("Arial Narrow", Font.ITALIC, 10));
+
 		ContractDeck deck = game.getcDeck();
 		Iterator iterator = deck.iterator();
 		int size = deck.size();
 		int topLeftX = 600;
 		int topLeftY = 815;
 		int maxWidth = 550;
-		int maxHeight = 200;
-		int numOfStaggers = size/modfactor;
-		int widthOfBox = (int)(maxWidth/(numOfStaggers+1.0));
-		int heightOfBox = (int)(maxHeight/(size+0.0));
-
-		g.setColor(Color.LIGHT_GRAY);
-		g.setFont(new Font("Arial Narrow", Font.ITALIC, 10));
+		int maxHeight = 260;
+		int numOfCols = size/modfactor+1;
+		int widthOfBox = (int)(maxWidth/(numOfCols+0.0));
+		int heightOfBox = (int)(maxHeight/(Math.min(modfactor+3, size)+0.0));
 
 		int staggerXCnt = 0;
 		for (int i = 0; i < size; i++) {
-			if (i!=0 && i%10==0)
+			if (i!=0 && i%modfactor==0)
 				staggerXCnt++;
 
 			Contract c = (Contract)iterator.next();
 
-			int x = topLeftX + staggerXCnt*((maxWidth/(numOfStaggers+1)));
+			int x = topLeftX + staggerXCnt*((maxWidth/(numOfCols)));
 			int y = topLeftY + ((i%modfactor) * heightOfBox);
 			g.drawRect(x, y, widthOfBox, heightOfBox);
 			g.drawString(c.getStart()+" to "+c.getEnd(), x+5, y+heightOfBox/2);
