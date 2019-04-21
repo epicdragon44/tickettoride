@@ -95,9 +95,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		game.getcDeck().getDeck().add(new Contract(15, "Montreal", "New_York"));
 
 
-
-
-
 		drawContracts(g);
 	}
 
@@ -221,7 +218,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		int maxHeight = 260;
 		int numOfCols = size/modfactor+1;
 		int widthOfBox = (int)(maxWidth/(numOfCols+0.0));
-		int heightOfBox = (int)(maxHeight/(Math.min(modfactor+3, size)+0.0));
+		int heightOfBox = /*(int)(maxHeight/(Math.min(modfactor+3, size)+0.0))*/27;
 
 		int staggerXCnt = 0;
 		for (int i = 0; i < size; i++) {
@@ -233,8 +230,8 @@ public class GamePanel extends JPanel implements MouseListener {
 			int x = topLeftX + staggerXCnt*((maxWidth/(numOfCols)));
 			int y = topLeftY + ((i%modfactor) * heightOfBox);
 			g.drawRect(x, y, widthOfBox, heightOfBox);
-			g.drawString(c.getStart()+" to "+c.getEnd(), x+5, y+heightOfBox/2);
-			g.drawString(c.getValue()+"", (x+widthOfBox)-15, y+heightOfBox/2);
+			g.drawString(c.getStart()+" to "+c.getEnd(), x+5, y+heightOfBox/2+3);
+			g.drawString(c.getValue()+"", (x+widthOfBox)-15, y+heightOfBox/2+3);
 		}
 	}
 
