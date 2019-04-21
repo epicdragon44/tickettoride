@@ -37,8 +37,9 @@ public class GamePanel extends JPanel implements MouseListener {
 		lastRoundCount=0;
 		stage=0;
 		citySelect=new Node[2];
+		contracts=game.drawContract();
 		abrevs=new HashMap<String,String>();
-		//make abrevs
+		//make abrevs(need file)
 	}
 	
 	@Override
@@ -47,21 +48,42 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1000, 1000);
 		//if game not over
+		if(stage!=6) 
+		{
 			drawBackground(g);
 			//draw scoreboard(whose turn included) and hand
 			//if contract deck has cards
+			if(game.getNumContracts()!=0)
+			{
 				//draw contract deck
+			}
 			//if train deck has cards
+			if(game.haveTrainCards())
+			{
 				//draw train deck
+			}
 			//if contract mode or init game
+			if(stage==0||stage==3)
+			{
 				//draw contract selections(those that are not null)
+			}
 			//else
+			else
+			{
 				//draw face ups(that are not null)
+			}
 			//if last round > 1
-				//warn that it is the last round
+			if(lastRoundCount>1)
+			{
+				//warn that it is the last round(text above score board)
+			}
 			//if we want, we can highlight selected cities
+		}
 		//else
+		else
+		{
 			//draw game end background and fill shit in
+		}
 		//draw connections
 	}
 
@@ -209,20 +231,30 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 	}
 
-	//don't forget to implement last round
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		//if game over
+		if(stage==6)
+		{
 			//return
+			return;
+		}
 		//else if init game
+		else if(stage==0)
+		{
 			//if contract selected and index is not greater than size and contract at index is not null
 				//give contract at index to player
 				//turn index to null in array list(determine with coord bash)
 			//if done clicked and at least one null in list
 				//if current player is 3
 					//change to default stage
+				//else
+					//reset the contracts list
 				//next player
+		}
 		//else if default stage
+		else if(stage==1)
+		{
 			//if train deck clicked and have traincards left
 				//give card to player
 				//change to one train card stage
@@ -240,7 +272,10 @@ public class GamePanel extends JPanel implements MouseListener {
 			//else if city clicked
 				//set 0th pos of Node arr to city clicked
 				//change to 1 city picked stage
+		}
 		//else if 1 train card stage
+		else if(stage==2)
+		{
 			//if no train cards left and table deck only has wild and nulls
 				//change to default stage
 				//next player
@@ -261,7 +296,10 @@ public class GamePanel extends JPanel implements MouseListener {
 					//next player
 					//if last round > 0
 						//decrement last round
+		}
 		//else if contract selection stage
+		else if(stage==3)
+		{
 			//if contract selected and index is not greater than size and contract at index is not null
 				//give contract at index to player
 				//turn index to null in array list(determine with coord bash)
@@ -270,11 +308,17 @@ public class GamePanel extends JPanel implements MouseListener {
 				//next player
 				//if last round > 0
 					//decrement last round
+		}
 		//else if 1 city chosen stage
+		else if(stage==4)
+		{
 			//if city clicked on
 				//set pos 1 of node array to clicked on city
 				//change to 2 cities chosen stage
+		}
 		//else if 2 cities selected stage
+		else if(stage==5)
+		{
 			//if color stack clicked
 				//if stack is wild stack
 					//alert invalid input(must click on actual color)
@@ -287,11 +331,21 @@ public class GamePanel extends JPanel implements MouseListener {
 						//if last round > 0
 							//decrement last round
 					//change to default stage
+		}
 		//if gamestate says it is last round and last round is 0
+		if(game.lastRound()&&lastRoundCount==0)
+		{
 			//set last round to 5
+			lastRoundCount=5;
+		}
 		//if last round is 1
+		if(lastRoundCount==1)
+		{
 			//change to end game stage
+			stage=6;
+		}
 		//repaint
+		repaint();
 	}
 
 	@Override
