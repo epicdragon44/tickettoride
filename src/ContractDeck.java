@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Queue;
-import java.util.StringTokenizer;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.io.*;
 
 public class ContractDeck {
@@ -40,8 +35,12 @@ public class ContractDeck {
 		deck.addAll(c);
 	}
 	
-	public int numCards()
+	public int size()
 	{
 		return deck.size();
+	}
+
+	public Iterator<Contract> iterator() {
+		return deck.iterator();
 	}
 }
