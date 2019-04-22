@@ -14,10 +14,10 @@ public class GameEngine {
 	
 	public GameEngine() throws Exception {
 		players=new Player[4];
-		players[0]=new Player("Red");
-		players[1]=new Player("Green");
-		players[2]=new Player("Blue");
-		players[3]=new Player("Yellow");
+		players[0]=new Player(ColorType.RED);
+		players[1]=new Player(ColorType.GREEN);
+		players[2]=new Player(ColorType.BLUE);
+		players[3]=new Player(ColorType.YELLOW);
 		cDeck=new ContractDeck();
 		tDeck=new TrainCardDeck();
 		trashDeck=new ArrayList<>();
@@ -52,7 +52,7 @@ public class GameEngine {
 		int rand=players[currentPlayer].getTrainCards().get(null);
 		int col=players[currentPlayer].getTrainCards().get(c);
 		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
-		return rand-(cost-col)>0&&players[currentPlayer].trainsLeft()>cost-1;
+		return rand-(cost-col)>0&&players[currentPlayer].getTrainsLeft()>cost-1;
 	}
 	
 	public Board getgBoard() {
@@ -128,7 +128,7 @@ public class GameEngine {
     
     public boolean lastRound() {
     	for(Player p:players)
-    		if(p.trainsLeft()<3)
+    		if(p.getTrainsLeft()<3)
     			return true;
     	return false;
     }

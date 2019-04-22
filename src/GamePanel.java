@@ -8,6 +8,7 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -120,6 +121,7 @@ public class GamePanel extends JPanel implements MouseListener {
 			}
 		}
 	}
+
 	private void drawShiftedConnection(Node n1, Node n2, Graphics g, int yShift, int xShift) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
@@ -185,7 +187,37 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawRankings(Graphics g) {
+        Player[] playerCopy = new Player[game.players.length];
+        for (int i = 0; i < game.players.length; i++)
+            playerCopy[i] = game.players[i];
+		Arrays.sort(playerCopy);
 
+		int topLeftX = 1235;
+		int topLeftY = 110;
+
+		int yShift = 100;
+
+		int boxWidth = 122;
+		int boxHeight = 39;
+
+		int contractX = 1444;
+		int trainCardX = 1545;
+		int trainX = 1669;
+
+		for (int i = 0; i < playerCopy.length; i++) {
+			int x = topLeftX;
+			int y = topLeftY+(i*yShift);
+
+			g.setColor(playerCopy[i].getColor());
+			g.fillRect(x, y+10, boxWidth, boxHeight);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(playerCopy[i].getPoints()+"", x+30, y+40);
+			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+			g.drawString(playerCopy[i].getTrainCards().size()+"", trainCardX, y+40);
+			g.drawString(playerCopy[i].getContract().size()+"", contractX, y+40);
+			g.drawString(playerCopy[i].getTrainsLeft()+"", trainX, y+40);
+		}
 	}
 
 	public void drawCards(Graphics g) {
