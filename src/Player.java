@@ -29,29 +29,6 @@ public class Player implements Comparable<Player>
 		trainCards.put(Color.yellow, 0);
 		trainCards.put(null, 0);
 	}
-
-	//DANIEL TEST CODE
-	public Player(Color n, int pts, int numContracts)
-	{
-		this.c = n;
-		name = n.toString();
-		points=pts;
-		trainsLeft=45;
-		contracts=new ArrayList<Contract>();
-		trainCards=new HashMap<Color, Integer>();
-		trainCards.put(Color.black, 0);
-		trainCards.put(Color.orange, 0);
-		trainCards.put(Color.red, 0);
-		trainCards.put(Color.blue, 0);
-		trainCards.put(Color.green, 0);
-		trainCards.put(Color.pink, 0);
-		trainCards.put(Color.white, 0);
-		trainCards.put(Color.yellow, 0);
-		trainCards.put(null, 0);
-
-		for (int i = 0; i < numContracts; i++)
-			contracts.add(new Contract(50, "YEE", "HAW"));
-	}
 	
 	public String getName()
 	{
