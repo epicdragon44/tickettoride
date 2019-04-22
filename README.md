@@ -32,7 +32,7 @@ An Open-Source Java-based implementation of the popular board game.
     - [ ] Draw Numbers
     - [x] Draw Background
     - [ ] Draw Hand
-    - [ ] Draw Rankings
+    - [x] Draw Rankings
     - [ ] Draw Cards
     - [x] Draw Contracts
     - [ ] Mouse Logic
