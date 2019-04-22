@@ -1,17 +1,20 @@
 import java.awt.Color;
 import java.util.*;
 
-public class Player 
+public class Player implements Comparable<Player>
 {
 	private String name;
 	private int points;
+	private Color c;
+
 	private int trainsLeft;
 	private ArrayList<Contract> contracts;
 	private HashMap<Color, Integer> trainCards;
 	
-	public Player(String n)
+	public Player(Color n)
 	{
-		name=n;
+		this.c = n;
+		name = n.toString();
 		points=0;
 		trainsLeft=45;
 		contracts=new ArrayList<Contract>();
@@ -25,6 +28,29 @@ public class Player
 		trainCards.put(Color.white, 0);
 		trainCards.put(Color.yellow, 0);
 		trainCards.put(null, 0);
+	}
+
+	//DANIEL TEST CODE
+	public Player(Color n, int pts, int numContracts)
+	{
+		this.c = n;
+		name = n.toString();
+		points=pts;
+		trainsLeft=45;
+		contracts=new ArrayList<Contract>();
+		trainCards=new HashMap<Color, Integer>();
+		trainCards.put(Color.black, 0);
+		trainCards.put(Color.orange, 0);
+		trainCards.put(Color.red, 0);
+		trainCards.put(Color.blue, 0);
+		trainCards.put(Color.green, 0);
+		trainCards.put(Color.pink, 0);
+		trainCards.put(Color.white, 0);
+		trainCards.put(Color.yellow, 0);
+		trainCards.put(null, 0);
+
+		for (int i = 0; i < numContracts; i++)
+			contracts.add(new Contract(50, "YEE", "HAW"));
 	}
 	
 	public String getName()
@@ -41,12 +67,15 @@ public class Player
 	{
 		points+=num;
 	}
-	
-	public int trainsLeft()
-	{
+
+	public int getTrainsLeft() {
 		return trainsLeft;
 	}
-	
+
+	public Color getColor() {
+		return c;
+	}
+
 	public ArrayList<Contract> getContract()
 	{
 		return contracts;
@@ -108,11 +137,6 @@ public class Player
 		}
 		return rtn;
 	}
-	
-	public int getScore()
-	{
-		return points;
-	}
 
 	@Override
 	public boolean equals(Object obj) 
@@ -128,5 +152,10 @@ public class Player
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Player o) {
+		return o.points - this.points;
 	}
 }
