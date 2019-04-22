@@ -16,9 +16,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	private Font f;
 	private ArrayList<Contract> contracts;
 	private int lastRoundCount, stage;
-	private HashMap<String,String> abrevs;
 	private Node[] citySelect;
-	//different stages in chat
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -37,8 +35,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		stage=0;
 		citySelect=new Node[2];
 		contracts=game.drawContract();
-		abrevs=new HashMap<String,String>();
-		//make abrevs(need file)
 	}
 	
 	@Override
@@ -300,6 +296,7 @@ public class GamePanel extends JPanel implements MouseListener {
 					//if track not claimed
 						//alert for invalid input(must restart)
 					//else
+						//do animation thingy
 						//next player
 						//if last round > 0
 							//decrement last round
