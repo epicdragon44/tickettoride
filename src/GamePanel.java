@@ -8,7 +8,9 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
@@ -85,7 +87,6 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
-				// TODO: check for a double track and implement differentiation.
 				if (containsDuple(t, n1.getConnections())!=null) {
 					Track orig = t;
 					Track newT = containsDuple(t, n1.getConnections());
@@ -116,6 +117,7 @@ public class GamePanel extends JPanel implements MouseListener {
 			}
 		}
 	}
+
 	private void drawShiftedConnection(Node n1, Node n2, Graphics g, int yShift, int xShift) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
@@ -181,7 +183,37 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawRankings(Graphics g) {
+        Player[] playerCopy = new Player[game.players.length];
+        for (int i = 0; i < game.players.length; i++)
+            playerCopy[i] = game.players[i];
+		Arrays.sort(playerCopy);
 
+		int topLeftX = 1235;
+		int topLeftY = 110;
+
+		int yShift = 100;
+
+		int boxWidth = 122;
+		int boxHeight = 39;
+
+		int contractX = 1444;
+		int trainCardX = 1545;
+		int trainX = 1669;
+
+		for (int i = 0; i < playerCopy.length; i++) {
+			int x = topLeftX;
+			int y = topLeftY+(i*yShift);
+
+			g.setColor(playerCopy[i].getColor());
+			g.fillRect(x, y+10, boxWidth, boxHeight);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(playerCopy[i].getPoints()+"", x+30, y+40);
+			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+			g.drawString(playerCopy[i].getTrainCards().size()+"", trainCardX, y+40);
+			g.drawString(playerCopy[i].getContract().size()+"", contractX, y+40);
+			g.drawString(playerCopy[i].getTrainsLeft()+"", trainX, y+40);
+		}
 	}
 
 	public void drawCards(Graphics g) {
@@ -189,7 +221,34 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawContracts(Graphics g) {
+		int modfactor = 7;
 
+		g.setColor(Color.LIGHT_GRAY);
+		g.setFont(new Font("Arial Narrow", Font.ITALIC, 10));
+
+		ContractDeck deck = game.getcDeck();
+		Iterator iterator = deck.iterator();
+		int size = deck.size();
+		int topLeftX = 600;
+		int topLeftY = 815;
+		int maxWidth = 550;
+		int numOfCols = size/modfactor+1;
+		int widthOfBox = (int)(maxWidth/(numOfCols+0.0));
+		int heightOfBox = 27;
+
+		int staggerXCnt = 0;
+		for (int i = 0; i < size; i++) {
+			if (i!=0 && i%modfactor==0)
+				staggerXCnt++;
+
+			Contract c = (Contract)iterator.next();
+
+			int x = topLeftX + staggerXCnt*((maxWidth/(numOfCols)));
+			int y = topLeftY + ((i%modfactor) * heightOfBox);
+			g.drawRect(x, y, widthOfBox, heightOfBox);
+			g.drawString(c.getStart()+" to "+c.getEnd(), x+5, y+heightOfBox/2+3);
+			g.drawString(c.getValue()+"", (x+widthOfBox)-15, y+heightOfBox/2+3);
+		}
 	}
 
 	@Override
