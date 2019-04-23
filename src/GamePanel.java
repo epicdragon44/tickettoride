@@ -69,6 +69,8 @@ public class GamePanel extends JPanel implements MouseListener {
 			{
 				//draw face ups(that are not null)
 			}
+			//if 1 city or 2 chosen cities
+				//highlight none null cities
 			//if last round > 1
 			if(lastRoundCount>1)
 			{
@@ -82,6 +84,7 @@ public class GamePanel extends JPanel implements MouseListener {
 			//draw game end background and fill shit in
 		}
 		//draw connections
+		drawRankings(g);
 	}
 
 	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
@@ -203,12 +206,19 @@ public class GamePanel extends JPanel implements MouseListener {
 		for (int i = 0; i < playerCopy.length; i++) {
 			int x = topLeftX;
 			int y = topLeftY+(i*yShift);
-
+			
+			if(i==game.currentPlayer)
+			{
+				g.setColor(Color.black);
+				g.fillOval(x-40, y+15, 25, 25);
+				g.setColor(Color.white);
+				g.fillOval(x-38, y+17, 21, 20);
+			}
 			g.setColor(playerCopy[i].getColor());
 			g.fillRect(x, y+10, boxWidth, boxHeight);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString(playerCopy[i].getPoints()+"", x+30, y+40);
+			g.drawString(playerCopy[i].getPoints()+"", x+45, y+40);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
 			g.drawString(playerCopy[i].getTrainCards().size()+"", trainCardX, y+40);
 			g.drawString(playerCopy[i].getContract().size()+"", contractX, y+40);
