@@ -1,10 +1,10 @@
 import java.awt.Color;
 
 public class TrainCard {
-	private Color color;
+	private ColorType color;
 	private boolean isWild;
 	
-	public TrainCard(Color col,boolean wild)
+	public TrainCard(ColorType col,boolean wild)
 	{
 		color=col;
 		isWild=wild;
@@ -14,7 +14,7 @@ public class TrainCard {
 		return isWild;
 	}
 
-	public Color getColor() 
+	public ColorType getColor()
 	{
 		return color;
 	}

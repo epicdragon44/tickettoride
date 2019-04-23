@@ -25,7 +25,6 @@ An Open-Source Java-based implementation of the popular board game.
 ### Graphics:
 - [ ] GamePanel
     - [ ] Draw Connections
-    - [ ] Draw Board
     - [ ] Draw Tracks
     - [ ] Draw Decks
     - [ ] Draw Cities

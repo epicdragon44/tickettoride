@@ -148,10 +148,6 @@ public class GamePanel extends JPanel implements MouseListener {
 			return null;
 	}
 
-	public void drawBoard(Graphics g) {
-
-	}
-
 	public void drawTracks(Graphics g) {
 
 	}
@@ -183,7 +179,15 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawHand(Graphics g) {
+		Player currentPlayer = game.players[game.currentPlayer];
 
+		int topLeftX = 6;
+		int topLeftY = 572;
+		int yShift = 10;
+		int xShift = 44;
+
+		HashMap<ColorType, Integer> map = currentPlayer.getTrainCards();
+				
 	}
 
 	public void drawRankings(Graphics g) {
