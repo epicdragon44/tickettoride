@@ -83,6 +83,14 @@ public class GamePanel extends JPanel implements MouseListener {
 			//draw game end background and fill shit in
 		}
 		//draw connections
+
+        //DANIEL TEST CODE
+        game.players[game.currentPlayer].getTrainCards().put(ColorType.BLACK, 5);
+        game.players[game.currentPlayer].getTrainCards().put(ColorType.YELLOW, 4);
+        game.players[game.currentPlayer].getTrainCards().put(ColorType.GREEN, 5);
+        game.players[game.currentPlayer].getTrainCards().put(ColorType.RED, 2);
+        game.players[game.currentPlayer].getTrainCards().put(ColorType.ORANGE, 1);
+        drawHand(g);
 	}
 
 	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
@@ -191,10 +199,10 @@ public class GamePanel extends JPanel implements MouseListener {
 			i++;
 			int x = topLeftX+(xShift*i);
 			Map.Entry entry = (Map.Entry)it.next();
-			for (int j = 0; j < ((Integer)(entry.getValue()); j++) {
+			for (int j = 0; j < ((Integer)(entry.getValue())); j++) {
 				int y = topLeftY+(yShift*j);
 				try {
-					BufferedImage img = ImageIO.read(new File((entry.getKey()).toString()+"train.png"));
+					BufferedImage img = ImageIO.read(new File((entry.getKey()).toString()+"train.PNG"));
 					g.drawImage(img, x, y, new ImageObserver() {
 						@Override
 						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
