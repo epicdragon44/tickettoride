@@ -7,10 +7,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
@@ -187,7 +184,28 @@ public class GamePanel extends JPanel implements MouseListener {
 		int xShift = 44;
 
 		HashMap<ColorType, Integer> map = currentPlayer.getTrainCards();
-				
+
+		int i = -1;
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			i++;
+			int x = topLeftX+(xShift*i);
+			Map.Entry entry = (Map.Entry)it.next();
+			for (int j = 0; j < ((Integer)(entry.getValue()); j++) {
+				int y = topLeftY+(yShift*j);
+				try {
+					BufferedImage img = ImageIO.read(new File((entry.getKey()).toString()+"train.png"));
+					g.drawImage(img, x, y, new ImageObserver() {
+						@Override
+						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+							return false;
+						}
+					});
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void drawRankings(Graphics g) {
