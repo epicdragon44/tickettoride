@@ -85,10 +85,10 @@ public class GamePanel extends JPanel implements MouseListener {
 		//draw connections
 
         //DANIEL TEST CODE
-        game.players[game.currentPlayer].getTrainCards().put(ColorType.BLACK, 5);
+        game.players[game.currentPlayer].getTrainCards().put(ColorType.BLACK, 14);
         game.players[game.currentPlayer].getTrainCards().put(ColorType.YELLOW, 4);
         game.players[game.currentPlayer].getTrainCards().put(ColorType.GREEN, 5);
-        game.players[game.currentPlayer].getTrainCards().put(ColorType.RED, 2);
+        game.players[game.currentPlayer].getTrainCards().put(ColorType.BLUE, 2);
         game.players[game.currentPlayer].getTrainCards().put(ColorType.ORANGE, 1);
         drawHand(g);
 	}
@@ -186,8 +186,8 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void drawHand(Graphics g) {
 		Player currentPlayer = game.players[game.currentPlayer];
 
-		int topLeftX = 6;
-		int topLeftY = 572;
+		int topLeftX = 56;
+		int topLeftY = 810;
 		int yShift = 10;
 		int xShift = 44;
 
@@ -202,7 +202,7 @@ public class GamePanel extends JPanel implements MouseListener {
 			for (int j = 0; j < ((Integer)(entry.getValue())); j++) {
 				int y = topLeftY+(yShift*j);
 				try {
-					BufferedImage img = ImageIO.read(new File((entry.getKey()).toString()+"train.PNG"));
+					BufferedImage img = ImageIO.read(new File((entry.getKey()).toString()+"train.png"));
 					g.drawImage(img, x, y, new ImageObserver() {
 						@Override
 						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
