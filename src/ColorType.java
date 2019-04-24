@@ -60,4 +60,35 @@ public class ColorType extends java.awt.Color {
 			return ORANGE;
 		return new ColorType(100, 100, 100);
 	}
+
+	public String toString() {
+		ColorType n = this;
+		if (n.equals(ColorType.getColor("RED")))
+			return "red";
+		else if (n.equals(ColorType.getColor("GREEN")))
+			return "green";
+		else if (n.equals(ColorType.getColor("BLUE")))
+			return "blue";
+		else if (n.equals(ColorType.getColor("YELLOW")))
+			return "yellow";
+		else if (n.equals(ColorType.getColor("MAGENTA")))
+			return "magenta";
+		else if (n.equals(ColorType.getColor("CYAN")))
+			return "cyan";
+		else if (n.equals(ColorType.getColor("WHITE")))
+			return "white";
+		else if (n.equals(ColorType.getColor("BLACK")))
+			return "black";
+		else if (n.equals(ColorType.getColor("GRAY")))
+			return "gray";
+		else if (n.equals(ColorType.getColor("LIGHT_GRAY")))
+			return "lightgray";
+		else if (n.equals(ColorType.getColor("DARK_GRAY")))
+			return "darkgray";
+		else if (n.equals(ColorType.getColor("PINK")))
+			return "pink";
+		else if (n.equals(ColorType.getColor("ORANGE")))
+			return "orange";
+		return super.toString();
+	}
 }

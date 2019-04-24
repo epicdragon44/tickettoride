@@ -14,28 +14,28 @@ public class TrainCardDeck {
 			deck.add(new TrainCard(null, true));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.orange, false));
+			deck.add(new TrainCard(ColorType.ORANGE, false));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.white, false));
+			deck.add(new TrainCard(ColorType.WHITE, false));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.blue, false));
+			deck.add(new TrainCard(ColorType.BLUE, false));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.green, false));
+			deck.add(new TrainCard(ColorType.GREEN, false));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.black, false));
+			deck.add(new TrainCard(ColorType.BLACK, false));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.pink, false));
+			deck.add(new TrainCard(ColorType.PINK, false));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.yellow, false));
+			deck.add(new TrainCard(ColorType.YELLOW, false));
 		}
 		for (int i = 0; i < 12; i++) {
-			deck.add(new TrainCard(Color.red, false));
+			deck.add(new TrainCard(ColorType.RED, false));
 		}
 		
 		Collections.shuffle(deck);

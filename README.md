@@ -25,13 +25,12 @@ An Open-Source Java-based implementation of the popular board game.
 ### Graphics:
 - [ ] GamePanel
     - [ ] Draw Connections
-    - [ ] Draw Board
     - [ ] Draw Tracks
     - [ ] Draw Decks
     - [ ] Draw Cities
     - [ ] Draw Numbers
     - [x] Draw Background
-    - [ ] Draw Hand
+    - [x] Draw Hand
     - [x] Draw Rankings
     - [ ] Draw Cards
     - [x] Draw Contracts

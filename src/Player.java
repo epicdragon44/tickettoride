@@ -9,7 +9,7 @@ public class Player implements Comparable<Player>
 
 	private int trainsLeft;
 	private ArrayList<Contract> contracts;
-	private HashMap<Color, Integer> trainCards;
+	private HashMap<ColorType, Integer> trainCards;
 	
 	public Player(Color n)
 	{
@@ -18,15 +18,15 @@ public class Player implements Comparable<Player>
 		points=0;
 		trainsLeft=45;
 		contracts=new ArrayList<Contract>();
-		trainCards=new HashMap<Color, Integer>();
-		trainCards.put(Color.black, 0);
-		trainCards.put(Color.orange, 0);
-		trainCards.put(Color.red, 0);
-		trainCards.put(Color.blue, 0);
-		trainCards.put(Color.green, 0);
-		trainCards.put(Color.pink, 0);
-		trainCards.put(Color.white, 0);
-		trainCards.put(Color.yellow, 0);
+		trainCards=new HashMap<ColorType, Integer>();
+		trainCards.put(ColorType.BLACK, 0);
+		trainCards.put(ColorType.ORANGE, 0);
+		trainCards.put(ColorType.RED, 0);
+		trainCards.put(ColorType.BLUE, 0);
+		trainCards.put(ColorType.GREEN, 0);
+		trainCards.put(ColorType.PINK, 0);
+		trainCards.put(ColorType.WHITE, 0);
+		trainCards.put(ColorType.YELLOW, 0);
 		trainCards.put(null, 0);
 	}
 	
@@ -76,7 +76,7 @@ public class Player implements Comparable<Player>
 		}
 	}
 	
-	public HashMap<Color, Integer> getTrainCards()
+	public HashMap<ColorType, Integer> getTrainCards()
 	{
 		return trainCards;
 	}
@@ -86,7 +86,7 @@ public class Player implements Comparable<Player>
 		trainCards.put(train.getColor(),trainCards.get(train.getColor())+1);
 	}
 	
-	public ArrayList<TrainCard> placeTrains(int num, Color col)
+	public ArrayList<TrainCard> placeTrains(int num, ColorType col)
 	{
 		if(num==1||num==2)
 			addPoints(num);
