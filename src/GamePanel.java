@@ -188,7 +188,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void drawHand(Graphics g) {
 		Player currentPlayer = game.players[game.currentPlayer];
 
-		int topLeftX = 56;
+		int topLeftX = 75;
 		int topLeftY = 810;
 		int yShift = 10;
 		int xShift = 44;
@@ -224,6 +224,9 @@ public class GamePanel extends JPanel implements MouseListener {
 				}
 			}
 		}
+
+		g.setFont(new Font("Arial", Font.BOLD, 35));
+		g.drawString(currentPlayer.getTrainsLeft()+"", 160, 805);
 	}
 
 	public void drawRankings(Graphics g) {
