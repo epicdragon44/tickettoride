@@ -7,10 +7,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
@@ -20,7 +17,6 @@ public class GamePanel extends JPanel implements MouseListener {
 	private int lastRoundCount, stage;
 	private HashMap<String,String> abrevs;
 	private Node[] citySelect;
-	//different stages in chat
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -40,7 +36,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		citySelect=new Node[2];
 		contracts=game.drawContract();
 		abrevs=new HashMap<String,String>();
-		//make abrevs(need file)
 	}
 	
 	@Override
@@ -148,10 +143,6 @@ public class GamePanel extends JPanel implements MouseListener {
 			return null;
 	}
 
-	public void drawBoard(Graphics g) {
-
-	}
-
 	public void drawTracks(Graphics g) {
 
 	}
@@ -183,7 +174,47 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawHand(Graphics g) {
+		Player currentPlayer = game.players[game.currentPlayer];
 
+		int topLeftX = 75;
+		int topLeftY = 810;
+		int yShift = 10;
+		int xShift = 44;
+
+		HashMap<ColorType, Integer> map = currentPlayer.getTrainCards();
+
+		int i = -1;
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			i++;
+			int x = topLeftX+(xShift*i);
+			Map.Entry entry = (Map.Entry)it.next();
+			for (int j = 0; j < ((Integer)(entry.getValue())); j++) {
+				int y = topLeftY+(yShift*j);
+
+				String toAdd;
+				if (entry.getKey()==null)
+					toAdd = "rainbow";
+				else
+					toAdd = (entry.getKey()).toString();
+				String path = (toAdd+"train.png");
+				try {
+					BufferedImage img = ImageIO.read(new File(path));
+					g.drawImage(img, x, y, new ImageObserver() {
+						@Override
+						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+							return false;
+						}
+					});
+				} catch (IOException e) {
+					System.out.println("Error on drawing traincards");
+					e.printStackTrace();
+				}
+			}
+		}
+
+		g.setFont(new Font("Arial", Font.BOLD, 35));
+		g.drawString(currentPlayer.getTrainsLeft()+"", 160, 805);
 	}
 
 	public void drawRankings(Graphics g) {
