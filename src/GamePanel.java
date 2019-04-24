@@ -17,7 +17,6 @@ public class GamePanel extends JPanel implements MouseListener {
 	private int lastRoundCount, stage;
 	private HashMap<String,String> abrevs;
 	private Node[] citySelect;
-	//different stages in chat
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -37,7 +36,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		citySelect=new Node[2];
 		contracts=game.drawContract();
 		abrevs=new HashMap<String,String>();
-		//make abrevs(need file)
 	}
 	
 	@Override
@@ -90,6 +88,10 @@ public class GamePanel extends JPanel implements MouseListener {
         game.players[game.currentPlayer].getTrainCards().put(ColorType.GREEN, 5);
         game.players[game.currentPlayer].getTrainCards().put(ColorType.BLUE, 2);
         game.players[game.currentPlayer].getTrainCards().put(ColorType.ORANGE, 1);
+		game.players[game.currentPlayer].getTrainCards().put(ColorType.PINK, 1);
+		game.players[game.currentPlayer].getTrainCards().put(ColorType.WHITE, 1);
+		game.players[game.currentPlayer].getTrainCards().put(ColorType.RED, 1);
+		game.players[game.currentPlayer].getTrainCards().put(null, 3);
         drawHand(g);
 	}
 
@@ -201,8 +203,15 @@ public class GamePanel extends JPanel implements MouseListener {
 			Map.Entry entry = (Map.Entry)it.next();
 			for (int j = 0; j < ((Integer)(entry.getValue())); j++) {
 				int y = topLeftY+(yShift*j);
+
+				String toAdd;
+				if (entry.getKey()==null)
+					toAdd = "rainbow";
+				else
+					toAdd = (entry.getKey()).toString();
+				String path = (toAdd+"train.png");
 				try {
-					BufferedImage img = ImageIO.read(new File((entry.getKey()).toString()+"train.png"));
+					BufferedImage img = ImageIO.read(new File(path));
 					g.drawImage(img, x, y, new ImageObserver() {
 						@Override
 						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -210,6 +219,7 @@ public class GamePanel extends JPanel implements MouseListener {
 						}
 					});
 				} catch (IOException e) {
+					System.out.println("Error on drawing traincards");
 					e.printStackTrace();
 				}
 			}
