@@ -81,18 +81,6 @@ public class GamePanel extends JPanel implements MouseListener {
 			//draw game end background and fill shit in
 		}
 		//draw connections
-
-        //DANIEL TEST CODE
-        game.players[game.currentPlayer].getTrainCards().put(ColorType.BLACK, 14);
-        game.players[game.currentPlayer].getTrainCards().put(ColorType.YELLOW, 4);
-        game.players[game.currentPlayer].getTrainCards().put(ColorType.GREEN, 5);
-        game.players[game.currentPlayer].getTrainCards().put(ColorType.BLUE, 2);
-        game.players[game.currentPlayer].getTrainCards().put(ColorType.ORANGE, 1);
-		game.players[game.currentPlayer].getTrainCards().put(ColorType.PINK, 1);
-		game.players[game.currentPlayer].getTrainCards().put(ColorType.WHITE, 1);
-		game.players[game.currentPlayer].getTrainCards().put(ColorType.RED, 1);
-		game.players[game.currentPlayer].getTrainCards().put(null, 3);
-        drawHand(g);
 	}
 
 	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
