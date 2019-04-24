@@ -1,29 +1,32 @@
 import java.awt.Color;
 import java.util.*;
 
-public class Player 
+public class Player implements Comparable<Player>
 {
 	private String name;
 	private int points;
+	private Color c;
+
 	private int trainsLeft;
 	private ArrayList<Contract> contracts;
-	private HashMap<Color, Integer> trainCards;
+	private HashMap<ColorType, Integer> trainCards;
 	
-	public Player(String n)
+	public Player(Color n)
 	{
-		name=n;
+		this.c = n;
+		name = n.toString();
 		points=0;
 		trainsLeft=45;
 		contracts=new ArrayList<Contract>();
-		trainCards=new HashMap<Color, Integer>();
-		trainCards.put(Color.black, 0);
-		trainCards.put(Color.orange, 0);
-		trainCards.put(Color.red, 0);
-		trainCards.put(Color.blue, 0);
-		trainCards.put(Color.green, 0);
-		trainCards.put(Color.pink, 0);
-		trainCards.put(Color.white, 0);
-		trainCards.put(Color.yellow, 0);
+		trainCards=new HashMap<ColorType, Integer>();
+		trainCards.put(ColorType.BLACK, 0);
+		trainCards.put(ColorType.ORANGE, 0);
+		trainCards.put(ColorType.RED, 0);
+		trainCards.put(ColorType.BLUE, 0);
+		trainCards.put(ColorType.GREEN, 0);
+		trainCards.put(ColorType.PINK, 0);
+		trainCards.put(ColorType.WHITE, 0);
+		trainCards.put(ColorType.YELLOW, 0);
 		trainCards.put(null, 0);
 	}
 	
@@ -41,12 +44,15 @@ public class Player
 	{
 		points+=num;
 	}
-	
-	public int trainsLeft()
-	{
+
+	public int getTrainsLeft() {
 		return trainsLeft;
 	}
-	
+
+	public Color getColor() {
+		return c;
+	}
+
 	public ArrayList<Contract> getContract()
 	{
 		return contracts;
@@ -70,7 +76,7 @@ public class Player
 		}
 	}
 	
-	public HashMap<Color, Integer> getTrainCards()
+	public HashMap<ColorType, Integer> getTrainCards()
 	{
 		return trainCards;
 	}
@@ -80,7 +86,7 @@ public class Player
 		trainCards.put(train.getColor(),trainCards.get(train.getColor())+1);
 	}
 	
-	public ArrayList<TrainCard> placeTrains(int num, Color col)
+	public ArrayList<TrainCard> placeTrains(int num, ColorType col)
 	{
 		if(num==1||num==2)
 			addPoints(num);
@@ -108,11 +114,6 @@ public class Player
 		}
 		return rtn;
 	}
-	
-	public int getScore()
-	{
-		return points;
-	}
 
 	@Override
 	public boolean equals(Object obj) 
@@ -128,5 +129,10 @@ public class Player
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Player o) {
+		return o.points - this.points;
 	}
 }

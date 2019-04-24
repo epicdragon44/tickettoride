@@ -7,9 +7,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
@@ -19,7 +17,6 @@ public class GamePanel extends JPanel implements MouseListener {
 	private int lastRoundCount, stage;
 	private HashMap<String,String> abrevs;
 	private Node[] citySelect;
-	//different stages in chat
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -39,7 +36,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		citySelect=new Node[2];
 		contracts=game.drawContract();
 		abrevs=new HashMap<String,String>();
-		//make abrevs(need file)
 	}
 	
 	@Override
@@ -120,6 +116,7 @@ public class GamePanel extends JPanel implements MouseListener {
 			}
 		}
 	}
+
 	private void drawShiftedConnection(Node n1, Node n2, Graphics g, int yShift, int xShift) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
@@ -144,10 +141,6 @@ public class GamePanel extends JPanel implements MouseListener {
 			return duplicate.get(duplicate.indexOf(t));
 		else
 			return null;
-	}
-
-	public void drawBoard(Graphics g) {
-
 	}
 
 	public void drawTracks(Graphics g) {
@@ -181,11 +174,81 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawHand(Graphics g) {
+		Player currentPlayer = game.players[game.currentPlayer];
 
+		int topLeftX = 75;
+		int topLeftY = 810;
+		int yShift = 10;
+		int xShift = 44;
+
+		HashMap<ColorType, Integer> map = currentPlayer.getTrainCards();
+
+		int i = -1;
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			i++;
+			int x = topLeftX+(xShift*i);
+			Map.Entry entry = (Map.Entry)it.next();
+			for (int j = 0; j < ((Integer)(entry.getValue())); j++) {
+				int y = topLeftY+(yShift*j);
+
+				String toAdd;
+				if (entry.getKey()==null)
+					toAdd = "rainbow";
+				else
+					toAdd = (entry.getKey()).toString();
+				String path = (toAdd+"train.png");
+				try {
+					BufferedImage img = ImageIO.read(new File(path));
+					g.drawImage(img, x, y, new ImageObserver() {
+						@Override
+						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+							return false;
+						}
+					});
+				} catch (IOException e) {
+					System.out.println("Error on drawing traincards");
+					e.printStackTrace();
+				}
+			}
+		}
+
+		g.setFont(new Font("Arial", Font.BOLD, 35));
+		g.drawString(currentPlayer.getTrainsLeft()+"", 160, 805);
 	}
 
 	public void drawRankings(Graphics g) {
+        Player[] playerCopy = new Player[game.players.length];
+        for (int i = 0; i < game.players.length; i++)
+            playerCopy[i] = game.players[i];
+		Arrays.sort(playerCopy);
 
+		int topLeftX = 1235;
+		int topLeftY = 110;
+
+		int yShift = 100;
+
+		int boxWidth = 122;
+		int boxHeight = 39;
+
+		int contractX = 1444;
+		int trainCardX = 1545;
+		int trainX = 1669;
+
+		for (int i = 0; i < playerCopy.length; i++) {
+			int x = topLeftX;
+			int y = topLeftY+(i*yShift);
+
+			g.setColor(playerCopy[i].getColor());
+			g.fillRect(x, y+10, boxWidth, boxHeight);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g.drawString(playerCopy[i].getPoints()+"", x+30, y+40);
+			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+			g.drawString(playerCopy[i].getTrainCards().size()+"", trainCardX, y+40);
+			g.drawString(playerCopy[i].getContract().size()+"", contractX, y+40);
+			g.drawString(playerCopy[i].getTrainsLeft()+"", trainX, y+40);
+		}
 	}
 
 	public void drawCards(Graphics g) {
