@@ -88,6 +88,22 @@ public class Board {
 		}
 		return null;
 	}
+	
+	public Boolean isNodeEligible(int x,int y)
+	{
+		Node n=findNode(x,y);
+		if(n==null)
+			return null;
+		for(Track t:n.getConnections())
+			if(t.getPlayer()!=-1)
+				return true;
+		return false;
+	}
+	
+	public Boolean isNodeEligible(int x,int y,Node n)
+	{
+		//finish
+	}
 
 	//beginning of longest train algorithm ...
 	public Player findLongestTrainPlayer(Player[] players) {

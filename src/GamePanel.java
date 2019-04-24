@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		stage=0;
 		citySelect=new Node[2];
 		contracts=game.drawContract();
+		addMouseListener(this);
 	}
 	
 	@Override
@@ -296,14 +297,17 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(e.getX()+" "+e.getY());
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+	
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e)
+	{
 		//if game over
 		if(stage==6)
 		{

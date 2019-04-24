@@ -204,4 +204,16 @@ public class GameEngine {
 	public Node findNode(int x, int y) {
 		return gBoard.findNode(x, y);
 	}
+	
+	//for stage 1;draw green circle if true, draw red circle if false , don't draw anything if null
+	public Boolean isNodeEligible(int x,int y)
+	{
+		return gBoard.isNodeEligible(x,y);
+	}
+	
+	//for stage 4;draw green circle if true, draw red circle if false , don't draw anything if null
+	public Boolean isNodeEligible(int x,int y,Node n)
+	{
+		return gBoard.isNodeEligible(x,y,n);
+	}
 }
