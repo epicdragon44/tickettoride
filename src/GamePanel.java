@@ -88,26 +88,23 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void drawConnection(Node n1, Node n2, Graphics g) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
+				if (t.getPlayer()==-1) continue;
+
+				g.setColor(game.players[t.getPlayer()].getColor());
+
 				if (containsDuple(t, n1.getConnections())!=null) {
 					//todo: logic for duple tracks. Check which track the player has enough trains for and draw/place that one
 
-					/*Track orig = t;
+					Track orig = t;
 					Track newT = containsDuple(t, n1.getConnections());
 					if (orig.getTime()<newT.getTime()) {
-						if (orig.getColor().equals(c))
-							drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
-						else
-							drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, 7);
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
 					} else {
-						if (orig.getColor().equals(c))
-							drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
-						else
-							drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
 					}
-					return;*/
+					return;
 				}
 
-				g.setColor(game.players[t.getPlayer()].getColor());
 				int baseX1 = n1.getX();
 				int baseX2 = n2.getX();
 				int baseY1 = n1.getY();
