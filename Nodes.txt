@@ -30,7 +30,7 @@ Omaha 421 222
 Duluth Gray 2,Duluth Gray 2,Chicago Blue 4,Kansas_City Gray 1,Kansas_City Gray 1,Denver Pink 4,Helena Pink 5
 Chicago 548 197
 Duluth Red 3,Toronto White 4,Pittsburgh Orange 3,Pittsburgh Black 3,Saint_Louis Green 2,Saint_Louis White 2,Omaha Blue 4
-Pittsburgh 1163 721
+Pittsburgh 650 187
 Toronto Gray 2,New_York White 2,New_York Green 2,Washington Gray 2,Raleigh Gray 2,Nashville Yellow 4,Saint_Louis Green 5,Chicago Orange 3,Chicago Black 3
 New_York 727 148
 Montreal Blue 3,Boston Yellow 2,Boston Red 2,Washington Orange 2,Washington Black 2,Pittsburgh White 2,Pittsburgh Green 2

@@ -81,36 +81,37 @@ public class GamePanel extends JPanel implements MouseListener {
 			//draw game end background and fill shit in
 		}
 		//draw connections
+
+		//DANIEL TEST CODE
 	}
 
-	public void drawConnection(Node n1, Node n2, Graphics g, Color c) {
+	public void drawConnection(Node n1, Node n2, Graphics g) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
+				if (t.getPlayer()==-1) continue;
+
+				g.setColor(game.players[t.getPlayer()].getColor());
+
 				if (containsDuple(t, n1.getConnections())!=null) {
+					//todo: logic for duple tracks. Check which track the player has enough trains for and draw/place that one
+
 					Track orig = t;
 					Track newT = containsDuple(t, n1.getConnections());
 					if (orig.getTime()<newT.getTime()) {
-						if (orig.getColor().equals(c))
-							drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
-						else
-							drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, 7);
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
 					} else {
-						if (orig.getColor().equals(c))
-							drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
-						else
-							drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
 					}
 					return;
 				}
 
-				g.setColor(t.getColor());
 				int baseX1 = n1.getX();
 				int baseX2 = n2.getX();
 				int baseY1 = n1.getY();
 				int baseY2 = n2.getY();
 
 				Graphics2D g2 = (Graphics2D) g;
-				g2.setStroke(new BasicStroke(7, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+				g2.setStroke(new BasicStroke(9, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 
 				g2.drawLine(baseX1, baseY1, baseX2, baseY2);
 			}
@@ -127,7 +128,7 @@ public class GamePanel extends JPanel implements MouseListener {
 				int baseY2 = n2.getY()+yShift;
 
 				Graphics2D g2 = (Graphics2D) g;
-				g2.setStroke(new BasicStroke(7, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+				g2.setStroke(new BasicStroke(9, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 
 				g2.drawLine(baseX1, baseY1, baseX2, baseY2);
 			}
