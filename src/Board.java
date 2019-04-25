@@ -95,14 +95,20 @@ public class Board {
 		if(n==null)
 			return null;
 		for(Track t:n.getConnections())
-			if(t.getPlayer()!=-1)
+			if(t.getPlayer()==-1)
 				return true;
 		return false;
 	}
 	
 	public Boolean isNodeEligible(int x,int y,Node n)
 	{
-		//finish
+		Node node=findNode(x,y);
+		if(node==null)
+			return null;
+		for(Track t:n.getConnections())
+			if(t.getOtherNode(n).equals(node)&&t.getPlayer()==-1)
+				return true;
+		return false;
 	}
 
 	//beginning of longest train algorithm ...
@@ -139,7 +145,7 @@ public class Board {
 		ArrayList<Track> tracks = start.getConnections();
 		boolean available = false;
 		for (Track t : tracks) {
-			if (t.getOtherNode(start).equals(end) && (t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) {
+			if (t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
 				if (t.getPlayer() == -1) {
 					t.setPlayer(player);
 					available = true;
@@ -149,7 +155,7 @@ public class Board {
 		if (available) {
 			tracks = end.getConnections();
 			for (Track t : tracks) {
-				if (t.getOtherNode(start).equals(end) && (t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) {
+				if (t.getOtherNode(end).equals(start) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
 					if (t.getPlayer() == -1) {
 						t.setPlayer(player);
 						return true;
