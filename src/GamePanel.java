@@ -93,8 +93,6 @@ public class GamePanel extends JPanel implements MouseListener {
 				g.setColor(game.players[t.getPlayer()].getColor());
 
 				if (containsDuple(t, n1.getConnections())!=null) {
-					//todo: logic for duple tracks. Check which track the player has enough trains for and draw/place that one
-
 					Track orig = t;
 					Track newT = containsDuple(t, n1.getConnections());
 					if (orig.getTime()<newT.getTime()) {
