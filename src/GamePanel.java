@@ -15,7 +15,6 @@ public class GamePanel extends JPanel implements MouseListener {
 	private Font f;
 	private ArrayList<Contract> contracts;
 	private int lastRoundCount, stage;
-	private HashMap<String,String> abrevs;
 	private Node[] citySelect;
 
 	public GamePanel() throws Exception {
@@ -35,7 +34,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		stage=0;
 		citySelect=new Node[2];
 		contracts=game.drawContract();
-		abrevs=new HashMap<String,String>();
+		addMouseListener(this);
 	}
 	
 	@Override
@@ -68,6 +67,8 @@ public class GamePanel extends JPanel implements MouseListener {
 			{
 				//draw face ups(that are not null)
 			}
+			//if 1 city or 2 chosen cities
+				//highlight none null cities
 			//if last round > 1
 			if(lastRoundCount>1)
 			{
@@ -81,7 +82,7 @@ public class GamePanel extends JPanel implements MouseListener {
 			//draw game end background and fill shit in
 		}
 		//draw connections
-
+		drawRankings(g);
 		//DANIEL TEST CODE
 	}
 
@@ -239,12 +240,19 @@ public class GamePanel extends JPanel implements MouseListener {
 		for (int i = 0; i < playerCopy.length; i++) {
 			int x = topLeftX;
 			int y = topLeftY+(i*yShift);
-
+			
+			if(i==game.currentPlayer)
+			{
+				g.setColor(Color.black);
+				g.fillOval(x-40, y+15, 25, 25);
+				g.setColor(Color.white);
+				g.fillOval(x-38, y+17, 21, 20);
+			}
 			g.setColor(playerCopy[i].getColor());
 			g.fillRect(x, y+10, boxWidth, boxHeight);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString(playerCopy[i].getPoints()+"", x+30, y+40);
+			g.drawString(playerCopy[i].getPoints()+"", x+45, y+40);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
 			g.drawString(playerCopy[i].getTrainCards().size()+"", trainCardX, y+40);
 			g.drawString(playerCopy[i].getContract().size()+"", contractX, y+40);
@@ -289,14 +297,17 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(e.getX()+" "+e.getY());
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+	
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e)
+	{
 		//if game over
 		if(stage==6)
 		{
@@ -391,6 +402,7 @@ public class GamePanel extends JPanel implements MouseListener {
 					//if track not claimed
 						//alert for invalid input(must restart)
 					//else
+						//do animation thingy
 						//next player
 						//if last round > 0
 							//decrement last round
