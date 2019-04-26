@@ -11,8 +11,9 @@ import java.util.*;
 
 public class GamePanel extends JPanel implements MouseListener {
 	private GameEngine game;
-	private Color red, blue, yellow, green, dgreen, gray, gold;
+	private Color red, blue, yellow, green, dgreen, gray, gold, lblue;
 	private Font f;
+	Node gg;
 	private ArrayList<Contract> contracts;
 	private int lastRoundCount, stage;
 	private Node[] citySelect;
@@ -21,6 +22,9 @@ public class GamePanel extends JPanel implements MouseListener {
 		blue = new Color(98, 151, 255);
 		red = new Color(255, 88, 88);
 		yellow = Color.YELLOW;
+		gg = null;
+		int alpha = 127;
+		lblue = new Color(90, 255, 178, alpha);
 		green = new Color(105, 242, 105);
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
@@ -30,75 +34,74 @@ public class GamePanel extends JPanel implements MouseListener {
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
-		lastRoundCount=0;
-		stage=0;
-		citySelect=new Node[2];
-		contracts=game.drawContract();
+		lastRoundCount = 0;
+		stage = 0;
+		citySelect = new Node[2];
+		contracts = game.drawContract();
 		addMouseListener(this);
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 1000, 1000);
-		//if game not over
-		if(stage!=6) 
-		{
+
+		// if game not over
+		if (stage != 6) {
 			drawBackground(g);
-			//draw scoreboard(whose turn included) and hand
-			//if contract deck has cards
-			if(game.getNumContracts()!=0)
-			{
-				//draw contract deck
+			if (gg != null) {
+				g.setColor(lblue);
+				g.fillOval(gg.getX(), gg.getY(), 19, 19);
+				gg = null;
 			}
-			//if train deck has cards
-			if(game.haveTrainCards())
-			{
-				//draw train deck
+			// draw scoreboard(whose turn included) and hand
+			// if contract deck has cards
+			if (game.getNumContracts() != 0) {
+				// draw contract deck
 			}
-			//if contract mode or init game
-			if(stage==0||stage==3)
-			{
-				//draw contract selections(those that are not null)
+			// if train deck has cards
+			if (game.haveTrainCards()) {
+				// draw train deck
 			}
-			//else
-			else
-			{
-				//draw face ups(that are not null)
+			// if contract mode or init game
+			if (stage == 0 || stage == 3) {
+				// draw contract selections(those that are not null)
 			}
-			//if 1 city or 2 chosen cities
-				//highlight none null cities
-			//if last round > 1
-			if(lastRoundCount>1)
-			{
-				//warn that it is the last round(text above score board)
+			// else
+			else {
+				// draw face ups(that are not null)
 			}
-			//if we want, we can highlight selected cities
+			// if 1 city or 2 chosen cities
+			// highlight none null cities
+			// if last round > 1
+			if (lastRoundCount > 1) {
+				// warn that it is the last round(text above score board)
+			}
+			// if we want, we can highlight selected cities
 		}
-		//else
-		else
-		{
-			//draw game end background and fill shit in
+		// else
+		else {
+			// draw game end background and fill shit in
 		}
-		//draw connections
+		// draw connections
 		drawRankings(g);
-		//DANIEL TEST CODE
+		// DANIEL TEST CODE
 	}
 
 	public void drawConnection(Node n1, Node n2, Graphics g) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
-				if (t.getPlayer()==-1) continue;
+				if (t.getPlayer() == -1)
+					continue;
 
 				g.setColor(game.players[t.getPlayer()].getColor());
 
-				if (containsDuple(t, n1.getConnections())!=null) {
-					//todo: logic for duple tracks. Check which track the player has enough trains for and draw/place that one
+				if (containsDuple(t, n1.getConnections()) != null) {
+					// todo: logic for duple tracks. Check which track the player has enough trains
+					// for and draw/place that one
 
 					Track orig = t;
 					Track newT = containsDuple(t, n1.getConnections());
-					if (orig.getTime()<newT.getTime()) {
+					if (orig.getTime() < newT.getTime()) {
 						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
 					} else {
 						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
@@ -123,10 +126,10 @@ public class GamePanel extends JPanel implements MouseListener {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
 				g.setColor(t.getColor());
-				int baseX1 = n1.getX()+xShift;
-				int baseX2 = n2.getX()+xShift;
-				int baseY1 = n1.getY()+yShift;
-				int baseY2 = n2.getY()+yShift;
+				int baseX1 = n1.getX() + xShift;
+				int baseX2 = n2.getX() + xShift;
+				int baseY1 = n1.getY() + yShift;
+				int baseY2 = n2.getY() + yShift;
 
 				Graphics2D g2 = (Graphics2D) g;
 				g2.setStroke(new BasicStroke(9, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
@@ -135,6 +138,7 @@ public class GamePanel extends JPanel implements MouseListener {
 			}
 		}
 	}
+
 	private Track containsDuple(Track t, ArrayList<Track> tracks) {
 		ArrayList<Track> duplicate = new ArrayList<>();
 		duplicate.addAll(tracks);
@@ -189,17 +193,17 @@ public class GamePanel extends JPanel implements MouseListener {
 		Iterator it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			i++;
-			int x = topLeftX+(xShift*i);
-			Map.Entry entry = (Map.Entry)it.next();
-			for (int j = 0; j < ((Integer)(entry.getValue())); j++) {
-				int y = topLeftY+(yShift*j);
+			int x = topLeftX + (xShift * i);
+			Map.Entry entry = (Map.Entry) it.next();
+			for (int j = 0; j < ((Integer) (entry.getValue())); j++) {
+				int y = topLeftY + (yShift * j);
 
 				String toAdd;
-				if (entry.getKey()==null)
+				if (entry.getKey() == null)
 					toAdd = "rainbow";
 				else
 					toAdd = (entry.getKey()).toString();
-				String path = (toAdd+"train.png");
+				String path = (toAdd + "train.png");
 				try {
 					BufferedImage img = ImageIO.read(new File(path));
 					g.drawImage(img, x, y, new ImageObserver() {
@@ -216,13 +220,13 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 
 		g.setFont(new Font("Arial", Font.BOLD, 35));
-		g.drawString(currentPlayer.getTrainsLeft()+"", 160, 805);
+		g.drawString(currentPlayer.getTrainsLeft() + "", 160, 805);
 	}
 
 	public void drawRankings(Graphics g) {
-        Player[] playerCopy = new Player[game.players.length];
-        for (int i = 0; i < game.players.length; i++)
-            playerCopy[i] = game.players[i];
+		Player[] playerCopy = new Player[game.players.length];
+		for (int i = 0; i < game.players.length; i++)
+			playerCopy[i] = game.players[i];
 		Arrays.sort(playerCopy);
 
 		int topLeftX = 1235;
@@ -239,24 +243,23 @@ public class GamePanel extends JPanel implements MouseListener {
 
 		for (int i = 0; i < playerCopy.length; i++) {
 			int x = topLeftX;
-			int y = topLeftY+(i*yShift);
-			
-			if(i==game.currentPlayer)
-			{
+			int y = topLeftY + (i * yShift);
+
+			if (i == game.currentPlayer) {
 				g.setColor(Color.black);
-				g.fillOval(x-40, y+15, 25, 25);
+				g.fillOval(x - 40, y + 15, 25, 25);
 				g.setColor(Color.white);
-				g.fillOval(x-38, y+17, 21, 20);
+				g.fillOval(x - 38, y + 17, 21, 20);
 			}
 			g.setColor(playerCopy[i].getColor());
-			g.fillRect(x, y+10, boxWidth, boxHeight);
+			g.fillRect(x, y + 10, boxWidth, boxHeight);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString(playerCopy[i].getPoints()+"", x+45, y+40);
+			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 40);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-			g.drawString(playerCopy[i].getTrainCards().size()+"", trainCardX, y+40);
-			g.drawString(playerCopy[i].getContract().size()+"", contractX, y+40);
-			g.drawString(playerCopy[i].getTrainsLeft()+"", trainX, y+40);
+			g.drawString(playerCopy[i].getTrainCards().size() + "", trainCardX, y + 40);
+			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 40);
+			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 40);
 		}
 	}
 
@@ -276,56 +279,57 @@ public class GamePanel extends JPanel implements MouseListener {
 		int topLeftX = 600;
 		int topLeftY = 815;
 		int maxWidth = 550;
-		int numOfCols = size/modfactor+1;
-		int widthOfBox = (int)(maxWidth/(numOfCols+0.0));
+		int numOfCols = size / modfactor + 1;
+		int widthOfBox = (int) (maxWidth / (numOfCols + 0.0));
 		int heightOfBox = 27;
 
 		int staggerXCnt = 0;
 		for (int i = 0; i < size; i++) {
-			if (i!=0 && i%modfactor==0)
+			if (i != 0 && i % modfactor == 0)
 				staggerXCnt++;
 
-			Contract c = (Contract)iterator.next();
+			Contract c = (Contract) iterator.next();
 
-			int x = topLeftX + staggerXCnt*((maxWidth/(numOfCols)));
-			int y = topLeftY + ((i%modfactor) * heightOfBox);
+			int x = topLeftX + staggerXCnt * ((maxWidth / (numOfCols)));
+			int y = topLeftY + ((i % modfactor) * heightOfBox);
 			g.drawRect(x, y, widthOfBox, heightOfBox);
-			g.drawString(c.getStart()+" to "+c.getEnd(), x+5, y+heightOfBox/2+3);
-			g.drawString(c.getValue()+"", (x+widthOfBox)-15, y+heightOfBox/2+3);
+			g.drawString(c.getStart() + " to " + c.getEnd(), x + 5, y + heightOfBox / 2 + 3);
+			g.drawString(c.getValue() + "", (x + widthOfBox) - 15, y + heightOfBox / 2 + 3);
 		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX()+" "+e.getY());
+		System.out.println(e.getX() + " " + e.getY());
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-	
+
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-		//if game over
-		if(stage==6)
-		{
-			//return
+	public void mouseReleased(MouseEvent e) {
+		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
+			gg = game.getgBoard().findNode(e.getX(), e.getY());
+		}
+		// if game over
+		if (stage == 6) {
+			// return
 			return;
 		}
-		//else if init game
-		else if(stage==0)
-		{
-			//if contract selected and index is not greater than size and contract at index is not null
-				//give contract at index to player
-				//turn index to null in array list(determine with coord bash)
-			//if done clicked and at least one null in list
-				//if current player is 3
-					//change to default stage
-				//else
-					//reset the contracts list
-				//next player
+		// else if init game
+		else if (stage == 0) {
+			// if contract selected and index is not greater than size and contract at index
+			// is not null
+			// give contract at index to player
+			// turn index to null in array list(determine with coord bash)
+			// if done clicked and at least one null in list
+			// if current player is 3
+			// change to default stage
+			// else
+			// reset the contracts list
+			// next player
 		}
 		//else if default stage
 		else if(stage==1)
@@ -354,41 +358,40 @@ public class GamePanel extends JPanel implements MouseListener {
 				stage=4;
 			}
 		}
-		//else if 1 train card stage
-		else if(stage==2)
-		{
-			//if no train cards left and table deck only has wild and nulls
-				//change to default stage
-				//next player
-				//if last round > 0
-					//decrement last round
-			//else if train deck clicked and have traincards left
-				//give card
-				//change to default stage
-				//next player
-				//if last round > 0
-					//decrement last round
-			//else if face up clicked and chosen card isn't null
-				//give them card(method won't give card if invalid)
-				//if given card is wild
-					//alert of illegal action
-				//else
-					//change to default stage
-					//next player
-					//if last round > 0
-						//decrement last round
+		// else if 1 train card stage
+		else if (stage == 2) {
+			// if no train cards left and table deck only has wild and nulls
+			// change to default stage
+			// next player
+			// if last round > 0
+			// decrement last round
+			// else if train deck clicked and have traincards left
+			// give card
+			// change to default stage
+			// next player
+			// if last round > 0
+			// decrement last round
+			// else if face up clicked and chosen card isn't null
+			// give them card(method won't give card if invalid)
+			// if given card is wild
+			// alert of illegal action
+			// else
+			// change to default stage
+			// next player
+			// if last round > 0
+			// decrement last round
 		}
-		//else if contract selection stage
-		else if(stage==3)
-		{
-			//if contract selected and index is not greater than size and contract at index is not null
-				//give contract at index to player
-				//turn index to null in array list(determine with coord bash)
-			//if done clicked and at least one null in list
-				//change to default stage
-				//next player
-				//if last round > 0
-					//decrement last round
+		// else if contract selection stage
+		else if (stage == 3) {
+			// if contract selected and index is not greater than size and contract at index
+			// is not null
+			// give contract at index to player
+			// turn index to null in array list(determine with coord bash)
+			// if done clicked and at least one null in list
+			// change to default stage
+			// next player
+			// if last round > 0
+			// decrement last round
 		}
 		//else if 1 city chosen stage
 		else if(stage==4)
@@ -428,24 +431,23 @@ public class GamePanel extends JPanel implements MouseListener {
 			//if stack is wild stack
 				//alert invalid input(must click on actual color)
 		}
-		//if gamestate says it is last round and last round is 0
-		if(game.lastRound()&&lastRoundCount==0)
-		{
-			//set last round to 5
-			lastRoundCount=5;
+		// if gamestate says it is last round and last round is 0
+		if (game.lastRound() && lastRoundCount == 0) {
+			// set last round to 5
+			lastRoundCount = 5;
 		}
-		//if last round is 1
-		if(lastRoundCount==1)
-		{
-			//change to end game stage
-			stage=6;
+		// if last round is 1
+		if (lastRoundCount == 1) {
+			// change to end game stage
+			stage = 6;
 		}
-		//repaint
+		// repaint
 		repaint();
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		
 	}
 
 	@Override
