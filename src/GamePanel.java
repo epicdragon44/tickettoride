@@ -345,8 +345,14 @@ public class GamePanel extends JPanel implements MouseListener {
 				//set contracts to draw contracts
 				//change to contract selection stage
 			//else if city clicked
+			Node n=game.findNode(e.getX(),e.getY());
+			/*else*/if(n!=null)
+			{
 				//set 0th pos of Node arr to city clicked
+				citySelect[0]=n;
 				//change to 1 city picked stage
+				stage=4;
+			}
 		}
 		//else if 1 train card stage
 		else if(stage==2)
@@ -387,26 +393,40 @@ public class GamePanel extends JPanel implements MouseListener {
 		//else if 1 city chosen stage
 		else if(stage==4)
 		{
+			Node n=game.findNode(e.getX(),e.getY());
 			//if city clicked on
+			if(n!=null)
+			{
 				//set pos 1 of node array to clicked on city
+				citySelect[1]=n;
 				//change to 2 cities chosen stage
+				stage=5;
+			}
 		}
 		//else if 2 cities selected stage
 		else if(stage==5)
 		{
 			//if color stack clicked
-				//if stack is wild stack
-					//alert invalid input(must click on actual color)
+			if()
+			{
+				//try to claim track
+				//if track not claimed
+				if()
+				{
+					//alert for invalid input(must restart)
+				}
 				//else
-					//try to claim track
-					//if track not claimed
-						//alert for invalid input(must restart)
-					//else
-						//do animation thingy
-						//next player
-						//if last round > 0
-							//decrement last round
-					//change to default stage
+				else
+				{
+					//do animation thingy
+					//next player
+					//if last round > 0
+						//decrement last round
+				}
+				//change to default stage
+			}
+			//if stack is wild stack
+				//alert invalid input(must click on actual color)
 		}
 		//if gamestate says it is last round and last round is 0
 		if(game.lastRound()&&lastRoundCount==0)

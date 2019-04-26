@@ -121,7 +121,7 @@ public class Board {
 	}
 
 	private void resetVisitedTracks() {
-
+		
 	}
 
 	private void visit(Node n, int cnt, List<Track> visited, Player p) {
