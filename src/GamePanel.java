@@ -83,12 +83,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		//draw connections
 
 		//DANIEL TEST CODE
-		game.getTable()[0] = new TrainCard(ColorType.RED, false);
-		game.getTable()[1] = new TrainCard(ColorType.YELLOW, false);
-		game.getTable()[2] = new TrainCard(ColorType.BLUE, false);
-		game.getTable()[3] = new TrainCard(ColorType.BLACK, false);
-		game.getTable()[4] = new TrainCard(ColorType.BLACK, false);
-		drawTable(g);
 	}
 
 	public void drawConnection(Node n1, Node n2, Graphics g) {
@@ -153,7 +147,28 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawDecks(Graphics g) {
-
+		try {
+			BufferedImage backgroundImg = ImageIO.read(new File("contractcard.png"));
+			g.drawImage(backgroundImg, 1460, 500, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			BufferedImage backgroundImg = ImageIO.read(new File("traincard.png"));
+			g.drawImage(backgroundImg, 1210, 500, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void drawCities(Graphics g) {
