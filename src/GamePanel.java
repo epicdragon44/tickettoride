@@ -173,47 +173,44 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	public void drawHand(Graphics g) {
-		Player currentPlayer = game.players[game.currentPlayer];
-
 		int topLeftX = 75;
 		int topLeftY = 810;
-		int yShift = 10;
-		int xShift = 44;
+		int xShift = 100;
 
-		HashMap<ColorType, Integer> map = currentPlayer.getTrainCards();
-
-		int i = -1;
-		Iterator it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			i++;
+		for (int i = 0; i < game.getTable().length; i++) {
 			int x = topLeftX+(xShift*i);
-			Map.Entry entry = (Map.Entry)it.next();
-			for (int j = 0; j < ((Integer)(entry.getValue())); j++) {
-				int y = topLeftY+(yShift*j);
+			int y = topLeftY;
 
-				String toAdd;
-				if (entry.getKey()==null)
-					toAdd = "rainbow";
-				else
-					toAdd = (entry.getKey()).toString();
-				String path = (toAdd+"train.png");
-				try {
-					BufferedImage img = ImageIO.read(new File(path));
-					g.drawImage(img, x, y, new ImageObserver() {
-						@Override
-						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-							return false;
-						}
-					});
-				} catch (IOException e) {
-					System.out.println("Error on drawing traincards");
-					e.printStackTrace();
-				}
+			String toAdd;
+			if (game.getTable()[i]==null)
+				toAdd = "rainbow";
+			else
+				toAdd = game.getTable()[i].getColor().toString();
+			String path = (toAdd+"train.png");
+			try {
+				BufferedImage img = ImageIO.read(new File(path));
+				img = resize(img, img.getWidth()*2, img.getHeight()*2);
+				g.drawImage(img, x, y, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			} catch (IOException e) {
+				System.out.println("Error on drawing traincards");
+				e.printStackTrace();
 			}
 		}
+	}
+	private static BufferedImage resize(BufferedImage img, int newW, int newH) {
+		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
-		g.setFont(new Font("Arial", Font.BOLD, 35));
-		g.drawString(currentPlayer.getTrainsLeft()+"", 160, 805);
+		Graphics2D g2d = dimg.createGraphics();
+		g2d.drawImage(tmp, 0, 0, null);
+		g2d.dispose();
+
+		return dimg;
 	}
 
 	public void drawRankings(Graphics g) {
@@ -250,8 +247,21 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 	}
 
-	public void drawCards(Graphics g) {
-
+	public void drawTable(Graphics g) {
+		TrainCard[] table = game.getTable();
+		for (TrainCard t : table) {
+			try {
+				BufferedImage backgroundImg = ImageIO.read(new File("Background.png"));
+				g.drawImage(backgroundImg, 0, 0, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void drawContracts(Graphics g) {
