@@ -38,7 +38,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		stage=0;
 		citySelect=new Node[2];
 		contracts=game.drawContract();
-		abrevs=new HashMap<>();
 		lastRoundCount = 0;
 		stage = 0;
 		citySelect = new Node[2];
@@ -76,7 +75,7 @@ public class GamePanel extends JPanel implements MouseListener {
 				// draw face ups(that are not null)
 			}
 			// if 1 city or 2 chosen cities
-			// highlight none null cities
+				// highlight none null cities
 			// if last round > 1
 			if (lastRoundCount > 1) {
 				// warn that it is the last round(text above score board)
@@ -355,7 +354,8 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 
 	}
-
+	
+	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
@@ -368,16 +368,23 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 		// else if init game
 		else if (stage == 0) {
-			// if contract selected and index is not greater than size and contract at index
-			// is not null
-			// give contract at index to player
-			// turn index to null in array list(determine with coord bash)
-			// if done clicked and at least one null in list
-			// if current player is 3
-			// change to default stage
-			// else
-			// reset the contracts list
-			// next player
+			// if contract selected
+			if()
+			{
+				// find index
+				// if index is not greater than size and contracts at index not null
+					// give contract at index to player
+					// turn index to null in array list(determine with coord bash)
+			}
+			// else if done clicked and at least one null in list
+			else if()
+			{
+				if(game.currentPlayer==3)
+					stage=1;
+				else
+					contracts=game.drawContract();
+				game.nextPlayer();
+			}
 		}
 		//else if default stage
 		else if(stage==1)
@@ -398,7 +405,7 @@ public class GamePanel extends JPanel implements MouseListener {
 				//change to contract selection stage
 			//else if city clicked
 			Node n=game.findNode(e.getX(),e.getY());
-			/*else*/if(n!=null)
+			else if(n!=null)
 			{
 				//set 0th pos of Node arr to city clicked
 				citySelect[0]=n;
@@ -409,37 +416,37 @@ public class GamePanel extends JPanel implements MouseListener {
 		// else if 1 train card stage
 		else if (stage == 2) {
 			// if no train cards left and table deck only has wild and nulls
-			// change to default stage
-			// next player
-			// if last round > 0
-			// decrement last round
+				// change to default stage
+				// next player
+				// if last round > 0
+					// decrement last round
 			// else if train deck clicked and have traincards left
-			// give card
-			// change to default stage
-			// next player
-			// if last round > 0
-			// decrement last round
+				// give card
+				// change to default stage
+				// next player
+				// if last round > 0
+					// decrement last round
 			// else if face up clicked and chosen card isn't null
-			// give them card(method won't give card if invalid)
-			// if given card is wild
-			// alert of illegal action
-			// else
-			// change to default stage
-			// next player
-			// if last round > 0
-			// decrement last round
+				// give them card(method won't give card if invalid)
+				// if given card is wild
+					// alert of illegal action
+				// else
+					// change to default stage
+					// next player
+					// if last round > 0
+						// decrement last round
 		}
 		// else if contract selection stage
 		else if (stage == 3) {
 			// if contract selected and index is not greater than size and contract at index
-			// is not null
-			// give contract at index to player
-			// turn index to null in array list(determine with coord bash)
+				// is not null
+				// give contract at index to player
+				// turn index to null in array list(determine with coord bash)
 			// if done clicked and at least one null in list
-			// change to default stage
-			// next player
-			// if last round > 0
-			// decrement last round
+				// change to default stage
+				// next player
+				// if last round > 0
+					// decrement last round
 		}
 		//else if 1 city chosen stage
 		else if(stage==4)
@@ -471,10 +478,10 @@ public class GamePanel extends JPanel implements MouseListener {
 				{
 					//do animation thingy
 					//next player
+					//change to default stage
 					//if last round > 0
 						//decrement last round
 				}
-				//change to default stage
 			}
 			//if stack is wild stack
 				//alert invalid input(must click on actual color)
@@ -491,6 +498,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 		// repaint
 		repaint();
+		*/
 	}
 
 	@Override
