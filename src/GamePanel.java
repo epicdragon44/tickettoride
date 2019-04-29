@@ -3,13 +3,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class GamePanel extends JPanel implements MouseListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	private GameEngine game;
 	private Color red, blue, yellow, green, dgreen, gray, gold, lblue;
 	private Font f;
@@ -34,16 +35,16 @@ public class GamePanel extends JPanel implements MouseListener {
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
-		lastRoundCount=0;
-		stage=0;
-		citySelect=new Node[2];
-		contracts=game.drawContract();
-		abrevs=new HashMap<>();
+		lastRoundCount = 0;
+		stage = 0;
+		citySelect = new Node[2];
+		contracts = game.drawContract();
 		lastRoundCount = 0;
 		stage = 0;
 		citySelect = new Node[2];
 		contracts = game.drawContract();
 		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 
 	@Override
@@ -233,6 +234,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.setFont(new Font("Arial", Font.BOLD, 35));
 		g.drawString(currentPlayer.getTrainsLeft() + "", 160, 805);
 	}
+
 	private static BufferedImage resize(BufferedImage img, int newW, int newH) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
@@ -290,18 +292,18 @@ public class GamePanel extends JPanel implements MouseListener {
 		int xShift = 100;
 
 		for (int i = 0; i < game.getTable().length; i++) {
-			int x = topLeftX+(xShift*i);
+			int x = topLeftX + (xShift * i);
 			int y = topLeftY;
 
 			String toAdd;
-			if (game.getTable()[i]==null)
+			if (game.getTable()[i] == null)
 				toAdd = "rainbow";
 			else
 				toAdd = game.getTable()[i].getColor().toString();
-			String path = (toAdd+"train.png");
+			String path = (toAdd + "train.png");
 			try {
 				BufferedImage img = ImageIO.read(new File(path));
-				img = resize(img, img.getWidth()*2, img.getHeight()*2);
+				img = resize(img, img.getWidth() * 2, img.getHeight() * 2);
 				g.drawImage(img, x, y, new ImageObserver() {
 					@Override
 					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -358,9 +360,9 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
-			gg = game.getgBoard().findNode(e.getX(), e.getY());
-		}
+//		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
+//			gg = game.getgBoard().findNode(e.getX(), e.getY());
+//		}
 		// if game over
 		if (stage == 6) {
 			// return
@@ -379,31 +381,29 @@ public class GamePanel extends JPanel implements MouseListener {
 			// reset the contracts list
 			// next player
 		}
-		//else if default stage
-		else if(stage==1)
-		{
-			//if train deck clicked and have traincards left
-				//give card to player
-				//change to one train card stage
-			//else if face up clicked and chosen card isn't null
-				//give them card
-				//if given card is wild
-					//next player
-					//if last round > 0
-						//decrement last round
-				//else
-					//change to one train card stage
-			//else if contract deck clicked and have contracts left
-				//set contracts to draw contracts
-				//change to contract selection stage
-			//else if city clicked
-			Node n=game.findNode(e.getX(),e.getY());
-			/*else*/if(n!=null)
-			{
-				//set 0th pos of Node arr to city clicked
-				citySelect[0]=n;
-				//change to 1 city picked stage
-				stage=4;
+		// else if default stage
+		else if (stage == 1) {
+			// if train deck clicked and have traincards left
+			// give card to player
+			// change to one train card stage
+			// else if face up clicked and chosen card isn't null
+			// give them card
+			// if given card is wild
+			// next player
+			// if last round > 0
+			// decrement last round
+			// else
+			// change to one train card stage
+			// else if contract deck clicked and have contracts left
+			// set contracts to draw contracts
+			// change to contract selection stage
+			// else if city clicked
+			Node n = game.findNode(e.getX(), e.getY());
+			/* else */if (n != null) {
+				// set 0th pos of Node arr to city clicked
+				citySelect[0] = n;
+				// change to 1 city picked stage
+				stage = 4;
 			}
 		}
 		// else if 1 train card stage
@@ -441,44 +441,41 @@ public class GamePanel extends JPanel implements MouseListener {
 			// if last round > 0
 			// decrement last round
 		}
-		//else if 1 city chosen stage
-		else if(stage==4)
-		{
-			Node n=game.findNode(e.getX(),e.getY());
-			//if city clicked on
-			if(n!=null)
-			{
-				//set pos 1 of node array to clicked on city
-				citySelect[1]=n;
-				//change to 2 cities chosen stage
-				stage=5;
+		// else if 1 city chosen stage
+		else if (stage == 4) {
+			Node n = game.findNode(e.getX(), e.getY());
+			// if city clicked on
+			if (n != null) {
+				// set pos 1 of node array to clicked on city
+				citySelect[1] = n;
+				// change to 2 cities chosen stage
+				stage = 5;
 			}
 		}
-		//else if 2 cities selected stage
-		else if(stage==5)
-		{
-			//if color stack clicked
-			if()
+		// else if 2 cities selected stage
+		else if (stage == 5) {
+			// if color stack clicked
+			// if()
+			// {
+			// try to claim track
+			// if track not claimed
+			// if()
 			{
-				//try to claim track
-				//if track not claimed
-				if()
-				{
-					//alert for invalid input(must restart)
-				}
-				//else
-				else
-				{
-					//do animation thingy
-					//next player
-					//if last round > 0
-						//decrement last round
-				}
-				//change to default stage
+				// alert for invalid input(must restart)
 			}
-			//if stack is wild stack
-				//alert invalid input(must click on actual color)
+			// else
+			// else
+			{
+				// do animation thingy
+				// next player
+				// if last round > 0
+				// decrement last round
+			}
+			// change to default stage
 		}
+		// if stack is wild stack
+		// alert invalid input(must click on actual color)
+		// }
 		// if gamestate says it is last round and last round is 0
 		if (game.lastRound() && lastRoundCount == 0) {
 			// set last round to 5
@@ -495,10 +492,23 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
+
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
+			gg = game.getgBoard().findNode(e.getX(), e.getY());
+		}
+		repaint();
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 }
