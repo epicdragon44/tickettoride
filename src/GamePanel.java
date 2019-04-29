@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		stage=0;
 		citySelect=new Node[2];
 		contracts=game.drawContract();
-		abrevs=new HashMap<String,String>();
+		abrevs=new HashMap<>();
 	}
 	
 	@Override
@@ -142,10 +142,6 @@ public class GamePanel extends JPanel implements MouseListener {
 			return null;
 	}
 
-	public void drawTracks(Graphics g) {
-
-	}
-
 	public void drawDecks(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("contractcard.png"));
@@ -169,14 +165,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void drawCities(Graphics g) {
-
-	}
-
-	public void drawNumbers(Graphics g) {
-
 	}
 
 	public void drawBackground(Graphics g) {
