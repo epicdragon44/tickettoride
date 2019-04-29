@@ -34,6 +34,11 @@ public class GamePanel extends JPanel implements MouseListener {
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
+		lastRoundCount=0;
+		stage=0;
+		citySelect=new Node[2];
+		contracts=game.drawContract();
+		abrevs=new HashMap<>();
 		lastRoundCount = 0;
 		stage = 0;
 		citySelect = new Node[2];
@@ -96,9 +101,6 @@ public class GamePanel extends JPanel implements MouseListener {
 				g.setColor(game.players[t.getPlayer()].getColor());
 
 				if (containsDuple(t, n1.getConnections()) != null) {
-					// todo: logic for duple tracks. Check which track the player has enough trains
-					// for and draw/place that one
-
 					Track orig = t;
 					Track newT = containsDuple(t, n1.getConnections());
 					if (orig.getTime() < newT.getTime()) {
@@ -149,20 +151,29 @@ public class GamePanel extends JPanel implements MouseListener {
 			return null;
 	}
 
-	public void drawTracks(Graphics g) {
-
-	}
-
 	public void drawDecks(Graphics g) {
-
-	}
-
-	public void drawCities(Graphics g) {
-
-	}
-
-	public void drawNumbers(Graphics g) {
-
+		try {
+			BufferedImage backgroundImg = ImageIO.read(new File("contractcard.png"));
+			g.drawImage(backgroundImg, 1460, 500, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			BufferedImage backgroundImg = ImageIO.read(new File("traincard.png"));
+			g.drawImage(backgroundImg, 1210, 500, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void drawBackground(Graphics g) {
@@ -222,6 +233,16 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.setFont(new Font("Arial", Font.BOLD, 35));
 		g.drawString(currentPlayer.getTrainsLeft() + "", 160, 805);
 	}
+	private static BufferedImage resize(BufferedImage img, int newW, int newH) {
+		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D g2d = dimg.createGraphics();
+		g2d.drawImage(tmp, 0, 0, null);
+		g2d.dispose();
+
+		return dimg;
+	}
 
 	public void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
@@ -263,8 +284,35 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 	}
 
-	public void drawCards(Graphics g) {
+	public void drawTable(Graphics g) {
+		int topLeftX = 1190;
+		int topLeftY = 775;
+		int xShift = 100;
 
+		for (int i = 0; i < game.getTable().length; i++) {
+			int x = topLeftX+(xShift*i);
+			int y = topLeftY;
+
+			String toAdd;
+			if (game.getTable()[i]==null)
+				toAdd = "rainbow";
+			else
+				toAdd = game.getTable()[i].getColor().toString();
+			String path = (toAdd+"train.png");
+			try {
+				BufferedImage img = ImageIO.read(new File(path));
+				img = resize(img, img.getWidth()*2, img.getHeight()*2);
+				g.drawImage(img, x, y, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			} catch (IOException e) {
+				System.out.println("Error on drawing traincards");
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void drawContracts(Graphics g) {
