@@ -187,7 +187,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void drawBackground(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("Background.png"));
-			g.drawImage(backgroundImg, 0, 0, new ImageObserver() {
+			g.drawImage(backgroundImg, 5, 5, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					return false;
@@ -196,6 +196,25 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		g.setColor(Color.LIGHT_GRAY);
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+		g2.drawRect(5, 5, 1165, 750);
+
+		g2.setColor(Color.GRAY);
+		g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+		g2.drawRect(3, 3, 1170, 755);
+
+		int bound = 600; //screw around with this to get content drawn to fit
+
+		g2.drawRect(3, 758, bound, 240);
+
+		g2.drawRect(bound+5, 758, 1168-bound, 240);
+
+		g2.drawRect(1175, 2, 575, 995);
 	}
 
 	public void drawHand(Graphics g) {
@@ -494,7 +513,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			stage = 6;
 		}
 		// repaint
-		repaint();
+		repaint();*/
 	}
 
 	@Override
