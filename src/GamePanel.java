@@ -12,7 +12,7 @@ import java.util.*;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	private GameEngine game;
-	private Color red, blue, yellow, green, dgreen, gray, gold, lblue;
+	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private Font f;
 	Node gg;
 	private ArrayList<Contract> contracts;
@@ -26,6 +26,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		gg = null;
 		int alpha = 127;
 		lblue = new Color(90, 255, 178, alpha);
+		lred = new Color(255, 65, 65, alpha);
+		lgreen = new Color(102, 255, 108, alpha);
 		green = new Color(105, 242, 105);
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
@@ -55,9 +57,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
-				g.setColor(lblue);
-				g.fillOval(gg.getX(), gg.getY(), 19, 19);
-				gg = null;
+				if (game.isNodeEligible(gg.getX(), gg.getY()) != null) {
+					if (game.isNodeEligible(gg.getX(), gg.getY()))
+						g.setColor(lgreen);
+					else
+						g.setColor(lred);
+					g.fillOval(gg.getX(), gg.getY(), 19, 19);
+					gg = null;
+				}
 			}
 			// draw scoreboard(whose turn included) and hand
 			// if contract deck has cards
