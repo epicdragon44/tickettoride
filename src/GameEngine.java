@@ -149,7 +149,7 @@ public class GameEngine {
 			{
 				players[currentPlayer].drawTrainCards(rtn);
 				if(!haveTrainCards())
-					tableDeck[pos]=tDeck.draw();
+					tableDeck[pos]=null;
 				else
 					tableDeck[pos]=tDeck.draw();
 			}
