@@ -361,12 +361,8 @@ public class GamePanel extends JPanel implements MouseListener {
 		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
 		}
-		// if game over
-		if (stage == 6) {
-			// return
+		if (stage == 6)
 			return;
-		}
-		// else if init game
 		else if (stage == 0) {
 			// if contract selected
 			if()
@@ -386,47 +382,62 @@ public class GamePanel extends JPanel implements MouseListener {
 				game.nextPlayer();
 			}
 		}
-		//else if default stage
 		else if(stage==1)
 		{
 			//if train deck clicked and have traincards left
+			if()
+			{
 				//give card to player
 				//change to one train card stage
+			}
 			//else if face up clicked and chosen card isn't null
+			else if()
+			{
 				//give them card
 				//if given card is wild
-					//next player
-					//if last round > 0
-						//decrement last round
-				//else
-					//change to one train card stage
+				if()
+				{
+					game.nextPlayer();
+					if(lastRoundCount > 0)
+						lastRoundCount--;
+				}
+				else
+					stage=2;
+			}
 			//else if contract deck clicked and have contracts left
-				//set contracts to draw contracts
-				//change to contract selection stage
-			//else if city clicked
-			Node n=game.findNode(e.getX(),e.getY());
-			else if(n!=null)
+			else if()
 			{
-				//set 0th pos of Node arr to city clicked
+				contracts=game.drawContract();
+				stage=3;
+			}
+			Node n=game.findNode(e.getX(),e.getY());
+			else if(n!=null&&game.isNodeEligible(e.getX(), e.getY()))
+			{
 				citySelect[0]=n;
-				//change to 1 city picked stage
 				stage=4;
 			}
 		}
-		// else if 1 train card stage
 		else if (stage == 2) {
 			// if no train cards left and table deck only has wild and nulls
+			if()
+			{
 				// change to default stage
 				// next player
 				// if last round > 0
 					// decrement last round
+			}
 			// else if train deck clicked and have traincards left
+			else if()
+			{
 				// give card
 				// change to default stage
 				// next player
 				// if last round > 0
 					// decrement last round
+			}
 			// else if face up clicked and chosen card isn't null
+			else if()
+			{
 				// give them card(method won't give card if invalid)
 				// if given card is wild
 					// alert of illegal action
@@ -435,70 +446,66 @@ public class GamePanel extends JPanel implements MouseListener {
 					// next player
 					// if last round > 0
 						// decrement last round
+			}
 		}
-		// else if contract selection stage
 		else if (stage == 3) {
 			// if contract selected and index is not greater than size and contract at index
-				// is not null
-				// give contract at index to player
-				// turn index to null in array list(determine with coord bash)
+			if()
+			{
+				// if is not null
+					// give contract at index to player
+					// turn index to null in array list(determine with coord bash)
+			}
 			// if done clicked and at least one null in list
+			if()
+			{
 				// change to default stage
 				// next player
 				// if last round > 0
 					// decrement last round
+			}
 		}
-		//else if 1 city chosen stage
 		else if(stage==4)
 		{
 			Node n=game.findNode(e.getX(),e.getY());
-			//if city clicked on
-			if(n!=null)
+			if(n!=null&&game.isNodeEligible(e.getX(), e.getY(), citySelect[0]))
 			{
-				//set pos 1 of node array to clicked on city
 				citySelect[1]=n;
-				//change to 2 cities chosen stage
 				stage=5;
 			}
 		}
-		//else if 2 cities selected stage
 		else if(stage==5)
 		{
+			ColorType stack=null;
 			//if color stack clicked
-			if()
+			if(stack!=null)
 			{
 				//try to claim track
 				//if track not claimed
-				if()
+				if(game.placeTrains())
 				{
 					//alert for invalid input(must restart)
 				}
-				//else
 				else
 				{
 					//do animation thingy
-					//next player
-					//change to default stage
-					//if last round > 0
-						//decrement last round
+					game.nextPlayer();
+					stage=1;
+					if(lastRoundCount>0)
+						lastRoundCount--;
 				}
 			}
 			//if stack is wild stack
+			if()
+			{
 				//alert invalid input(must click on actual color)
+			}
 		}
-		// if gamestate says it is last round and last round is 0
-		if (game.lastRound() && lastRoundCount == 0) {
-			// set last round to 5
+		if (game.lastRound() && lastRoundCount == 0)
 			lastRoundCount = 5;
-		}
-		// if last round is 1
-		if (lastRoundCount == 1) {
-			// change to end game stage
+		if (lastRoundCount == 1)
 			stage = 6;
-		}
-		// repaint
 		repaint();
-		*/
 	}
 
 	@Override
