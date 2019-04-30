@@ -297,7 +297,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if (i == game.currentPlayer) {
 				g.setColor(Color.black);
 				g.fillOval(x - 40, y + 15, 25, 25);
-				g.setColor(Color.white);
+				g.setColor(Color.WHITE);
 				g.fillOval(x - 38, y + 17, 21, 20);
 			}
 			g.setColor(playerCopy[i].getColor());
@@ -306,10 +306,19 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
 			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 40);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-			g.drawString(playerCopy[i].getTrainCards().size() + "", trainCardX, y + 40);
+			g.drawString(getActualSize(playerCopy[i].getTrainCards()) + "", trainCardX, y + 40);
 			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 40);
 			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 40);
 		}
+	}
+	private int getActualSize(HashMap<ColorType, Integer> map) {
+		int count = 0;
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<ColorType, Integer> next = (Map.Entry<ColorType, Integer>) it.next();
+			count+=next.getValue();
+		}
+		return count;
 	}
 
 	public void drawTable(Graphics g) {
@@ -513,7 +522,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			stage = 6;
 		}
 		// repaint
-		repaint();*/
+		repaint();
 	}
 
 	@Override
