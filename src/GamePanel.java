@@ -1,9 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -272,6 +271,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		return dimg;
 	}
 
+	private int xLeader = 1237;
+	private int yLeader = 0;
 	public void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
 		for (int i = 0; i < game.players.length; i++)
@@ -295,21 +296,40 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			int y = topLeftY + (i * yShift);
 
 			if (i == game.currentPlayer) {
-				g.setColor(Color.black);
-				g.fillOval(x - 40, y + 15, 25, 25);
+				Timer timer = new Timer(70, new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (yLeader != y) {
+							moveBall();
+							repaint();
+						}
+						else {
+							xLeader = x;
+							yLeader = y;
+						}
+					}
+				});
+				timer.start();
+
 				g.setColor(Color.WHITE);
-				g.fillOval(x - 38, y + 17, 21, 20);
+				g.setColor(new Color(255, 255, 255, 125));
+
+				g.fillRoundRect(xLeader-25, yLeader, 500, 75, 25, 25);
 			}
+			g.setColor(Color.DARK_GRAY);
+			g.drawRoundRect(x, y + 15, boxWidth, boxHeight, 10, 10);
 			g.setColor(playerCopy[i].getColor());
-			g.fillRect(x, y + 10, boxWidth, boxHeight);
+			g.fillRoundRect(x, y + 15, boxWidth, boxHeight, 10, 10);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 40);
+			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 45);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-			g.drawString(getActualSize(playerCopy[i].getTrainCards()) + "", trainCardX, y + 40);
-			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 40);
-			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 40);
+			g.drawString(getActualSize(playerCopy[i].getTrainCards()) + "", trainCardX, y + 45);
+			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 45);
+			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 45);
 		}
+	}
+	protected void moveBall() {
+		yLeader++;
 	}
 	private int getActualSize(HashMap<ColorType, Integer> map) {
 		int count = 0;
