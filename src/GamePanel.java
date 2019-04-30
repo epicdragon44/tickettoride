@@ -513,7 +513,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			stage = 6;
 		}
 		// repaint
-		repaint();*/
+		repaint();
 	}
 
 	@Override
