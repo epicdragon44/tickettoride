@@ -1,9 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -32,7 +31,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
-		game = new GameEngine();
+		game = new GameEngine(this);
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
@@ -272,6 +271,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		return dimg;
 	}
 
+	private int xLeader = 1237;
+	private int yLeader = 0;
+	protected boolean moving = true;
 	public void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
 		for (int i = 0; i < game.players.length; i++)
@@ -295,21 +297,31 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			int y = topLeftY + (i * yShift);
 
 			if (i == game.currentPlayer) {
-				g.setColor(Color.black);
-				g.fillOval(x - 40, y + 15, 25, 25);
+				startAnimationTimer();
+
 				g.setColor(Color.WHITE);
-				g.fillOval(x - 38, y + 17, 21, 20);
+				g.setColor(new Color(255, 255, 255, 125));
+
+				g.fillRoundRect(xLeader-25, yLeader, 500, 75, 25, 25);
 			}
+			g.setColor(Color.DARK_GRAY);
+			g.drawRoundRect(x, y + 15, boxWidth, boxHeight, 10, 10);
 			g.setColor(playerCopy[i].getColor());
-			g.fillRect(x, y + 10, boxWidth, boxHeight);
+			g.fillRoundRect(x, y + 15, boxWidth, boxHeight, 10, 10);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 40);
+			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 45);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-			g.drawString(getActualSize(playerCopy[i].getTrainCards()) + "", trainCardX, y + 40);
-			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 40);
-			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 40);
+			g.drawString(getActualSize(playerCopy[i].getTrainCards()) + "", trainCardX, y + 45);
+			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 45);
+			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 45);
 		}
+	}
+	private void moveBox(boolean down) {
+		if (down)
+			yLeader+=1;
+		else
+			yLeader-=1;
 	}
 	private int getActualSize(HashMap<ColorType, Integer> map) {
 		int count = 0;
@@ -386,11 +398,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
+
+		//DANIEL TEST CODE BEGINS
+		game.nextPlayer();
+		//DANIEL TEST CODE ENDS
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 	}
 
 	@Override
@@ -527,7 +542,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -543,7 +557,28 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	}
 
+	public void startAnimationTimer() {
+		Timer animateTimer = new Timer(70, new MoveBox());
+		animateTimer.start();
+		this.moving = true;
+		this.repaint();
+	}
+	class MoveBox implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			int targety = 110 + (game.currentPlayer * 100);
+			if (moving) {
+				if (yLeader < targety) {
+					moveBox(true);
+					repaint();
+				} else if (yLeader > targety) {
+					moveBox(false);
+					repaint();
+				} else {
+					moving = false;
+				}
+			}
+		}
 	}
 }
