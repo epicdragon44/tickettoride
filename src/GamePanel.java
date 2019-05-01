@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
-		game = new GameEngine();
+		game = new GameEngine(this);
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
@@ -273,6 +273,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	private int xLeader = 1237;
 	private int yLeader = 0;
+	protected boolean moving = true;
 	public void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
 		for (int i = 0; i < game.players.length; i++)
@@ -296,19 +297,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			int y = topLeftY + (i * yShift);
 
 			if (i == game.currentPlayer) {
-				Timer timer = new Timer(70, new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (yLeader != y) {
-							moveBall();
-							repaint();
-						}
-						else {
-							xLeader = x;
-							yLeader = y;
-						}
-					}
-				});
-				timer.start();
+				startAnimationTimer();
 
 				g.setColor(Color.WHITE);
 				g.setColor(new Color(255, 255, 255, 125));
@@ -328,8 +317,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 45);
 		}
 	}
-	protected void moveBall() {
-		yLeader++;
+	private void moveBox(boolean down) {
+		if (down)
+			yLeader+=1;
+		else
+			yLeader-=1;
 	}
 	private int getActualSize(HashMap<ColorType, Integer> map) {
 		int count = 0;
@@ -406,11 +398,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
+
+		//DANIEL TEST CODE BEGINS
+		game.nextPlayer();
+		//DANIEL TEST CODE ENDS
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 	}
 
 	@Override
@@ -547,7 +542,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -563,7 +557,28 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	}
 
+	public void startAnimationTimer() {
+		Timer animateTimer = new Timer(70, new MoveBox());
+		animateTimer.start();
+		this.moving = true;
+		this.repaint();
+	}
+	class MoveBox implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			int targety = 110 + (game.currentPlayer * 100);
+			if (moving) {
+				if (yLeader < targety) {
+					moveBox(true);
+					repaint();
+				} else if (yLeader > targety) {
+					moveBox(false);
+					repaint();
+				} else {
+					moving = false;
+				}
+			}
+		}
 	}
 }
