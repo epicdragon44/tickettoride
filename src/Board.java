@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Board {
-	private Node[] cities;
+	public Node[] cities;
 	private boolean found;
 	private int maxLen;
 	private Player bestPlayer;
@@ -20,7 +20,7 @@ public class Board {
 		ArrayList<String[]> cons=new ArrayList<String[]>();
 		while (sc.hasNextLine()) {
 			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			Node node = new Node(st.nextToken(), (int) (Integer.parseInt(st.nextToken()) * 1.5), (int) (Integer.parseInt(st.nextToken()) * 1.5));
+			Node node = new Node(st.nextToken(), (int) (Integer.parseInt(st.nextToken()) ), (int) (Integer.parseInt(st.nextToken())));
 			cons.add(sc.nextLine().split(","));
 			cities[cnt++] = node;
 		}

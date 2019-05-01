@@ -71,7 +71,9 @@ public class GameEngine {
 	
 	public boolean haveTrainCards()
 	{
-		return !tDeck.needsReset()&&trashDeck.size()!=0;
+		if(tDeck.needsReset())
+			return trashDeck.size()!=0;
+		return true;
 	}
 	
 	public TrainCard[] getTable()
