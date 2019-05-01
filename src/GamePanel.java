@@ -272,7 +272,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	private int xLeader = 1237;
-	private int yLeader = 0;
+	private int yLeader = 110;
 	protected boolean moving = true;
 	public void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
