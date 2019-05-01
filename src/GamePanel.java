@@ -407,7 +407,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
+		/*if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
 		}
 		if (stage == 6)
@@ -554,7 +554,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			lastRoundCount = 5;
 		if (lastRoundCount == 1)
 			stage = 6;
-		repaint();
+		repaint();*/
 	}
 
 	@Override
