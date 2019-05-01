@@ -1,17 +1,17 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class GamePanel extends JPanel implements MouseListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	private GameEngine game;
-	private Color red, blue, yellow, green, dgreen, gray, gold, lblue;
+	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private Font f;
 	Node gg;
 	private ArrayList<Contract> contracts;
@@ -25,24 +25,23 @@ public class GamePanel extends JPanel implements MouseListener {
 		gg = null;
 		int alpha = 127;
 		lblue = new Color(90, 255, 178, alpha);
+		lred = new Color(255, 65, 65, alpha);
+		lgreen = new Color(102, 255, 108, alpha);
 		green = new Color(105, 242, 105);
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
-		game = new GameEngine();
+		game = new GameEngine(this);
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
-		lastRoundCount=0;
-		stage=0;
-		citySelect=new Node[2];
-		contracts=game.drawContract();
 		lastRoundCount = 0;
 		stage = 0;
 		citySelect = new Node[2];
 		contracts = game.drawContract();
 		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 
 	@Override
@@ -53,9 +52,14 @@ public class GamePanel extends JPanel implements MouseListener {
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
-				g.setColor(lblue);
-				g.fillOval(gg.getX(), gg.getY(), 19, 19);
-				gg = null;
+				if (game.isNodeEligible(gg.getX(), gg.getY()) != null) {
+					if (game.isNodeEligible(gg.getX(), gg.getY()))
+						g.setColor(lgreen);
+					else
+						g.setColor(lred);
+					g.fillOval(gg.getX(), gg.getY(), 19, 19);
+					gg = null;
+				}
 			}
 			// draw scoreboard(whose turn included) and hand
 			// if contract deck has cards
@@ -178,7 +182,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void drawBackground(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("Background.png"));
-			g.drawImage(backgroundImg, 0, 0, new ImageObserver() {
+			g.drawImage(backgroundImg, 5, 5, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					return false;
@@ -187,6 +191,25 @@ public class GamePanel extends JPanel implements MouseListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		g.setColor(Color.LIGHT_GRAY);
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+		g2.drawRect(5, 5, 1165, 750);
+
+		g2.setColor(Color.GRAY);
+		g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+
+		g2.drawRect(3, 3, 1170, 755);
+
+		int bound = 600; //screw around with this to get content drawn to fit
+
+		g2.drawRect(3, 758, bound, 240);
+
+		g2.drawRect(bound+5, 758, 1168-bound, 240);
+
+		g2.drawRect(1175, 2, 575, 995);
 	}
 
 	public void drawHand(Graphics g) {
@@ -232,6 +255,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.setFont(new Font("Arial", Font.BOLD, 35));
 		g.drawString(currentPlayer.getTrainsLeft() + "", 160, 805);
 	}
+
 	private static BufferedImage resize(BufferedImage img, int newW, int newH) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
@@ -243,6 +267,9 @@ public class GamePanel extends JPanel implements MouseListener {
 		return dimg;
 	}
 
+	private int xLeader = 1237;
+	private int yLeader = 110;
+	protected boolean moving = true;
 	public void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
 		for (int i = 0; i < game.players.length; i++)
@@ -266,21 +293,40 @@ public class GamePanel extends JPanel implements MouseListener {
 			int y = topLeftY + (i * yShift);
 
 			if (i == game.currentPlayer) {
-				g.setColor(Color.black);
-				g.fillOval(x - 40, y + 15, 25, 25);
-				g.setColor(Color.white);
-				g.fillOval(x - 38, y + 17, 21, 20);
+				startAnimationTimer();
+
+				g.setColor(Color.WHITE);
+				g.setColor(new Color(255, 255, 255, 125));
+
+				g.fillRoundRect(xLeader-25, yLeader, 500, 75, 25, 25);
 			}
+			g.setColor(Color.DARK_GRAY);
+			g.drawRoundRect(x, y + 15, boxWidth, boxHeight, 10, 10);
 			g.setColor(playerCopy[i].getColor());
-			g.fillRect(x, y + 10, boxWidth, boxHeight);
+			g.fillRoundRect(x, y + 15, boxWidth, boxHeight, 10, 10);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 40);
+			g.drawString(playerCopy[i].getPoints() + "", x + 45, y + 45);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-			g.drawString(playerCopy[i].getTrainCards().size() + "", trainCardX, y + 40);
-			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 40);
-			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 40);
+			g.drawString(getActualSize(playerCopy[i].getTrainCards()) + "", trainCardX, y + 45);
+			g.drawString(playerCopy[i].getContract().size() + "", contractX, y + 45);
+			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 45);
 		}
+	}
+	private void moveBox(boolean down) {
+		if (down)
+			yLeader+=1;
+		else
+			yLeader-=1;
+	}
+	private int getActualSize(HashMap<ColorType, Integer> map) {
+		int count = 0;
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<ColorType, Integer> next = (Map.Entry<ColorType, Integer>) it.next();
+			count+=next.getValue();
+		}
+		return count;
 	}
 
 	public void drawTable(Graphics g) {
@@ -289,18 +335,18 @@ public class GamePanel extends JPanel implements MouseListener {
 		int xShift = 100;
 
 		for (int i = 0; i < game.getTable().length; i++) {
-			int x = topLeftX+(xShift*i);
+			int x = topLeftX + (xShift * i);
 			int y = topLeftY;
 
 			String toAdd;
-			if (game.getTable()[i]==null)
+			if (game.getTable()[i] == null)
 				toAdd = "rainbow";
 			else
 				toAdd = game.getTable()[i].getColor().toString();
-			String path = (toAdd+"train.png");
+			String path = (toAdd + "train.png");
 			try {
 				BufferedImage img = ImageIO.read(new File(path));
-				img = resize(img, img.getWidth()*2, img.getHeight()*2);
+				img = resize(img, img.getWidth() * 2, img.getHeight() * 2);
 				g.drawImage(img, x, y, new ImageObserver() {
 					@Override
 					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -348,11 +394,14 @@ public class GamePanel extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
+
+		//DANIEL TEST CODE BEGINS
+		game.nextPlayer();
+		//DANIEL TEST CODE ENDS
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 	}
 	
 	
@@ -510,10 +559,43 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
+			gg = game.getgBoard().findNode(e.getX(), e.getY());
+		}
+		repaint();
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+	}
+
+	public void startAnimationTimer() {
+		Timer animateTimer = new Timer(70, new MoveBox());
+		animateTimer.start();
+		this.moving = true;
+		this.repaint();
+	}
+	class MoveBox implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			int targety = 110 + (game.currentPlayer * 100);
+			if (moving) {
+				if (yLeader < targety) {
+					moveBox(true);
+					repaint();
+				} else if (yLeader > targety) {
+					moveBox(false);
+					repaint();
+				} else {
+					moving = false;
+				}
+			}
+		}
 	}
 }

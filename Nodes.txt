@@ -1,44 +1,44 @@
-Vancouver 57 55
+Vancouver 58 57
 Seattle Gray 1,Seattle Gray 1,Calgary Gray 3
-Calgary 165 41
+Calgary 167 42
 Vancouver Gray 3,Seattle Gray 4,Winnipeg White 6,Helena Gray 4
-Winnipeg 352 50
+Winnipeg 354 51
 Calgary White 6,Helena Blue 4,Duluth Black 4,Sault_St._Marie Gray 6
-Sault_St._Marie 552 91
+Sault_St._Marie 554 93
 Winnipeg Gray 6,Duluth Gray 3, Montreal Black 5, Toronto Gray 2
-Montreal 712 36
+Montreal 714 38
 Sault_St._Marie Black 5,Toronto Gray 3,New_York Blue 3,Boston Gray 2,Boston Gray 2
-Seattle 53 101
+Seattle 55 103
 Vancouver Gray 1,Vancover Gray 1,Calgary Gray 4,Helena Yellow 6,Portland Gray 1,Portland Gray 1
-Helena 249 150
+Helena 251 153
 Calgary Gray 4,Winnipeg Blue 4,Duluth Orange 6,Omaha Orange 5,Denver Green 4,Salt_Lake_City Pink 3,Portland Yellow 6
-Duluth 445 146
+Duluth 448 148
 Winnipeg Black 4,Sault_St._Marie Gray 3,Toronto Pink 6,Chicago Red 3,Omaha Gray 2,Omaha Gray 2,Helena Orange 6
-Toronto 643 109
+Toronto 644 111
 Sault_St._Marie Gray 2,Montreal Gray 3,Pittsburgh Gray 2,Chicago White 4,Duluth Pink 6
-Boston 771 85
+Boston 773 87
 Montreal Gray 2,Montreal Gray 2,New York Yellow 2,New York Red 2
-Portland 35 143
+Portland 38 146
 Seattle Gray 1,Seattle Gray 1,Salt_Lake_City Blue 6,San_Francisco Green 6,San_Francisco Pink 6
-San_Francisco 24 307
+San_Francisco 26 309
 Portland Green 5,Portland Pink 5,Salt_Lake_City Orange 5,Salt_Lake_City White 5,Los_Angeles Pink 3,Los_Angeles Yellow 3
-Salt_Lake_City 189 254
+Salt_Lake_City 191 256
 Portland Blue 6,Helena Pink 3,Denver Red 3,Denver Yellow 3,Las_Vegas Orange 3,San_Francisco Orange 5,San_Francisco White 5
-Denver 298 280
+Denver 299 282
 Helena Green 4,Omaha Pink 4,Kansas_City Black 4,Kansas_City Orange 4,Oklahoma_City Red 4,Santa_Fe Gray 2,Phoenix White 5,Salt_Lake_City Red 3,Salt_Lake_City Yellow 3
-Omaha 421 222
+Omaha 422 225
 Duluth Gray 2,Duluth Gray 2,Chicago Blue 4,Kansas_City Gray 1,Kansas_City Gray 1,Denver Pink 4,Helena Pink 5
-Chicago 548 197
+Chicago 550 200
 Duluth Red 3,Toronto White 4,Pittsburgh Orange 3,Pittsburgh Black 3,Saint_Louis Green 2,Saint_Louis White 2,Omaha Blue 4
-Pittsburgh 656 183
+Pittsburgh 659 187
 Toronto Gray 2,New_York White 2,New_York Green 2,Washington Gray 2,Raleigh Gray 2,Nashville Yellow 4,Saint_Louis Green 5,Chicago Orange 3,Chicago Black 3
-New_York 727 148
+New_York 729 150
 Montreal Blue 3,Boston Yellow 2,Boston Red 2,Washington Orange 2,Washington Black 2,Pittsburgh White 2,Pittsburgh Green 2
-Washington 735 223
+Washington 737 225
 New_York Orange 2,New_York Black 2,Pittsburgh Gray 2,Raleigh Gray 2,Raleigh Gray 2
-Saint_Louis 511 266
+Saint_Louis 512 268
 Chicago Green 2,Chicago White 2,Pittsburgh Green 5,Nashville Gray 2,Oklahoma_City Gray 2,Kansas_City Blue 2,Kansas_City Pink 2
-Kansas_City 437 265
+Kansas_City 440 267
 Omaha Gray 2,Omaha Gray 2,Saint_Louis Blue 2,Saint_Louis Pink 2,Oklahoma_City Gray 2,Oklahoma_City Gray 2,Denver Black 4,Denver Orange 4
 Raleigh 685 279
 Pittsburgh Gray 2,Washington Gray 2,Washington Gray 2,Charleston Gray 2,Atlanta Gray 2,Atlanta Gray 2,Nashville Black 3
