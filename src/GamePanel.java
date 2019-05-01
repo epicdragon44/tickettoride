@@ -48,7 +48,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		// if game not over
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
@@ -61,76 +60,67 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					gg = null;
 				}
 			}
-			// draw scoreboard(whose turn included) and hand
-			// if contract deck has cards
-			if (game.getNumContracts() != 0) {
-				// draw contract deck
-			}
-			// if train deck has cards
-			if (game.haveTrainCards()) {
-				// draw train deck
-			}
-			// if contract mode or init game
+			drawRankings(g);
+			drawHand(g);
+			if (game.getNumContracts() != 0)
+				drawCDeck(g);
+			if (game.haveTrainCards())
+				drawTDeck(g);
 			if (stage == 0 || stage == 3) {
 				// draw contract selections(those that are not null)
 			}
-			// else
-			else {
-				// draw face ups(that are not null)
-			}
-			// if 1 city or 2 chosen cities
+			else
+				drawTable(g);
+			if(stage==4||stage==5){
 				// highlight none null cities
-			// if last round > 1
-			if (lastRoundCount > 1) {
-				// warn that it is the last round(text above score board)
 			}
-			// if we want, we can highlight selected cities
+			if (lastRoundCount > 1) {
+				g.setColor(Color.RED);
+				g.setFont(f);
+				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
+			}
 		}
-		// else
 		else {
 			// draw game end background and fill shit in
 		}
-		// draw connections
-		drawRankings(g);
-		// DANIEL TEST CODE
+		for(Node city:game.getgBoard().cities)
+			drawConnections(city,g);
 	}
 
-	public void drawConnection(Node n1, Node n2, Graphics g) {
+	public void drawConnections(Node n1, Graphics g) {
 		for (Track t : n1.getConnections()) {
-			if (t.getOtherNode(n1).equals(n2)) {
-				if (t.getPlayer() == -1)
-					continue;
+			if (t.getPlayer() == -1)
+				continue;
 
-				g.setColor(game.players[t.getPlayer()].getColor());
+			g.setColor(game.players[t.getPlayer()].getColor());
 
-				if (containsDuple(t, n1.getConnections()) != null) {
-					Track orig = t;
-					Track newT = containsDuple(t, n1.getConnections());
-					if (orig.getTime() < newT.getTime()) {
-						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
-					} else {
-						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
-					}
-					return;
+			if (containsDuple(t, n1.getConnections()) != null) {
+				Track orig = t;
+				Track newT = containsDuple(t, n1.getConnections());
+				if (orig.getTime() < newT.getTime()) {
+					drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
+				} else {
+					drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
 				}
-
-				int baseX1 = n1.getX();
-				int baseX2 = n2.getX();
-				int baseY1 = n1.getY();
-				int baseY2 = n2.getY();
-
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setStroke(new BasicStroke(9, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-
-				g2.drawLine(baseX1, baseY1, baseX2, baseY2);
+				return;
 			}
+
+			int baseX1 = n1.getX();
+			int baseX2 = t.getOtherNode(n1).getX();
+			int baseY1 = n1.getY();
+			int baseY2 = t.getOtherNode(n1).getY();
+
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(9, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+
+			g2.drawLine(baseX1, baseY1, baseX2, baseY2);
 		}
 	}
 
 	private void drawShiftedConnection(Node n1, Node n2, Graphics g, int yShift, int xShift) {
 		for (Track t : n1.getConnections()) {
 			if (t.getOtherNode(n1).equals(n2)) {
-				g.setColor(t.getColor());
+				g.setColor(game.players[t.getPlayer()].getColor());
 				int baseX1 = n1.getX() + xShift;
 				int baseX2 = n2.getX() + xShift;
 				int baseY1 = n1.getY() + yShift;
@@ -154,7 +144,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			return null;
 	}
 
-	public void drawDecks(Graphics g) {
+	public void drawCDeck(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("contractcard.png"));
 			g.drawImage(backgroundImg, 1460, 500, new ImageObserver() {
@@ -166,6 +156,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void drawTDeck(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("traincard.png"));
 			g.drawImage(backgroundImg, 1210, 500, new ImageObserver() {
@@ -340,6 +333,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 			String toAdd;
 			if (game.getTable()[i] == null)
+				continue;
+			else if(game.getTable()[i].getColor() == null)
 				toAdd = "rainbow";
 			else
 				toAdd = game.getTable()[i].getColor().toString();
@@ -396,7 +391,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		System.out.println(e.getX() + " " + e.getY());
 
 		//DANIEL TEST CODE BEGINS
-		game.nextPlayer();
+		//game.nextPlayer();
 		//DANIEL TEST CODE ENDS
 	}
 
@@ -404,7 +399,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mousePressed(MouseEvent e) {
 	}
 	
-	
+	public void mouseReleased(MouseEvent e) {}
+	/*
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		/*if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
@@ -556,6 +552,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			stage = 6;
 		repaint();*/
 	}
+	*/
 
 	@Override
 	public void mouseEntered(MouseEvent e) {

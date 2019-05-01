@@ -23,8 +23,8 @@ public class Node {
 	}
 
 	public void addConnection(Node n, Color color, int cost) {
-		this.connections.add(new Track(this, n, color, cost, System.nanoTime()));
-		n.connections.add(new Track(this, n, color, cost, System.nanoTime()));
+		this.connections.add(new Track(this, n, color, cost, System.nanoTime(),1));
+		n.connections.add(new Track(this, n, color, cost, System.nanoTime(),1));
 	}
 
 	public boolean contains(int x, int y) {
