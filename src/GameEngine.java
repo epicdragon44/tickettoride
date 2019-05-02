@@ -76,6 +76,14 @@ public class GameEngine {
 		return true;
 	}
 	
+	public boolean haveTable()
+	{
+		for(TrainCard t:tableDeck)
+			if(t!=null&&t.getColor()!=null)
+				return false;
+		return true;
+	}
+	
 	public TrainCard[] getTable()
 	{
 		return tableDeck;
