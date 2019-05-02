@@ -399,7 +399,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mousePressed(MouseEvent e) {
 	}
 	
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
 	/*
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -552,7 +552,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			stage = 6;
 		repaint();*/
 	}
-	*/
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
