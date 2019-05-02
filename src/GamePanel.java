@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private ArrayList<Contract> contracts;
 	private int lastRoundCount, stage;
 	private Node[] citySelect;
+	private int[] endData;
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -37,7 +38,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 		lastRoundCount = 0;
-		stage = 0;
+		stage = 1;
 		citySelect = new Node[2];
 		contracts = game.drawContract();
 		addMouseListener(this);
@@ -51,16 +52,23 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
-				if (game.isNodeEligible(gg.getX(), gg.getY()) != null) {
+				if (stage==1&&game.isNodeEligible(gg.getX(), gg.getY()) != null) {
 					if (game.isNodeEligible(gg.getX(), gg.getY()))
 						g.setColor(lgreen);
 					else
 						g.setColor(lred);
-					g.fillOval(gg.getX(), gg.getY(), 19, 19);
-					gg = null;
+					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
+				}
+				else if (stage==4&&game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null) {
+					if (game.isNodeEligible(gg.getX(), gg.getY(),citySelect[0]))
+						g.setColor(lgreen);
+					else
+						g.setColor(lred);
+					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
 				}
 			}
 			drawRankings(g);
+			drawContracts(g);
 			drawHand(g);
 			if (game.getNumContracts() != 0)
 				drawCDeck(g);
@@ -72,7 +80,20 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			else
 				drawTable(g);
 			if(stage==4||stage==5){
-				// highlight none null cities
+				if(citySelect[0]!=null)
+				{
+					g.setColor(new Color(249,204,22));
+					g.fillOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
+					g.setColor(Color.BLACK);
+					g.drawOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
+				}
+				if(citySelect[1]!=null)
+				{
+					g.setColor(new Color(249,204,22));
+					g.fillOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
+					g.setColor(Color.BLACK);
+					g.drawOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
+				}
 			}
 			if (lastRoundCount > 1) {
 				g.setColor(Color.RED);
@@ -81,7 +102,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 		}
 		else {
-			// draw game end background and fill shit in
+			drawEndGame(g);
 		}
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,g);
@@ -142,6 +163,42 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			return duplicate.get(duplicate.indexOf(t));
 		else
 			return null;
+	}
+	
+	public void drawContractSelect(Graphics g)
+	{
+		Font font=new Font("Arial Narrow", Font.ITALIC, 20);
+		int xA=1300;
+		int yA=700;
+		for(int i=0;i<contracts.size();i++)
+		{
+			if(contracts.get(i)==null)
+				continue;
+			g.drawRect(xA, yA+i*80, 350, 60);
+			String text=contracts.get(i).getStart()+" to "+contracts.get(i).getEnd();
+			FontMetrics metrics = g.getFontMetrics(font);
+		    int x = xA + (350 - metrics.stringWidth(text)) / 2;
+		    int y = (yA+i*80) + ((30 - metrics.getHeight()) / 2) + metrics.getAscent();
+		    g.setColor(Color.LIGHT_GRAY);
+		    g.setFont(font);
+		    g.drawString(text, x, y);
+		    x = xA + (350 - metrics.stringWidth(text)) / 2;
+		    y = (yA+30+i*80) + ((30 - metrics.getHeight()) / 2) + metrics.getAscent();
+		    g.setColor(Color.LIGHT_GRAY);
+		    g.setFont(font);
+		    g.drawString(text, x, y);
+		}
+		g.setColor(new Color(57,229,109));
+		g.fillRoundRect(1435, 980, 80, 40, 10, 10);
+		g.setColor(Color.black);
+		g.drawRoundRect(1435, 980, 80, 40, 10, 10);
+		font=new Font("Arial Narrow", Font.BOLD+Font.ITALIC, 20);
+		FontMetrics metrics = g.getFontMetrics(font);
+	    int x = 1435 + (80 - metrics.stringWidth("Done")) / 2;
+	    int y = 980 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
+	    g.setColor(Color.LIGHT_GRAY);
+	    g.setFont(font);
+	    g.drawString("Done", x, y);
 	}
 
 	public void drawCDeck(Graphics g) {
@@ -205,6 +262,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g2.drawRect(1175, 2, 575, 995);
 	}
 
+	public void drawEndGame(Graphics g)
+	{
+		
+	}
 	public void drawHand(Graphics g) {
 		Player currentPlayer = game.players[game.currentPlayer];
 
@@ -323,36 +384,76 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void drawTable(Graphics g) {
-		int topLeftX = 1190;
-		int topLeftY = 775;
-		int xShift = 100;
-
-		for (int i = 0; i < game.getTable().length; i++) {
-			int x = topLeftX + (xShift * i);
-			int y = topLeftY;
-
-			String toAdd;
-			if (game.getTable()[i] == null)
-				continue;
-			else if(game.getTable()[i].getColor() == null)
-				toAdd = "rainbow";
-			else
-				toAdd = game.getTable()[i].getColor().toString();
-			String path = (toAdd + "train.png");
-			try {
-				BufferedImage img = ImageIO.read(new File(path));
-				img = resize(img, img.getWidth() * 2, img.getHeight() * 2);
-				g.drawImage(img, x, y, new ImageObserver() {
-					@Override
-					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-						return false;
-					}
-				});
-			} catch (IOException e) {
-				System.out.println("Error on drawing traincards");
-				e.printStackTrace();
-			}
+		try {
+			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[0])));
+			g.drawImage(img, 1252, 705, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			System.out.println("Error on drawing traincards");
+			e.printStackTrace();
 		}
+		try {
+			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[1])));
+			g.drawImage(img, 1519, 705, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			System.out.println("Error on drawing traincards");
+			e.printStackTrace();
+		}
+		try {
+			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[2])));
+			g.drawImage(img, 1385, 825, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			System.out.println("Error on drawing traincards");
+			e.printStackTrace();
+		}
+		try {
+			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[3])));
+			g.drawImage(img, 1252, 952, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			System.out.println("Error on drawing traincards");
+			e.printStackTrace();
+		}
+		try {
+			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
+			g.drawImage(img, 1519, 952, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			System.out.println("Error on drawing traincards");
+			e.printStackTrace();
+		}
+	}
+	
+	private String getCardPath(TrainCard t)
+	{
+		if (t == null)
+			return null;
+		else if(t.getColor() == null)
+			return "rainbowtrain2.png";
+		else
+			return t.getColor().toString() + "train2.png";
 	}
 
 	public void drawContracts(Graphics g) {
@@ -361,7 +462,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g.setColor(Color.LIGHT_GRAY);
 		g.setFont(new Font("Arial Narrow", Font.ITALIC, 10));
 
-		ContractDeck deck = game.getcDeck();
+		ArrayList<Contract> deck = game.players[game.currentPlayer].getContract();
 		Iterator iterator = deck.iterator();
 		int size = deck.size();
 		int topLeftX = 600;
@@ -389,18 +490,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println(e.getX() + " " + e.getY());
-
-		//DANIEL TEST CODE BEGINS
-		//game.nextPlayer();
-		//DANIEL TEST CODE ENDS
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 	
-	public void mouseReleased(MouseEvent e) {}
-	/*
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
@@ -409,16 +504,22 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if (stage == 6)
 			return;
 		else if (stage == 0) {
-			// if contract selected
-			if()
+			int ind=-1;
+			if(e.getX()>=1300&&e.getX()<=1650) 
 			{
-				// find index
-				// if index is not greater than size and contracts at index not null
-					// give contract at index to player
-					// turn index to null in array list(determine with coord bash)
+				if(e.getY()>=700&&e.getY()<=760)
+					ind=0;
+				else if(e.getY()>=780&&e.getY()<=840)
+					ind=1;
+				else if(e.getY()>=860&&e.getY()<=920)
+					ind=2;
 			}
-			// else if done clicked and at least one null in list
-			else if()
+			if(ind!=-1&&ind<contracts.size()&&contracts.get(ind)!=null)
+			{
+				game.takeContract(contracts.get(ind));
+				contracts.set(ind,null);
+			}
+			else if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=980&&e.getY()<=1020&&contracts.contains(null))
 			{
 				if(game.currentPlayer==3)
 					stage=1;
@@ -429,18 +530,36 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		else if(stage==1)
 		{
-			//if train deck clicked and have traincards left
-			if()
+			if(e.getX()>=1218&&e.getX()<=1447&&e.getY()>=513&&e.getY()<=649&&game.haveTrainCards())
 			{
-				//give card to player
-				//change to one train card stage
+				game.drawTrainCard(-1, false);
+				stage=2;
 			}
-			//else if face up clicked and chosen card isn't null
-			else if()
+			else if(e.getX()>=1472&&e.getX()<=1688&&e.getY()>=516&&e.getY()<=619&&game.haveTrainCards())
 			{
-				//give them card
-				//if given card is wild
-				if()
+				contracts=game.drawContract();
+				stage=3;
+			}
+			Node n=game.findNode(e.getX(),e.getY());
+			if(n!=null&&game.isNodeEligible(e.getX(), e.getY()))
+			{
+				citySelect[0]=n;
+				stage=4;
+			}
+			int ind=-1;
+			if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=705&&e.getY()<=818)
+				ind=0;
+			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=705&&e.getY()<=818)
+				ind=1;
+			else if(e.getX()>=1385&&e.getX()<=1563&&e.getY()>=825&&e.getY()<=938)
+				ind=2;
+			else if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=952&&e.getY()<=1065)
+				ind=3;
+			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=952&&e.getY()<=1065)
+				ind=4;
+			if(ind!=-1&&game.getTable()[ind]!=null)
+			{
+				if(game.drawTrainCard(ind, false))
 				{
 					game.nextPlayer();
 					if(lastRoundCount > 0)
@@ -449,65 +568,69 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				else
 					stage=2;
 			}
-			//else if contract deck clicked and have contracts left
-			else if()
-			{
-				contracts=game.drawContract();
-				stage=3;
-			}
-			Node n=game.findNode(e.getX(),e.getY());
-			else if(n!=null&&game.isNodeEligible(e.getX(), e.getY()))
-			{
-				citySelect[0]=n;
-				stage=4;
-			}
 		}
 		else if (stage == 2) {
-			// if no train cards left and table deck only has wild and nulls
-			if()
+			if(!(game.haveTable()||game.haveTrainCards()))
 			{
-				// change to default stage
-				// next player
-				// if last round > 0
-					// decrement last round
+				game.nextPlayer();
+				stage=1;
+				if(lastRoundCount>0)
+					lastRoundCount--;
 			}
-			// else if train deck clicked and have traincards left
-			else if()
+			else if(e.getX()>=1218&&e.getX()<=1447&&e.getY()>=513&&e.getY()<=649&&game.haveTrainCards())
 			{
-				// give card
-				// change to default stage
-				// next player
-				// if last round > 0
-					// decrement last round
+				game.drawTrainCard(-1, true);
+				game.nextPlayer();
+				stage=1;
+				if(lastRoundCount>0)
+					lastRoundCount--;
 			}
-			// else if face up clicked and chosen card isn't null
-			else if()
+			int ind=-1;
+			if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=705&&e.getY()<=818)
+				ind=0;
+			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=705&&e.getY()<=818)
+				ind=1;
+			else if(e.getX()>=1385&&e.getX()<=1563&&e.getY()>=825&&e.getY()<=938)
+				ind=2;
+			else if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=952&&e.getY()<=1065)
+				ind=3;
+			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=952&&e.getY()<=1065)
+				ind=4;
+			if(ind!=-1&&game.getTable()[ind]!=null)
 			{
-				// give them card(method won't give card if invalid)
-				// if given card is wild
-					// alert of illegal action
-				// else
-					// change to default stage
-					// next player
-					// if last round > 0
-						// decrement last round
+				if(game.drawTrainCard(ind, true))
+					JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE PICK A NON-WILD CARD.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
+				else
+				{
+					game.nextPlayer();
+					stage=1;
+					if(lastRoundCount>0)
+						lastRoundCount--;
+				}
 			}
 		}
 		else if (stage == 3) {
-			// if contract selected and index is not greater than size and contract at index
-			if()
+			int ind=-1;
+			if(e.getX()>=1300&&e.getX()<=1650) 
 			{
-				// if is not null
-					// give contract at index to player
-					// turn index to null in array list(determine with coord bash)
+				if(e.getY()>=700&&e.getY()<=760)
+					ind=0;
+				else if(e.getY()>=780&&e.getY()<=840)
+					ind=1;
+				else if(e.getY()>=860&&e.getY()<=920)
+					ind=2;
 			}
-			// if done clicked and at least one null in list
-			if()
+			if(ind!=-1&&ind<contracts.size()&&contracts.get(ind)!=null)
 			{
-				// change to default stage
-				// next player
-				// if last round > 0
-					// decrement last round
+				game.takeContract(contracts.get(ind));
+				contracts.set(ind,null);
+			}
+			else if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=980&&e.getY()<=1020&&contracts.contains(null))
+			{
+				game.nextPlayer();
+				stage=1;
+				if(lastRoundCount>0)
+					lastRoundCount--;
 			}
 		}
 		else if(stage==4)
@@ -522,46 +645,67 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		else if(stage==5)
 		{
 			ColorType stack=null;
-			//if color stack clicked
+			if(e.getY()>=810&&e.getY()>=1081)
+			{
+				if(e.getX()>=75&&e.getX()>=117)
+					stack=ColorType.BLACK;
+				else if(e.getX()>=119&&e.getX()>=161)
+					stack=ColorType.GREEN;
+				else if(e.getX()>=163&&e.getX()>=205)
+					stack=ColorType.PINK;
+				else if(e.getX()>=207&&e.getX()>=249)
+					stack=ColorType.WHITE;
+				else if(e.getX()>=295&&e.getX()>=337)
+					stack=ColorType.ORANGE;
+				else if(e.getX()>=339&&e.getX()>=381)
+					stack=ColorType.RED;
+				else if(e.getX()>=383&&e.getX()>=425)
+					stack=ColorType.BLUE;
+				else if(e.getX()>=427&&e.getX()>=469)
+					stack=ColorType.YELLOW;
+			}
 			if(stack!=null)
 			{
-				//try to claim track
-				//if track not claimed
-				if(game.placeTrains())
+				if(!game.placeTrain(citySelect[0], citySelect[1], stack))
 				{
-					//alert for invalid input(must restart)
+					JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE RESTART TURN.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
+					stage=1;
 				}
 				else
 				{
-					//do animation thingy
 					game.nextPlayer();
 					stage=1;
 					if(lastRoundCount>0)
 						lastRoundCount--;
 				}
 			}
-			//if stack is wild stack
-			if()
-			{
-				//alert invalid input(must click on actual color)
-			}
+			if(e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=1081)
+				JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE CLICK ON ACTUAL COLOR.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 		if (game.lastRound() && lastRoundCount == 0)
 			lastRoundCount = 5;
 		if (lastRoundCount == 1)
+		{
 			stage = 6;
+			endData=game.endGame();
+		}
 		repaint();
 	}
-	*/
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
+		if (game.getgBoard().findNode(e.getX(), e.getY()) != null)
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
-		}
+		else
+			gg=null;
+		//add contract deck(stage 1)
+		//add contract selection(including done)(not null)(stage 0 and stage 3)
+		//add train deck(stage 1 or 2)
+		//add color stacks(only stage 5)
+		//add table deck(not null)(stage 1 and stage [red if wild]2)
 		repaint();
 	}
 
