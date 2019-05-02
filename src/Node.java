@@ -9,8 +9,8 @@ public class Node {
 
 	public Node(String name, int x, int y) {
 		this.name = name;
-		this.x = x - 7;
-		this.y = y - 7;
+		this.x = x;
+		this.y = y;
 		connections = new ArrayList<>();
 	}
 
@@ -28,7 +28,7 @@ public class Node {
 	}
 
 	public boolean contains(int x, int y) {
-		return (Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2)) <= 3 * RADIUS);
+		return (Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2)) <= RADIUS);
 	}
 
 	public int getX() {
