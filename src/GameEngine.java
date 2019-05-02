@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class GameEngine {
+	private GamePanel daddyPanel;
+
 	public Player[] players;
 
 	private ContractDeck cDeck;
@@ -12,7 +14,9 @@ public class GameEngine {
 	
 	public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 	
-	public GameEngine() throws Exception {
+	public GameEngine(GamePanel daddyPanel) throws Exception {
+		this.daddyPanel = daddyPanel;
+
 		players=new Player[4];
 		players[0]=new Player(ColorType.RED);
 		players[1]=new Player(ColorType.GREEN);
@@ -32,14 +36,11 @@ public class GameEngine {
 		}
 		for(int i=0;i<5;i++)
 			tableDeck[i]=tDeck.draw();
-		
 	}
 
 	public void nextPlayer() {
-		if(currentPlayer==3)
-			currentPlayer=0;
-	  	else
-	  		currentPlayer++;
+		currentPlayer = (currentPlayer+1)%4;
+		daddyPanel.startAnimationTimer();
 	}
 	
 	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
@@ -70,7 +71,9 @@ public class GameEngine {
 	
 	public boolean haveTrainCards()
 	{
-		return !tDeck.needsReset()&&trashDeck.size()!=0;
+		if(tDeck.needsReset())
+			return trashDeck.size()!=0;
+		return true;
 	}
 	
 	public TrainCard[] getTable()
@@ -149,7 +152,7 @@ public class GameEngine {
 			{
 				players[currentPlayer].drawTrainCards(rtn);
 				if(!haveTrainCards())
-					tableDeck[pos]=tDeck.draw();
+					tableDeck[pos]=null;
 				else
 					tableDeck[pos]=tDeck.draw();
 			}

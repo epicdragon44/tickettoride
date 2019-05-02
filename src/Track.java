@@ -27,6 +27,15 @@ public class Track {
 		player=-1;
 		this.time = time;
 	}
+	public Track(Node s,Node f,Color col,int c, long time, int p)
+	{
+		n1=s;
+		n2=f;
+		color=col;
+		cost=c;
+		player=p;
+		this.time = time;
+	}
 	
 	public boolean setPlayer(int i)
 	{
