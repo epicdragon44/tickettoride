@@ -272,7 +272,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		g2.drawRect(3, 3, 1170, 755);
 
-		int bound = 600; //screw around with this to get content drawn to fit
+		int bound = 575; //screw around with this to get content drawn to fit
 
 		g2.drawRect(3, 758, bound, 240);
 
@@ -285,6 +285,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	{
 		
 	}
+
 	public void drawHand(Graphics g) {
 		Player currentPlayer = game.players[game.currentPlayer];
 
@@ -516,7 +517,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		/*if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
+		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
 		}
 		if (stage == 6)
@@ -727,6 +728,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			hoverC=true;
 		else
 			hoverC=false;
+
 		//add contract selection(including done)(not null)(stage 0 and stage 3)
 		//add color stacks(only stage 5)
 		//add table deck(not null)(stage 1 and stage [red if wild]2)
