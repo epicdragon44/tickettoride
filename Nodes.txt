@@ -17,7 +17,7 @@ Winnipeg Black 4,Sault_St._Marie Gray 3,Toronto Pink 6,Chicago Red 3,Omaha Gray 
 Toronto 970 168
 Sault_St._Marie Gray 2,Montreal Gray 3,Pittsburgh Gray 2,Chicago White 4,Duluth Pink 6
 Boston 1161 134
-Montreal Gray 2,Montreal Gray 2,New York Yellow 2,New York Red 2
+Montreal Gray 2,Montreal Gray 2,New_York Yellow 2,New_York Red 2
 Portland 59 220
 Seattle Gray 1,Seattle Gray 1,Salt_Lake_City Blue 6,San_Francisco Green 6,San_Francisco Pink 6
 San_Francisco 41 466
