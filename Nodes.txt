@@ -11,7 +11,7 @@ Sault_St._Marie Black 5,Toronto Gray 3,New_York Blue 3,Boston Gray 2,Boston Gray
 Seattle 85 157
 Vancouver Gray 1,Vancover Gray 1,Calgary Gray 4,Helena Yellow 6,Portland Gray 1,Portland Gray 1
 Helena 379 232
-Calgary Gray 4,Winnipeg Blue 4,Duluth Orange 6,Omaha Orange 5,Denver Green 4,Salt_Lake_City Pink 3,Portland Yellow 6
+Calgary Gray 4,Winnipeg Blue 4,Duluth Orange 6,Omaha Orange 5,Denver Green 4,Salt_Lake_City Pink 3,Seattle Yellow 6
 Duluth 675 224
 Winnipeg Black 4,Sault_St._Marie Gray 3,Toronto Pink 6,Chicago Red 3,Omaha Gray 2,Omaha Gray 2,Helena Orange 6
 Toronto 970 168

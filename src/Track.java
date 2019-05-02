@@ -16,7 +16,7 @@ public class Track {
 		n2=f;
 		color=col;
 		cost=c;
-		player=1;
+		player=-1;
 	}
 	public Track(Node s,Node f,Color col,int c, long time)
 	{
