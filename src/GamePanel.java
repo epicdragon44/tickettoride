@@ -186,13 +186,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	public void drawContractSelect(Graphics g)
 	{
-		Font font=new Font("Arial Narrow", Font.ITALIC, 20);
+		Font font=new Font("Arial Narrow", Font.ITALIC, 25);
 		int xA=1300;
 		int yA=700;
 		for(int i=0;i<contracts.size();i++)
 		{
 			if(contracts.get(i)==null)
 				continue;
+			g.setColor(Color.LIGHT_GRAY);
 			g.drawRect(xA, yA+i*80, 350, 60);
 			String text=contracts.get(i).getStart()+" to "+contracts.get(i).getEnd();
 			FontMetrics metrics = g.getFontMetrics(font);
@@ -201,6 +202,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		    g.setColor(Color.LIGHT_GRAY);
 		    g.setFont(font);
 		    g.drawString(text, x, y);
+		    text=""+contracts.get(i).getValue();
 		    x = xA + (350 - metrics.stringWidth(text)) / 2;
 		    y = (yA+30+i*80) + ((30 - metrics.getHeight()) / 2) + metrics.getAscent();
 		    g.setColor(Color.LIGHT_GRAY);
@@ -208,13 +210,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		    g.drawString(text, x, y);
 		}
 		g.setColor(new Color(57,229,109));
-		g.fillRoundRect(1435, 980, 80, 40, 10, 10);
+		g.fillRoundRect(1435, 940, 80, 40, 10, 10);
 		g.setColor(Color.black);
-		g.drawRoundRect(1435, 980, 80, 40, 10, 10);
+		g.drawRoundRect(1435, 940, 80, 40, 10, 10);
 		font=new Font("Arial Narrow", Font.BOLD+Font.ITALIC, 20);
 		FontMetrics metrics = g.getFontMetrics(font);
 	    int x = 1435 + (80 - metrics.stringWidth("Done")) / 2;
-	    int y = 980 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
+	    int y = 940 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
 	    g.setColor(Color.LIGHT_GRAY);
 	    g.setFont(font);
 	    g.drawString("Done", x, y);
@@ -326,6 +328,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 		}
 
+		g.setColor(Color.black);
 		g.setFont(new Font("Arial", Font.BOLD, 35));
 		g.drawString(currentPlayer.getTrainsLeft() + "", 160, 805);
 	}
@@ -538,7 +541,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				game.takeContract(contracts.get(ind));
 				contracts.set(ind,null);
 			}
-			else if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=980&&e.getY()<=1020&&contracts.contains(null))
+			int count=0;
+			for(Contract c:contracts)
+				if(c==null)
+					count++;
+			if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980&&count>1)
 			{
 				if(game.currentPlayer==3)
 					stage=1;
@@ -644,7 +651,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				game.takeContract(contracts.get(ind));
 				contracts.set(ind,null);
 			}
-			else if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=980&&e.getY()<=1020&&contracts.contains(null))
+			else if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980&&contracts.contains(null))
 			{
 				game.nextPlayer();
 				stage=1;
@@ -664,25 +671,26 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		else if(stage==5)
 		{
 			ColorType stack=null;
-			if(e.getY()>=810&&e.getY()>=1081)
+			if(e.getY()>=810&&e.getY()<=1081)
 			{
-				if(e.getX()>=75&&e.getX()>=117)
+				if(e.getX()>=75&&e.getX()<=117)
 					stack=ColorType.BLACK;
-				else if(e.getX()>=119&&e.getX()>=161)
+				else if(e.getX()>=119&&e.getX()<=161)
 					stack=ColorType.GREEN;
-				else if(e.getX()>=163&&e.getX()>=205)
+				else if(e.getX()>=163&&e.getX()<=205)
 					stack=ColorType.PINK;
-				else if(e.getX()>=207&&e.getX()>=249)
+				else if(e.getX()>=207&&e.getX()<=249)
 					stack=ColorType.WHITE;
-				else if(e.getX()>=295&&e.getX()>=337)
+				else if(e.getX()>=295&&e.getX()<=337)
 					stack=ColorType.ORANGE;
-				else if(e.getX()>=339&&e.getX()>=381)
+				else if(e.getX()>=339&&e.getX()<=381)
 					stack=ColorType.RED;
-				else if(e.getX()>=383&&e.getX()>=425)
+				else if(e.getX()>=383&&e.getX()<=425)
 					stack=ColorType.BLUE;
-				else if(e.getX()>=427&&e.getX()>=469)
+				else if(e.getX()>=427&&e.getX()<=469)
 					stack=ColorType.YELLOW;
 			}
+			System.out.println(stack);
 			if(stack!=null)
 			{
 				if(!game.placeTrain(citySelect[0], citySelect[1], stack))
@@ -697,6 +705,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					if(lastRoundCount>0)
 						lastRoundCount--;
 				}
+				citySelect[0]=null;
+				citySelect[1]=null;
 			}
 			if(e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=1081)
 				JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE CLICK ON ACTUAL COLOR.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
