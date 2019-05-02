@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int lastRoundCount, stage;
 	private Node[] citySelect;
 	private int[] endData;
+	private boolean hoverT,hoverC;
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -38,9 +39,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 		lastRoundCount = 0;
-		stage = 1;
+		stage = 0;
 		citySelect = new Node[2];
 		contracts = game.drawContract();
+		hoverT=false;
+		hoverC=false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -71,11 +74,25 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			drawContracts(g);
 			drawHand(g);
 			if (game.getNumContracts() != 0)
+			{
+				if(hoverC&&stage==1)
+				{
+					g.setColor(lgreen);
+					g.fillRoundRect(1462, 506, 236, 153, 10, 10);
+				}
 				drawCDeck(g);
+			}
 			if (game.haveTrainCards())
+			{
+				if(hoverT&&(stage==1||stage==2))
+				{
+					g.setColor(lgreen);
+					g.fillRoundRect(1208, 503, 249, 156, 10, 10);
+				}
 				drawTDeck(g);
+			}
 			if (stage == 0 || stage == 3) {
-				// draw contract selections(those that are not null)
+				drawContractSelect(g);
 			}
 			else
 				drawTable(g);
@@ -349,7 +366,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if (i == game.currentPlayer) {
 				startAnimationTimer();
 
-				g.setColor(Color.WHITE);
 				g.setColor(new Color(255, 255, 255, 125));
 
 				g.fillRoundRect(xLeader-25, yLeader, 500, 75, 25, 25);
@@ -535,7 +551,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				game.drawTrainCard(-1, false);
 				stage=2;
 			}
-			else if(e.getX()>=1472&&e.getX()<=1688&&e.getY()>=516&&e.getY()<=619&&game.haveTrainCards())
+			else if(e.getX()>=1472&&e.getX()<=1688&&e.getY()>=516&&e.getY()<=649&&game.getNumContracts()>0)
 			{
 				contracts=game.drawContract();
 				stage=3;
@@ -701,9 +717,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
 		else
 			gg=null;
-		//add contract deck(stage 1)
+		if(e.getX()>=1218&&e.getX()<=1447&&e.getY()>=513&&e.getY()<=649)
+			hoverT=true;
+		else
+			hoverT=false;
+		if(e.getX()>=1472&&e.getX()<=1688&&e.getY()>=516&&e.getY()<=649)
+			hoverC=true;
+		else
+			hoverC=false;
 		//add contract selection(including done)(not null)(stage 0 and stage 3)
-		//add train deck(stage 1 or 2)
 		//add color stacks(only stage 5)
 		//add table deck(not null)(stage 1 and stage [red if wild]2)
 		repaint();
