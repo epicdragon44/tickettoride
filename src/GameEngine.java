@@ -44,7 +44,7 @@ public class GameEngine {
 	}
 	
 	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
-		if(!checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
+		if(checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
 		{
 			trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
 			return true;
@@ -57,7 +57,7 @@ public class GameEngine {
 		int rand=players[currentPlayer].getTrainCards().get(null);
 		int col=players[currentPlayer].getTrainCards().get(c);
 		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
-		return rand-(cost-col)>0&&players[currentPlayer].getTrainsLeft()>cost-1;
+		return rand-(cost-col)>-1&&players[currentPlayer].getTrainsLeft()>cost-1;
 	}
 	
 	public Board getgBoard() {

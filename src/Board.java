@@ -37,6 +37,9 @@ public class Board {
 		found = false;
 		maxLen = Integer.MIN_VALUE;
 		bestPlayer = null;
+		for(Node n:cities)
+			if(n.toString().equals("Pittsburgh"))
+				System.out.println(n.getConnections());
 	}
 
 	public int connectionCost(String s, String e) {
@@ -120,10 +123,6 @@ public class Board {
 		return bestPlayer;
 	}
 
-	private void resetVisitedTracks() {
-		
-	}
-
 	private void visit(Node n, int cnt, List<Track> visited, Player p) {
 		if (cnt > maxLen) {
 			maxLen = cnt;
@@ -145,7 +144,7 @@ public class Board {
 		ArrayList<Track> tracks = start.getConnections();
 		boolean available = false;
 		for (Track t : tracks) {
-			if (t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
+			if (!available && t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
 				if (t.getPlayer() == -1) {
 					t.setPlayer(player);
 					available = true;

@@ -159,7 +159,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	private void drawShiftedConnection(Node n1, Node n2, Graphics g, int yShift, int xShift) {
 		for (Track t : n1.getConnections()) {
-			if (t.getOtherNode(n1).equals(n2)) {
+			if (t.getOtherNode(n1).equals(n2)&&t.getPlayer()!=-1) {
 				g.setColor(game.players[t.getPlayer()].getColor());
 				int baseX1 = n1.getX() + xShift;
 				int baseX2 = n2.getX() + xShift;
@@ -696,6 +696,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					stack=ColorType.YELLOW;
 			}
 			System.out.println(stack);
+			System.out.println(game.players[game.currentPlayer].getTrainCards());
 			if(stack!=null)
 			{
 				if(!game.placeTrain(citySelect[0], citySelect[1], stack))
