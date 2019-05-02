@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 		lastRoundCount = 0;
-		stage = 0;
+		stage = 1;
 		citySelect = new Node[2];
 		contracts = game.drawContract();
 		hoverT=false;
@@ -408,7 +408,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void drawTable(Graphics g) {
 		try {
 			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[0])));
-			g.drawImage(img, 1252, 705, new ImageObserver() {
+			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+			g.drawImage(img, 1300, 700, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					return false;
@@ -420,7 +421,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		try {
 			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[1])));
-			g.drawImage(img, 1519, 705, new ImageObserver() {
+			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+			g.drawImage(img, 1500, 700, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					return false;
@@ -432,7 +434,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		try {
 			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[2])));
-			g.drawImage(img, 1385, 825, new ImageObserver() {
+			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+			g.drawImage(img, 1400, 750, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					return false;
@@ -444,7 +447,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		try {
 			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[3])));
-			g.drawImage(img, 1252, 952, new ImageObserver() {
+			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+			g.drawImage(img, 1300, 800, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					return false;
@@ -456,7 +460,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		try {
 			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
-			g.drawImage(img, 1519, 952, new ImageObserver() {
+			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+			g.drawImage(img, 1500, 800, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					return false;
@@ -573,15 +578,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				stage=4;
 			}
 			int ind=-1;
-			if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=705&&e.getY()<=818)
+			if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=700&&e.getY()<=755)
 				ind=0;
-			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=705&&e.getY()<=818)
+			else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=700&&e.getY()<=755)
 				ind=1;
-			else if(e.getX()>=1385&&e.getX()<=1563&&e.getY()>=825&&e.getY()<=938)
+			else if(e.getX()>=1400&&e.getX()<=1490&&e.getY()>=750&&e.getY()<=800)
 				ind=2;
-			else if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=952&&e.getY()<=1065)
+			else if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=800&&e.getY()<=855)
 				ind=3;
-			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=952&&e.getY()<=1065)
+			else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=800&&e.getY()<=855)
 				ind=4;
 			if(ind!=-1&&game.getTable()[ind]!=null)
 			{
@@ -612,15 +617,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					lastRoundCount--;
 			}
 			int ind=-1;
-			if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=705&&e.getY()<=818)
+			if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=700&&e.getY()<=755)
 				ind=0;
-			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=705&&e.getY()<=818)
+			else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=700&&e.getY()<=755)
 				ind=1;
-			else if(e.getX()>=1385&&e.getX()<=1563&&e.getY()>=825&&e.getY()<=938)
+			else if(e.getX()>=1400&&e.getX()<=1490&&e.getY()>=750&&e.getY()<=800)
 				ind=2;
-			else if(e.getX()>=1252&&e.getX()<=1430&&e.getY()>=952&&e.getY()<=1065)
+			else if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=800&&e.getY()<=855)
 				ind=3;
-			else if(e.getX()>=1519&&e.getX()<=1697&&e.getY()>=952&&e.getY()<=1065)
+			else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=800&&e.getY()<=855)
 				ind=4;
 			if(ind!=-1&&game.getTable()[ind]!=null)
 			{
