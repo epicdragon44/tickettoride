@@ -37,9 +37,6 @@ public class Board {
 		found = false;
 		maxLen = Integer.MIN_VALUE;
 		bestPlayer = null;
-		for(Node n:cities)
-			if(n.toString().equals("Pittsburgh"))
-				System.out.println(n.getConnections());
 	}
 
 	public int connectionCost(String s, String e) {

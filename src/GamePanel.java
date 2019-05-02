@@ -55,14 +55,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
-				if (stage==1&&game.isNodeEligible(gg.getX(), gg.getY()) != null) {
+				if ((game.isNodeEligible(gg.getX(), gg.getY()) != null) && (stage==1)) {
 					if (game.isNodeEligible(gg.getX(), gg.getY()))
 						g.setColor(lgreen);
 					else
 						g.setColor(lred);
 					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
 				}
-				else if (stage==4&&game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null) {
+				else if ((game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null) && (stage==4)) {
 					if (game.isNodeEligible(gg.getX(), gg.getY(),citySelect[0]))
 						g.setColor(lgreen);
 					else
