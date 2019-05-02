@@ -99,8 +99,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				Track newT = containsDuple(t, n1.getConnections());
 				if (orig.getTime() < newT.getTime()) {
 					drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
+					drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, 7);
 				} else {
 					drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
+					drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
 				}
 				return;
 			}
