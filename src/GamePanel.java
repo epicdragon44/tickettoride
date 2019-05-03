@@ -52,80 +52,77 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		//DANIEL TEST CODE
-		drawEndGame(g);
-
-//		if (stage != 6) {
-//			drawBackground(g);
-//			if (gg != null) {
-//				if ((stage==1)&&(game.isNodeEligible(gg.getX(), gg.getY()) != null)) {
-//					if (game.isNodeEligible(gg.getX(), gg.getY()))
-//						g.setColor(lgreen);
-//					else
-//						g.setColor(lred);
-//					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
-//				}
-//				else if ((stage==4)&&(game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null)) {
-//					if (game.isNodeEligible(gg.getX(), gg.getY(),citySelect[0]))
-//						g.setColor(lgreen);
-//					else
-//						g.setColor(lred);
-//					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
-//				}
-//			}
-//			drawRankings(g);
-//			drawContracts(g);
-//			drawHand(g);
-//			if (game.getNumContracts() != 0)
-//			{
-//				if(hoverC&&stage==1)
-//				{
-//					g.setColor(lgreen);
-//					g.fillRoundRect(1462, 506, 236, 153, 10, 10);
-//				}
-//				drawCDeck(g);
-//			}
-//			if (game.haveTrainCards())
-//			{
-//				if(hoverT&&(stage==1||stage==2))
-//				{
-//					g.setColor(lgreen);
-//					g.fillRoundRect(1208, 503, 249, 156, 10, 10);
-//				}
-//				drawTDeck(g);
-//			}
-//			if (stage == 0 || stage == 3) {
-//				drawContractSelect(g);
-//			}
-//			else
-//				drawTable(g);
-//			if(stage==4||stage==5){
-//				if(citySelect[0]!=null)
-//				{
-//					g.setColor(new Color(249,204,22));
-//					g.fillOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
-//					g.setColor(Color.BLACK);
-//					g.drawOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
-//				}
-//				if(citySelect[1]!=null)
-//				{
-//					g.setColor(new Color(249,204,22));
-//					g.fillOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
-//					g.setColor(Color.BLACK);
-//					g.drawOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
-//				}
-//			}
-//			if (lastRoundCount > 1) {
-//				g.setColor(Color.RED);
-//				g.setFont(f);
-//				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
-//			}
-//		}
-//		else {
-//			drawEndGame(g);
-//		}
-//		for(Node city:game.getgBoard().cities)
-//			drawConnections(city,g);
+		if (stage != 6) {
+			drawBackground(g);
+			if (gg != null) {
+				if ((stage==1)&&(game.isNodeEligible(gg.getX(), gg.getY()) != null)) {
+					if (game.isNodeEligible(gg.getX(), gg.getY()))
+						g.setColor(lgreen);
+					else
+						g.setColor(lred);
+					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
+				}
+				else if ((stage==4)&&(game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null)) {
+					if (game.isNodeEligible(gg.getX(), gg.getY(),citySelect[0]))
+						g.setColor(lgreen);
+					else
+						g.setColor(lred);
+					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
+				}
+			}
+			drawRankings(g);
+			drawContracts(g);
+			drawHand(g);
+			if (game.getNumContracts() != 0)
+			{
+				if(hoverC&&stage==1)
+				{
+					g.setColor(lgreen);
+					g.fillRoundRect(1462, 506, 236, 153, 10, 10);
+				}
+				drawCDeck(g);
+			}
+			if (game.haveTrainCards())
+			{
+				if(hoverT&&(stage==1||stage==2))
+				{
+					g.setColor(lgreen);
+					g.fillRoundRect(1208, 503, 249, 156, 10, 10);
+				}
+				drawTDeck(g);
+			}
+			if (stage == 0 || stage == 3) {
+				drawContractSelect(g);
+			}
+			else
+				drawTable(g);
+			if(stage==4||stage==5){
+				if(citySelect[0]!=null)
+				{
+					g.setColor(new Color(249,204,22));
+					g.fillOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
+					g.setColor(Color.BLACK);
+					g.drawOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
+				}
+				if(citySelect[1]!=null)
+				{
+					g.setColor(new Color(249,204,22));
+					g.fillOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
+					g.setColor(Color.BLACK);
+					g.drawOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
+				}
+			}
+			if (lastRoundCount > 1) {
+				g.setColor(Color.RED);
+				g.setFont(f);
+				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
+			}
+		}
+		else {
+			drawEndGame(g);
+		}
+		for(Node city:game.getgBoard().cities)
+			drawConnections(city,g);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
@@ -272,8 +269,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		int[] results = this.endData;
-		int[] results = {15, 13, -11, 10, 1, 0};
+		int[] results = this.endData;
+//		int[] results = {15, 13, -11, 10, 1, 0};
 
 		//draw contract payouts
 		int contractPayoutX = 35;
