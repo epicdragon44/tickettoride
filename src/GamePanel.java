@@ -52,77 +52,80 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		if (stage != 6) {
-			drawBackground(g);
-			if (gg != null) {
-				if ((stage==1)&&(game.isNodeEligible(gg.getX(), gg.getY()) != null)) {
-					if (game.isNodeEligible(gg.getX(), gg.getY()))
-						g.setColor(lgreen);
-					else
-						g.setColor(lred);
-					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
-				}
-				else if ((stage==4)&&(game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null)) {
-					if (game.isNodeEligible(gg.getX(), gg.getY(),citySelect[0]))
-						g.setColor(lgreen);
-					else
-						g.setColor(lred);
-					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
-				}
-			}
-			drawRankings(g);
-			drawContracts(g);
-			drawHand(g);
-			if (game.getNumContracts() != 0)
-			{
-				if(hoverC&&stage==1)
-				{
-					g.setColor(lgreen);
-					g.fillRoundRect(1462, 506, 236, 153, 10, 10);
-				}
-				drawCDeck(g);
-			}
-			if (game.haveTrainCards())
-			{
-				if(hoverT&&(stage==1||stage==2))
-				{
-					g.setColor(lgreen);
-					g.fillRoundRect(1208, 503, 249, 156, 10, 10);
-				}
-				drawTDeck(g);
-			}
-			if (stage == 0 || stage == 3) {
-				drawContractSelect(g);
-			}
-			else
-				drawTable(g);
-			if(stage==4||stage==5){
-				if(citySelect[0]!=null)
-				{
-					g.setColor(new Color(249,204,22));
-					g.fillOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
-					g.setColor(Color.BLACK);
-					g.drawOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
-				}
-				if(citySelect[1]!=null)
-				{
-					g.setColor(new Color(249,204,22));
-					g.fillOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
-					g.setColor(Color.BLACK);
-					g.drawOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
-				}
-			}
-			if (lastRoundCount > 1) {
-				g.setColor(Color.RED);
-				g.setFont(f);
-				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
-			}
-		}
-		else {
-			drawEndGame(g);
-		}
-		for(Node city:game.getgBoard().cities)
-			drawConnections(city,g);
+		//DANIEL TEST CODE
+		drawEndGame(g);
+
+//		if (stage != 6) {
+//			drawBackground(g);
+//			if (gg != null) {
+//				if ((stage==1)&&(game.isNodeEligible(gg.getX(), gg.getY()) != null)) {
+//					if (game.isNodeEligible(gg.getX(), gg.getY()))
+//						g.setColor(lgreen);
+//					else
+//						g.setColor(lred);
+//					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
+//				}
+//				else if ((stage==4)&&(game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null)) {
+//					if (game.isNodeEligible(gg.getX(), gg.getY(),citySelect[0]))
+//						g.setColor(lgreen);
+//					else
+//						g.setColor(lred);
+//					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
+//				}
+//			}
+//			drawRankings(g);
+//			drawContracts(g);
+//			drawHand(g);
+//			if (game.getNumContracts() != 0)
+//			{
+//				if(hoverC&&stage==1)
+//				{
+//					g.setColor(lgreen);
+//					g.fillRoundRect(1462, 506, 236, 153, 10, 10);
+//				}
+//				drawCDeck(g);
+//			}
+//			if (game.haveTrainCards())
+//			{
+//				if(hoverT&&(stage==1||stage==2))
+//				{
+//					g.setColor(lgreen);
+//					g.fillRoundRect(1208, 503, 249, 156, 10, 10);
+//				}
+//				drawTDeck(g);
+//			}
+//			if (stage == 0 || stage == 3) {
+//				drawContractSelect(g);
+//			}
+//			else
+//				drawTable(g);
+//			if(stage==4||stage==5){
+//				if(citySelect[0]!=null)
+//				{
+//					g.setColor(new Color(249,204,22));
+//					g.fillOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
+//					g.setColor(Color.BLACK);
+//					g.drawOval(citySelect[0].getX()-8, citySelect[0].getY()-8, 21, 21);
+//				}
+//				if(citySelect[1]!=null)
+//				{
+//					g.setColor(new Color(249,204,22));
+//					g.fillOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
+//					g.setColor(Color.BLACK);
+//					g.drawOval(citySelect[1].getX()-8, citySelect[1].getY()-8, 21, 21);
+//				}
+//			}
+//			if (lastRoundCount > 1) {
+//				g.setColor(Color.RED);
+//				g.setFont(f);
+//				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
+//			}
+//		}
+//		else {
+//			drawEndGame(g);
+//		}
+//		for(Node city:game.getgBoard().cities)
+//			drawConnections(city,g);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
@@ -255,7 +258,91 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	public void drawEndGame(Graphics g)
 	{
-		
+		g.clearRect(1185, 12, 1740-1185, 983-12);
+		g.clearRect(9, 764, 1742-9, 987-764);
+		try {
+			BufferedImage img = ImageIO.read(new File("endgamebase.png"));;
+			img = resize(img, (int)(img.getWidth()*1.5), (int)(img.getHeight()*1.5));
+			g.drawImage(img, 5, 5, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		int[] results = this.endData;
+		int[] results = {15, 13, -11, 10, 1, 0};
+
+		//draw contract payouts
+		int contractPayoutX = 35;
+		int contractPayoutY = 860;
+		int contractPayoutXShift = 100;
+		for (int i = 0; i < game.players.length; i++) {
+			g.setColor(game.players[i].getColor());
+			g.fillRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Arial", Font.BOLD, 35));
+			String toDraw = results[i]+"";
+			if (results[i] > 0)
+				toDraw = "+"+toDraw;
+			else if (results[i] < 0)
+				toDraw = "-"+toDraw;
+			g.drawString(toDraw, contractPayoutX + i * contractPayoutXShift + 10, contractPayoutY + 50);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
+		}
+		//end drawing contract payouts
+
+		g.setFont(new Font("Times new Roman", Font.BOLD, 40));
+		//draw longest path
+		g.setColor(game.players[results[4]].getColor());
+		g.fillRoundRect(600, 860, 125, 125, 25, 25);
+		g.setColor(Color.BLACK);
+		g.drawString("+10", 630, 930);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		g2.setColor(Color.BLACK);
+		g2.drawRoundRect(600, 860, 125, 125, 25, 25);
+		//end drawing longest path
+
+		//draw globetrotter
+		g.setColor(game.players[results[5]].getColor());
+		g.fillRoundRect(970, 860, 125, 125, 25, 25);
+		g.setColor(Color.BLACK);
+		g.drawString("+15", 1000, 930);
+		g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		g2.setColor(Color.BLACK);
+		g2.drawRoundRect(970, 860, 125, 125, 25, 25);
+		//end draw globetrotter
+
+		//draw scoreboard
+		Arrays.sort(game.players);
+
+		int scoreBoardX = 1364;
+		int scoreBoardY = 126;
+		int	scoreBoardShift = 100;
+		int width = 200;
+		int height = 50;
+		for (int i = 0; i < game.players.length; i++) {
+			int x = scoreBoardX;
+			int y = scoreBoardY + i * scoreBoardShift;
+			g.setColor(game.players[i].getColor());
+			g.fillRoundRect(x, y, width, height, 15, 15);
+			String pts = game.players[i].getPoints()+"";
+			g.setColor(Color.BLACK);
+			g.drawString(pts, x+75, y+35);
+
+			g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(x, y, width, height, 15, 15);
+		}
+		//end drawing scoreboard
 	}
 
 	public void drawHand(Graphics g) {
