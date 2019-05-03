@@ -142,6 +142,25 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
 					drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
 				}
+				/*double slope = (orig.getNode1().getY() +0.0 - orig.getNode2().getY())/(orig.getNode1().getX() +0.0 - orig.getNode2().getX());
+				if (slope > 0) {
+					if (orig.getTime() < newT.getTime()) {
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
+						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, 7);
+					} else {
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
+						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
+					}
+				}
+				else {
+					if (orig.getTime() < newT.getTime()) {
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, -7);
+						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, 7);
+					} else {
+						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, 7);
+						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, -7);
+					}
+				}*/
 				return;
 			}
 
