@@ -30,7 +30,7 @@ public class Board {
 				StringTokenizer yeet = new StringTokenizer(cons.get(i)[j]);
 				Node connex = findNode(yeet.nextToken());
 				if (connex != null)
-					cities[i].addConnection(connex, ColorType.getColor(yeet.nextToken().toUpperCase()), Integer.parseInt(yeet.nextToken()));
+					cities[i].addConnection(connex, ColorType.getColor(yeet.nextToken().toUpperCase()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
 			}
 		}
 		sc.close();
@@ -107,7 +107,11 @@ public class Board {
 			return null;
 		for(Track t:n.getConnections())
 			if(t.getOtherNode(n).equals(node)&&t.getPlayer()==-1)
+			{
+				if(GamePanel.containsDuple(t, n.getConnections())!=null&&GamePanel.containsDuple(t, n.getConnections()).getPlayer()==daddyEngine.currentPlayer)
+					continue;
 				return true;
+			}
 		return false;
 	}
 
@@ -139,10 +143,15 @@ public class Board {
 
 	public boolean placeTrains(int player, ColorType c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();
+		int x=0,y=0;
 		boolean available = false;
 		for (Track t : tracks) {
 			if (!available && t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
 				if (t.getPlayer() == -1) {
+					if(GamePanel.containsDuple(t, tracks)!=null&&GamePanel.containsDuple(t, tracks).getPlayer()==daddyEngine.currentPlayer)
+						continue;
+					x=t.getX2();
+					y=t.getY2();
 					t.setPlayer(player);
 					available = true;
 				}
@@ -151,7 +160,7 @@ public class Board {
 		if (available) {
 			tracks = end.getConnections();
 			for (Track t : tracks) {
-				if (t.getOtherNode(end).equals(start) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
+				if (t.getOtherNode(end).equals(start) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) && t.getX1()==x && t.getY1()==y) {
 					if (t.getPlayer() == -1) {
 						t.setPlayer(player);
 						return true;
