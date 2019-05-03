@@ -55,4 +55,9 @@ public class TrainCardDeck {
 	public boolean needsReset() {
 		return deck.size()==0;
 	}
+	
+	public String toString()
+	{
+		return deck.toString();
+	}
 }

@@ -36,6 +36,7 @@ public class GameEngine {
 		}
 		for(int i=0;i<5;i++)
 			tableDeck[i]=tDeck.draw();
+		System.out.println(tDeck);
 	}
 
 	public void nextPlayer() {
@@ -167,8 +168,10 @@ public class GameEngine {
 			if(checkWildLim())
 				updateTable();
 		}
+		System.out.println(tDeck);
 		if(tDeck.needsReset())
 			tDeck.restartDeck(trashDeck);
+		System.out.println(tDeck);
 		return rtn.getwild();
 	}
 
