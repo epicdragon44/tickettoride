@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 public class Board {
 	public Node[] cities;
 	private boolean found;
-	private int maxLen;
+	protected int maxLen;
 	private Player bestPlayer;
 	private GameEngine daddyEngine;
 
@@ -116,6 +116,7 @@ public class Board {
 	}
 
 	//beginning of longest train algorithm ...
+
 	public Player findLongestTrainPlayer(Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)

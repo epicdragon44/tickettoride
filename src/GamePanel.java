@@ -255,7 +255,91 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	public void drawEndGame(Graphics g)
 	{
-		
+		g.clearRect(1185, 12, 1740-1185, 983-12);
+		g.clearRect(9, 764, 1742-9, 987-764);
+		try {
+			BufferedImage img = ImageIO.read(new File("endgamebase.png"));;
+			img = resize(img, (int)(img.getWidth()*1.5), (int)(img.getHeight()*1.5));
+			g.drawImage(img, 5, 5, new ImageObserver() {
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					return false;
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int[] results = this.endData;
+//		int[] results = {15, 13, -11, 10, 1, 0};
+
+		//draw contract payouts
+		int contractPayoutX = 35;
+		int contractPayoutY = 860;
+		int contractPayoutXShift = 100;
+		for (int i = 0; i < game.players.length; i++) {
+			g.setColor(game.players[i].getColor());
+			g.fillRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Arial", Font.BOLD, 35));
+			String toDraw = results[i]+"";
+			if (results[i] > 0)
+				toDraw = "+"+toDraw;
+			else if (results[i] < 0)
+				toDraw = "-"+toDraw;
+			g.drawString(toDraw, contractPayoutX + i * contractPayoutXShift + 10, contractPayoutY + 50);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
+		}
+		//end drawing contract payouts
+
+		g.setFont(new Font("Times new Roman", Font.BOLD, 40));
+		//draw longest path
+		g.setColor(game.players[results[4]].getColor());
+		g.fillRoundRect(600, 860, 125, 125, 25, 25);
+		g.setColor(Color.BLACK);
+		g.drawString("+10", 630, 930);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		g2.setColor(Color.BLACK);
+		g2.drawRoundRect(600, 860, 125, 125, 25, 25);
+		//end drawing longest path
+
+		//draw globetrotter
+		g.setColor(game.players[results[5]].getColor());
+		g.fillRoundRect(970, 860, 125, 125, 25, 25);
+		g.setColor(Color.BLACK);
+		g.drawString("+15", 1000, 930);
+		g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		g2.setColor(Color.BLACK);
+		g2.drawRoundRect(970, 860, 125, 125, 25, 25);
+		//end draw globetrotter
+
+		//draw scoreboard
+		Arrays.sort(game.players);
+
+		int scoreBoardX = 1364;
+		int scoreBoardY = 126;
+		int	scoreBoardShift = 100;
+		int width = 200;
+		int height = 50;
+		for (int i = 0; i < game.players.length; i++) {
+			int x = scoreBoardX;
+			int y = scoreBoardY + i * scoreBoardShift;
+			g.setColor(game.players[i].getColor());
+			g.fillRoundRect(x, y, width, height, 15, 15);
+			String pts = game.players[i].getPoints()+"";
+			g.setColor(Color.BLACK);
+			g.drawString(pts, x+75, y+35);
+
+			g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2.setColor(Color.BLACK);
+			g2.drawRoundRect(x, y, width, height, 15, 15);
+		}
+		//end drawing scoreboard
 	}
 
 	public void drawHand(Graphics g) {
