@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 						g.setColor(lgreen);
 					else
 						g.setColor(lred);
-					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
+					g.fillOval(gg.getX()-9, gg.getY()-9, 19, 19);
 				}
 			}
 			drawRankings(g);
@@ -142,16 +142,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 			g2.drawLine(baseX1, baseY1, baseX2, baseY2);
 		}
-	}
-
-	public static Track containsDuple(Track t, ArrayList<Track> tracks) {
-		ArrayList<Track> duplicate = new ArrayList<>();
-		duplicate.addAll(tracks);
-		duplicate.remove(t);
-		if (duplicate.contains(t))
-			return duplicate.get(duplicate.indexOf(t));
-		else
-			return null;
 	}
 	
 	public void drawContractSelect(Graphics g)
@@ -547,11 +537,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		Iterator iterator = deck.iterator();
 		int size = deck.size();
 		int topLeftX = 600;
-		int topLeftY = 815;
+		int topLeftY = 810;
 		int maxWidth = 550;
 		int numOfCols = size / modfactor + 1;
 		int widthOfBox = (int) (maxWidth / (numOfCols + 0.0));
-		int heightOfBox = 27;
+		int heightOfBox = 25;
 
 		int staggerXCnt = 0;
 		for (int i = 0; i < size; i++) {
@@ -606,6 +596,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					count++;
 			if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980&&count>1)
 			{
+				game.replaceContracts(contracts);
 				if(game.currentPlayer==3)
 					stage=1;
 				else
@@ -712,6 +703,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 			else if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980&&contracts.contains(null))
 			{
+				game.replaceContracts(contracts);
 				game.nextPlayer();
 				stage=1;
 				if(lastRoundCount>0)

@@ -30,9 +30,11 @@ public class ContractDeck {
 
 	public void replace(ArrayList<Contract> c) 
 	{
+		System.out.println(c);
 		while(c.contains(null))
 			c.remove(null);
 		deck.addAll(c);
+		System.out.println(c);
 	}
 	
 	public int size()
