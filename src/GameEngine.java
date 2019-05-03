@@ -36,7 +36,6 @@ public class GameEngine {
 		}
 		for(int i=0;i<5;i++)
 			tableDeck[i]=tDeck.draw();
-		System.out.println(tDeck);
 	}
 
 	public void nextPlayer() {
@@ -221,6 +220,11 @@ public class GameEngine {
 
 	public Node findNode(int x, int y) {
 		return gBoard.findNode(x, y);
+	}
+	
+	public void replaceContracts(ArrayList<Contract> c)
+	{
+		cDeck.replace(c);
 	}
 	
 	//for stage 1;draw green circle if true, draw red circle if false , don't draw anything if null

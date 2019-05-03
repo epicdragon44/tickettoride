@@ -108,11 +108,18 @@ public class Board {
 		for(Track t:n.getConnections())
 			if(t.getOtherNode(n).equals(node)&&t.getPlayer()==-1)
 			{
-				if(GamePanel.containsDuple(t, n.getConnections())!=null&&GamePanel.containsDuple(t, n.getConnections()).getPlayer()==daddyEngine.currentPlayer)
+				if(containsDuple(t, n)!=null&&containsDuple(t, n).getPlayer()==daddyEngine.currentPlayer)
 					continue;
 				return true;
 			}
 		return false;
+	}
+	
+	private Track containsDuple(Track t, Node n) {
+		for(Track tr:n.getConnections())
+			if (t.getOtherNode(n).equals(tr.getOtherNode(n))&&(tr.getX1()!=t.getX1()||tr.getY1()!=t.getY1()))
+				return tr;
+		return null;
 	}
 
 	//beginning of longest train algorithm ...
@@ -149,8 +156,6 @@ public class Board {
 		for (Track t : tracks) {
 			if (!available && t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
 				if (t.getPlayer() == -1) {
-					if(GamePanel.containsDuple(t, tracks)!=null&&GamePanel.containsDuple(t, tracks).getPlayer()==daddyEngine.currentPlayer)
-						continue;
 					x=t.getX2();
 					y=t.getY2();
 					t.setPlayer(player);

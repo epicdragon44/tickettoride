@@ -38,4 +38,9 @@ public class Contract {
 		Contract c=(Contract)o;
 		return start.equals(c.getStart())&&end.equals(c.getEnd());
 	}
+	
+	public String toString()
+	{
+		return "gay";
+	}
 }
