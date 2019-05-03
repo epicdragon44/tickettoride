@@ -38,6 +38,3 @@ An Open-Source Java-based implementation of the popular board game.
     - [x] Main Method
 
 ## Known Bugs:
-- [ ] some tracks seem to be missing
-- [ ] double track claiming is funky
-- [ ] check wild lim in constructor
