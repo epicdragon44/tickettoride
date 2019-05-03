@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 		lastRoundCount = 0;
-		stage = 1;
+		stage = 0;
 		citySelect = new Node[2];
 		contracts = game.drawContract();
 		hoverT=false;
@@ -55,14 +55,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
-				if ((game.isNodeEligible(gg.getX(), gg.getY()) != null) && (stage==1)) {
+				if ((stage==1)&&(game.isNodeEligible(gg.getX(), gg.getY()) != null)) {
 					if (game.isNodeEligible(gg.getX(), gg.getY()))
 						g.setColor(lgreen);
 					else
 						g.setColor(lred);
 					g.fillOval(gg.getX()-8, gg.getY()-8, 19, 19);
 				}
-				else if ((game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null) && (stage==4)) {
+				else if ((stage==4)&&(game.isNodeEligible(gg.getX(), gg.getY(), citySelect[0]) != null)) {
 					if (game.isNodeEligible(gg.getX(), gg.getY(),citySelect[0]))
 						g.setColor(lgreen);
 					else
@@ -132,68 +132,19 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 			g.setColor(game.players[t.getPlayer()].getColor());
 
-			if (containsDuple(t, n1.getConnections()) != null) {
-				Track orig = t;
-				Track newT = containsDuple(t, n1.getConnections());
-				if (orig.getTime() < newT.getTime()) {
-					drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
-					drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, 7);
-				} else {
-					drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
-					drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
-				}
-				/*double slope = (orig.getNode1().getY() +0.0 - orig.getNode2().getY())/(orig.getNode1().getX() +0.0 - orig.getNode2().getX());
-				if (slope > 0) {
-					if (orig.getTime() < newT.getTime()) {
-						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, -7);
-						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, 7);
-					} else {
-						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, 7);
-						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, -7);
-					}
-				}
-				else {
-					if (orig.getTime() < newT.getTime()) {
-						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, 7, -7);
-						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, -7, 7);
-					} else {
-						drawShiftedConnection(orig.getNode1(), orig.getNode2(), g, -7, 7);
-						drawShiftedConnection(newT.getNode1(), newT.getNode2(), g, 7, -7);
-					}
-				}*/
-				return;
-			}
-
-			int baseX1 = n1.getX();
-			int baseX2 = t.getOtherNode(n1).getX();
-			int baseY1 = n1.getY();
-			int baseY2 = t.getOtherNode(n1).getY();
+			int baseX1 = t.getX1();
+			int baseX2 = t.getX2();
+			int baseY1 = t.getY1();
+			int baseY2 = t.getY2();
 
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setStroke(new BasicStroke(9, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2.setStroke(new BasicStroke(13, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 
 			g2.drawLine(baseX1, baseY1, baseX2, baseY2);
 		}
 	}
 
-	private void drawShiftedConnection(Node n1, Node n2, Graphics g, int yShift, int xShift) {
-		for (Track t : n1.getConnections()) {
-			if (t.getOtherNode(n1).equals(n2)&&t.getPlayer()!=-1) {
-				g.setColor(game.players[t.getPlayer()].getColor());
-				int baseX1 = n1.getX() + xShift;
-				int baseX2 = n2.getX() + xShift;
-				int baseY1 = n1.getY() + yShift;
-				int baseY2 = n2.getY() + yShift;
-
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setStroke(new BasicStroke(9, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-
-				g2.drawLine(baseX1, baseY1, baseX2, baseY2);
-			}
-		}
-	}
-
-	private Track containsDuple(Track t, ArrayList<Track> tracks) {
+	public static Track containsDuple(Track t, ArrayList<Track> tracks) {
 		ArrayList<Track> duplicate = new ArrayList<>();
 		duplicate.addAll(tracks);
 		duplicate.remove(t);
@@ -236,7 +187,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		FontMetrics metrics = g.getFontMetrics(font);
 	    int x = 1435 + (80 - metrics.stringWidth("Done")) / 2;
 	    int y = 940 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
-	    g.setColor(Color.LIGHT_GRAY);
+	    g.setColor(Color.gray);
 	    g.setFont(font);
 	    g.drawString("Done", x, y);
 	}

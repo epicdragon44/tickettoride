@@ -4,11 +4,7 @@ public class Track {
 	private int cost, player;
 	private Node n1,n2;
 	private Color color;
-	private long time;
-
-	public long getTime() {
-		return time;
-	}
+	private int x1,x2,y1,y2;
 
 	public Track(Node s, Node f, Color col, int c)
 	{
@@ -18,14 +14,17 @@ public class Track {
 		cost=c;
 		player=-1;
 	}
-	public Track(Node s,Node f,Color col,int c, long time)
+	public Track(Node s,Node f,Color col,int c, int x,int y,int xx,int yy)
 	{
 		n1=s;
 		n2=f;
 		color=col;
 		cost=c;
 		player=-1;
-		this.time = time;
+		x1=x;
+		x2=xx;
+		y1=y;
+		y2=yy;
 	}
 	
 	public boolean setPlayer(int i)
@@ -72,5 +71,21 @@ public class Track {
 		if(from.equals(n1))
 			return n2;
 		return n1;
+	}
+	
+	public int getY2() {
+		return y2;
+	}
+	
+	public int getY1() {
+		return y1;
+	}
+
+	public int getX2() {
+		return x2;
+	}
+
+	public int getX1() {
+		return x1;
 	}
 }
