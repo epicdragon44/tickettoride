@@ -395,7 +395,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		Player[] playerCopy = new Player[game.players.length];
 		for (int i = 0; i < game.players.length; i++)
 			playerCopy[i] = game.players[i];
-		Arrays.sort(playerCopy);
+		/*Arrays.sort(playerCopy);*/
 
 		int topLeftX = 1235;
 		int topLeftY = 110;
