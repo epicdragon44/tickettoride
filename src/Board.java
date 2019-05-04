@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 
 public class Board {
 	public Node[] cities;
-	private boolean found;
 	protected int maxLen;
 	private Player bestPlayer;
 	private GameEngine daddyEngine;
@@ -34,7 +33,6 @@ public class Board {
 			}
 		}
 		sc.close();
-		found = false;
 		maxLen = Integer.MIN_VALUE;
 		bestPlayer = null;
 	}
@@ -55,21 +53,21 @@ public class Board {
 	public boolean isComplete(Contract c) {
 		Node startNode = findNode(c.getStart());
 		Node endNode = findNode(c.getEnd());
-		searchFrom(startNode, new ArrayList<>(), endNode);
-		return found;
+		return searchFrom(startNode, new ArrayList<>(), endNode);
 	}
 
-	private void searchFrom(Node n, ArrayList<Track> visited, Node target) {
+	private boolean searchFrom(Node n, ArrayList<Track> visited, Node target) {
 		if (n.equals(target)) {
-			found = true;
-			return;
+			return true;
 		}
 		for (Track t : n.getConnections()) {
 			if (!visited.contains(t) && t.getPlayer()==daddyEngine.currentPlayer) {
 				visited.add(t);
-				searchFrom(t.getOtherNode(n), visited, target);
+				if(searchFrom(t.getOtherNode(n), visited, target))
+					return true;
 			}
 		}
+		return false;
 	}
 	//...end of contract completeness algorithm
 
@@ -85,6 +83,20 @@ public class Board {
 		for (Node n : cities) {
 			if (n.contains(x, y))
 				return n;
+		}
+		return null;
+	}
+	
+	public Track findTrack(Node n, Node node)
+	{
+		for(Track t:n.getConnections())
+		{
+			if(t.getOtherNode(n).equals(node)&&t.getPlayer()==-1)
+			{
+				if(containsDuple(t, n)!=null&&containsDuple(t, n).getPlayer()==daddyEngine.currentPlayer)
+					continue;
+				return t;
+			}
 		}
 		return null;
 	}
@@ -154,15 +166,17 @@ public class Board {
 		int x=0,y=0;
 		boolean available = false;
 		for (Track t : tracks) {
-			if (!available && t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
+			if (t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
 				if (t.getPlayer() == -1) {
 					x=t.getX2();
 					y=t.getY2();
 					t.setPlayer(player);
 					available = true;
+					break;
 				}
 			}
 		}
+		System.out.println(available);
 		if (available) {
 			tracks = end.getConnections();
 			for (Track t : tracks) {
@@ -173,6 +187,7 @@ public class Board {
 					}
 				}
 			}
+			return true;
 		}
 		return false;
 	}

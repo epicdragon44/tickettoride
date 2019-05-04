@@ -36,6 +36,8 @@ public class GameEngine {
 		}
 		for(int i=0;i<5;i++)
 			tableDeck[i]=tDeck.draw();
+		if(checkWildLim())
+			updateTable();
 	}
 
 	public void nextPlayer() {
@@ -47,10 +49,51 @@ public class GameEngine {
 		if(checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
 		{
 			trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
+			for(Contract ct:players[currentPlayer].getContract())
+				ct.checkComplete(gBoard);
+			tDeck.restartDeck(trashDeck);
+			trashDeck=new ArrayList<TrainCard>();
+			if(needTable())
+				resetTable();
+			if(checkWildLim())
+				updateTable();
 			return true;
 		}
 	  	else
 	  		return false;
+	}
+	
+	private boolean needTable()
+	{
+		for(TrainCard t:tableDeck)
+			if(t==null)
+				return true;
+		return false;
+	}
+	
+	private void resetTable()
+	{
+		for(int i=0;i<5;i++)
+			if(!tDeck.needsReset()&&tableDeck[i]==null)
+				tableDeck[i]=tDeck.draw();
+		for(int i=0;i<5;i++)
+		{
+			if(!tDeck.needsReset()&&(tableDeck[i]==null||tableDeck[i].getwild()))
+			{
+				if(tableDeck[i]!=null)
+					tDeck.replace(tableDeck[i]);
+				tableDeck[i]=tDeck.draw();
+			}
+		}
+	}
+	
+	private int getNonWildTable()
+	{
+		int cnt=0;
+		for(TrainCard t:tableDeck)
+			if(t!=null&&!t.getwild())
+				cnt++;
+		return cnt;
 	}
 	
 	private boolean checkEligibility(Node nodeOne, Node nodeTwo, ColorType c) {
@@ -80,8 +123,8 @@ public class GameEngine {
 	{
 		for(TrainCard t:tableDeck)
 			if(t!=null&&t.getColor()!=null)
-				return false;
-		return true;
+				return true;
+		return false;
 	}
 	
 	public TrainCard[] getTable()
@@ -97,9 +140,9 @@ public class GameEngine {
 		return tDeck;
 	}
 	
-	public ArrayList<Contract> drawContract() {
+	public ArrayList<Contract> drawContract(int num) {
 		if(cDeck.size()>0)
-			return cDeck.draw(Math.min(cDeck.size(), 3));
+			return cDeck.draw(Math.min(cDeck.size(), num));
 		return null;
 	}
 	
@@ -108,10 +151,15 @@ public class GameEngine {
 		players[currentPlayer].addContract(c);
 	}
 	
+	public Track findTrack(Node n1, Node n2)
+	{
+		return gBoard.findTrack(n1,n2);
+	}
+	
 	public boolean checkWildLim() {
 		int c=0;
 		for(TrainCard t:tableDeck)
-			if(t.getwild())
+			if(t!=null&&t.getwild())
 				if(++c==3)
 					return true;
 	  return false;
@@ -126,18 +174,24 @@ public class GameEngine {
     			tableDeck[i]=null;
     		}
     	}
-    	if(tDeck.needsReset())
+    	if(tDeck.needsReset()&&haveTrainCards())
+		{
 			tDeck.restartDeck(trashDeck);
+			trashDeck=new ArrayList<TrainCard>();
+		}
     	for(int i=0;i<tableDeck.length;i++)
     	{
     		if(tableDeck[i]==null&&haveTrainCards())
     		{
     			tableDeck[i]=tDeck.draw();
-    			if(tDeck.needsReset())
+    			if(tDeck.needsReset()&&haveTrainCards())
+    			{
     				tDeck.restartDeck(trashDeck);
+    				trashDeck=new ArrayList<TrainCard>();
+    			}
     		}
     	}
-    	if(checkWildLim())
+    	if(tDeck.getNonWildNum()+getNonWildTable()>2&&checkWildLim())
     		updateTable();
     }
     
@@ -164,13 +218,14 @@ public class GameEngine {
 				else
 					tableDeck[pos]=tDeck.draw();
 			}
-			if(checkWildLim())
-				updateTable();
 		}
-		System.out.println(tDeck);
-		if(tDeck.needsReset())
+		if(checkWildLim())
+			updateTable();
+		if(tDeck.needsReset()&&haveTrainCards())
+		{
 			tDeck.restartDeck(trashDeck);
-		System.out.println(tDeck);
+			trashDeck=new ArrayList<TrainCard>();
+		}
 		return rtn.getwild();
 	}
 
@@ -181,7 +236,7 @@ public class GameEngine {
 		{
 			for(Contract c:players[i].getContract())
 			{
-				if(gBoard.isComplete(c))
+				if(c.isComplete())
 				{
 					players[i].addPoints(c.getValue());
 					contractCount[0][i]++;
@@ -194,7 +249,7 @@ public class GameEngine {
 				}
 			}
 		}
-		int val=-111,place=0;
+		int val=Integer.MIN_VALUE,place=0;
 		for(int i=0;i<contractCount.length;i++)
 		{
 			if(contractCount[0][i]>val)

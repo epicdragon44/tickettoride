@@ -22,19 +22,16 @@ public class ContractDeck {
 	public ArrayList<Contract> draw(int num) 
 	{
 		ArrayList<Contract> c = new ArrayList<>();
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < num; i++)
 			c.add(deck.remove());
-		}
 		return c;
 	}
 
 	public void replace(ArrayList<Contract> c) 
 	{
-		System.out.println(c);
 		while(c.contains(null))
 			c.remove(null);
 		deck.addAll(c);
-		System.out.println(c);
 	}
 	
 	public int size()

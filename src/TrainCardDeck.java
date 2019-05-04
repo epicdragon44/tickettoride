@@ -41,11 +41,17 @@ public class TrainCardDeck {
 	}
 
 	public void restartDeck(ArrayList<TrainCard> rep) {
+		if(rep.size()==0)
+			return;
 		deck.addAll(rep);
 		Collections.shuffle(deck);
-		rep=new ArrayList<TrainCard>();
 	}
-
+	
+	public void replace(TrainCard t) {
+		deck.add(t);
+		Collections.shuffle(deck);
+	}
+	
 	public TrainCard draw() {
 		if(!needsReset())
 			return deck.remove(0);
@@ -54,6 +60,21 @@ public class TrainCardDeck {
 
 	public boolean needsReset() {
 		return deck.size()==0;
+	}
+	
+	public int getSize()
+	{
+		return deck.size();
+	}
+	
+	public int getNonWildNum()
+	{
+		int count=0;
+		for(TrainCard t:deck)
+			if(!t.getwild())
+				count++;
+		System.out.println(count);
+		return count;
 	}
 	
 	public String toString()
