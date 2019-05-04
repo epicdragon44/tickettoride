@@ -22,4 +22,9 @@ public class TrainCard {
 	public boolean equals(TrainCard b) {
 		return (isWild&&b.getwild())||color.equals(b.getColor());
 	}
+	
+	public String toString()
+	{
+		return ""+isWild;
+	}
 }

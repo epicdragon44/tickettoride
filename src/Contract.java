@@ -1,12 +1,14 @@
 public class Contract {
     private String start, end;
     private int value;
+    private boolean complete;
 
     public Contract(int v,String s, String e) 
     {
         start = s;
         end = e;
         value = v;
+        complete=false;
     }
     
     protected String getStart() {
@@ -17,6 +19,17 @@ public class Contract {
         return end;
     }
 
+    public boolean isComplete()
+    {
+    	return complete;
+    }
+    
+    public void checkComplete(Board b)
+    {
+    	if(!complete)
+    		complete=b.isComplete(this);
+    }
+    
     public void setStart(String start) {
 		this.start = start;
 	}

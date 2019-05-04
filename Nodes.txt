@@ -11,7 +11,7 @@ Sault_St._Marie Black 5 1055 59 844 135,Toronto Gray 3 1065 63 978 158,New_York 
 Seattle 85 157
 Vancouver Gray 1 80 142 79 103,Vancover Gray 1 95 141 94 103,Calgary Gray 4 98 156 247 72,Helena Yellow 6 101 174 361 231,Portland Gray 1 73 167 56 201,Portland Gray 1 87 172 70 207
 Helena 379 232
-Calgary Gray 4 375 215 264 80,Winnipeg Blue 4 395 213 518 89,Duluth Orange 6 395 230 662 225,Omaha Orange 5 408 244 611 329,Denver Green 4 387 244 451 404,Salt_Lake_City Pink 3 368 247 301 360,Seattle Yellow 6 361 231 101 174
+Calgary Gray 4 375 215 264 80,Winnipeg Blue 4 395 213 518 89,Duluth Orange 6 395 230 662 225,Omaha Red 5 408 244 611 329,Denver Green 4 387 244 451 404,Salt_Lake_City Pink 3 368 247 301 360,Seattle Yellow 6 361 231 101 174
 Duluth 675 224
 Winnipeg Black 4 667 211 542 89,Sault_St._Marie Gray 3 699 202 819 152,Toronto Pink 6 688 222 950 175,Chicago Red 3 685 235 806 286,Omaha Gray 2 663 240 631 318,Omaha Gray 2 676 246 644 324,Helena Orange 6 662 225 395 230
 Toronto 970 168
@@ -27,7 +27,7 @@ Portland Blue 6 279 377 70 222,Helena Pink 3 301 360 368 247,Denver Red 3 306 37
 Denver 451 426
 Helena Green 4 451 404 387 244,Omaha Pink 4 462 414 624 338,Kansas_City Black 4 471 417 645 405,Kansas_City Orange 4 468 428 645 423,Oklahoma_City Red 4 464 434 628 508,Santa_Fe Gray 2 446 442 442 526,Phoenix White 5 436 435 299 599,Salt_Lake_City Red 3 430 404 306 378,Salt_Lake_City Yellow 3 429 418 302 394
 Omaha 636 340
-Duluth Gray 2 631 318 663 240,Duluth Gray 2 644 324 676 246,Chicago Blue 4 648 334 816 303,Kansas_City Gray 1 652 352 668 385,Kansas_City Gray 1 638 357 654 392,Denver Pink 4 624 338 462 414,Helena Pink 5 611 329 408 244
+Duluth Gray 2 631 318 663 240,Duluth Gray 2 644 324 676 246,Chicago Blue 4 648 334 816 303,Kansas_City Gray 1 652 352 668 385,Kansas_City Gray 1 638 357 654 392,Denver Pink 4 624 338 462 414,Helena Red 5 611 329 408 244
 Chicago 827 303
 Duluth Red 3 806 286 685 235,Toronto White 4 829 292 965 182,Pittsburgh Orange 3 845 293 979 278,Pittsburgh Black 3 846 310 979 292,Saint_Louis Green 2 810 314 765 383,Saint_Louis White 2 823 321 777 392,Omaha Blue 4 816 303 648 334
 Pittsburgh 991 284

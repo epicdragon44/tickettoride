@@ -11,11 +11,11 @@ import java.util.*;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	private GameEngine game;
-	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
+	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen, hoverStack;
 	private Font f;
 	Node gg;
 	private ArrayList<Contract> contracts;
-	private int lastRoundCount, stage;
+	private int lastRoundCount, stage, hoverConStart, hoverCon;
 	private Node[] citySelect;
 	private int[] endData;
 	private boolean hoverT,hoverC;
@@ -41,9 +41,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		lastRoundCount = 0;
 		stage = 0;
 		citySelect = new Node[2];
-		contracts = game.drawContract();
+		contracts = game.drawContract(5);
 		hoverT=false;
 		hoverC=false;
+		hoverStack=null;
+		hoverConStart=-1;
+		hoverCon=-1;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -91,7 +94,22 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 				drawTDeck(g);
 			}
-			if (stage == 0 || stage == 3) {
+			if (stage == 0) 
+			{
+				if(hoverConStart!=-1&&hoverConStart<contracts.size()&&contracts.get(hoverConStart)!=null)
+				{
+					g.setColor(lgreen);
+					g.fillRoundRect(1290, 650+hoverConStart*60, 370, 55, 10, 10);
+				}
+				drawContractSelectStart(g);
+			}
+			else if (stage == 3) 
+			{
+				if(hoverCon!=-1&&hoverCon<contracts.size()&&contracts.get(hoverCon)!=null)
+				{
+					g.setColor(lgreen);
+					g.fillRoundRect(1290, 690+hoverCon*80, 370, 80, 10, 10);
+				}
 				drawContractSelect(g);
 			}
 			else
@@ -117,6 +135,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.setFont(f);
 				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
 			}
+			if(stage==5)
+				if(hoverStack!=null)
+					drawConnection(g);
 		}
 		else {
 			drawEndGame(g);
@@ -144,6 +165,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 	}
 	
+	public void drawConnection(Graphics g) {
+		Track t=game.findTrack(citySelect[0],citySelect[1]);
+		g.setColor(hoverStack);
+
+		int baseX1 = t.getX1();
+		int baseX2 = t.getX2();
+		int baseY1 = t.getY1();
+		int baseY2 = t.getY2();
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(13, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+
+		g2.drawLine(baseX1, baseY1, baseX2, baseY2);
+	}
+	
 	public void drawContractSelect(Graphics g)
 	{
 		Font font=new Font("Arial Narrow", Font.ITALIC, 25);
@@ -153,31 +189,66 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		{
 			if(contracts.get(i)==null)
 				continue;
-			g.setColor(Color.LIGHT_GRAY);
+			if(i==hoverCon)
+				g.setColor(Color.DARK_GRAY);
+			else
+				g.setColor(Color.LIGHT_GRAY);
 			g.drawRect(xA, yA+i*80, 350, 60);
 			String text=contracts.get(i).getStart()+" to "+contracts.get(i).getEnd();
 			FontMetrics metrics = g.getFontMetrics(font);
 		    int x = xA + (350 - metrics.stringWidth(text)) / 2;
 		    int y = (yA+i*80) + ((30 - metrics.getHeight()) / 2) + metrics.getAscent();
-		    g.setColor(Color.LIGHT_GRAY);
 		    g.setFont(font);
 		    g.drawString(text, x, y);
-		    text=""+contracts.get(i).getValue();
+		    text="Value : "+contracts.get(i).getValue();
 		    x = xA + (350 - metrics.stringWidth(text)) / 2;
 		    y = (yA+30+i*80) + ((30 - metrics.getHeight()) / 2) + metrics.getAscent();
-		    g.setColor(Color.LIGHT_GRAY);
 		    g.setFont(font);
 		    g.drawString(text, x, y);
 		}
 		g.setColor(new Color(57,229,109));
 		g.fillRoundRect(1435, 940, 80, 40, 10, 10);
-		g.setColor(Color.black);
+		g.setColor(Color.BLACK);
 		g.drawRoundRect(1435, 940, 80, 40, 10, 10);
 		font=new Font("Arial Narrow", Font.BOLD+Font.ITALIC, 20);
 		FontMetrics metrics = g.getFontMetrics(font);
 	    int x = 1435 + (80 - metrics.stringWidth("Done")) / 2;
 	    int y = 940 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
-	    g.setColor(Color.gray);
+	    g.setColor(Color.GRAY);
+	    g.setFont(font);
+	    g.drawString("Done", x, y);
+	}
+	
+	public void drawContractSelectStart(Graphics g)
+	{
+		Font font=new Font("Arial Narrow", Font.ITALIC, 20);
+		int xA=1300;
+		int yA=660;
+		for(int i=0;i<contracts.size();i++)
+		{
+			if(contracts.get(i)==null)
+				continue;
+			if(i==hoverConStart)
+				g.setColor(Color.DARK_GRAY);
+			else
+				g.setColor(Color.LIGHT_GRAY);
+			g.drawRect(xA, yA+i*60, 350, 35);
+			String text=contracts.get(i).getStart()+" to "+contracts.get(i).getEnd()+"  Value : "+contracts.get(i).getValue();
+			FontMetrics metrics = g.getFontMetrics(font);
+		    int x = xA + (350 - metrics.stringWidth(text)) / 2;
+		    int y = (yA+i*60) + ((30 - metrics.getHeight()) / 2) + metrics.getAscent();
+		    g.setFont(font);
+		    g.drawString(text, x, y);
+		}
+		g.setColor(new Color(57,229,109));
+		g.fillRoundRect(1435, 950, 80, 40, 10, 10);
+		g.setColor(Color.BLACK);
+		g.drawRoundRect(1435, 950, 80, 40, 10, 10);
+		font=new Font("Arial Narrow", Font.BOLD+Font.ITALIC, 20);
+		FontMetrics metrics = g.getFontMetrics(font);
+	    int x = 1435 + (80 - metrics.stringWidth("Done")) / 2;
+	    int y = 950 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
+	    g.setColor(Color.GRAY);
 	    g.setFont(font);
 	    g.drawString("Done", x, y);
 	}
@@ -260,10 +331,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			e.printStackTrace();
 		}
 		int[] results = this.endData;
-//		int[] results = {15, 13, -11, 10, 1, 0};
+		//int[] results = {15, 13, -11, 10, 1, 0};
 
 		//draw contract payouts
-		int contractPayoutX = 35;
+		int contractPayoutX = 75;
 		int contractPayoutY = 860;
 		int contractPayoutXShift = 100;
 		for (int i = 0; i < game.players.length; i++) {
@@ -272,13 +343,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Arial", Font.BOLD, 35));
 			String toDraw = results[i]+"";
-			if (results[i] > 0)
+			if (results[i] > -1)
 				toDraw = "+"+toDraw;
-			else if (results[i] < 0)
-				toDraw = "-"+toDraw;
 			g.drawString(toDraw, contractPayoutX + i * contractPayoutXShift + 10, contractPayoutY + 50);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+			g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
 		}
@@ -291,7 +360,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g.setColor(Color.BLACK);
 		g.drawString("+10", 630, 930);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 		g2.setColor(Color.BLACK);
 		g2.drawRoundRect(600, 860, 125, 125, 25, 25);
 		//end drawing longest path
@@ -302,7 +371,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g.setColor(Color.BLACK);
 		g.drawString("+15", 1000, 930);
 		g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 		g2.setColor(Color.BLACK);
 		g2.drawRoundRect(970, 860, 125, 125, 25, 25);
 		//end draw globetrotter
@@ -451,66 +520,81 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	public void drawTable(Graphics g) {
 		try {
-			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[0])));
-			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
-			g.drawImage(img, 1300, 700, new ImageObserver() {
-				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-					return false;
-				}
-			});
+			if(game.getTable()[0]!=null)
+			{
+				BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[0])));
+				img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+				g.drawImage(img, 1300, 700, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			}
 		} catch (IOException e) {
 			System.out.println("Error on drawing traincards");
 			e.printStackTrace();
 		}
 		try {
-			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[1])));
-			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
-			g.drawImage(img, 1500, 700, new ImageObserver() {
-				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-					return false;
-				}
-			});
+			if(game.getTable()[1]!=null)
+			{
+				BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[1])));
+				img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+				g.drawImage(img, 1500, 700, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			}
 		} catch (IOException e) {
 			System.out.println("Error on drawing traincards");
 			e.printStackTrace();
 		}
 		try {
-			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[2])));
-			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
-			g.drawImage(img, 1400, 750, new ImageObserver() {
-				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-					return false;
-				}
-			});
+			if(game.getTable()[2]!=null)
+			{
+				BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[2])));
+				img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+				g.drawImage(img, 1400, 750, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			}
 		} catch (IOException e) {
 			System.out.println("Error on drawing traincards");
 			e.printStackTrace();
 		}
 		try {
-			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[3])));
-			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
-			g.drawImage(img, 1300, 800, new ImageObserver() {
-				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-					return false;
-				}
-			});
+			if(game.getTable()[3]!=null)
+			{
+				BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[3])));
+				img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+				g.drawImage(img, 1300, 800, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			}
 		} catch (IOException e) {
 			System.out.println("Error on drawing traincards");
 			e.printStackTrace();
 		}
 		try {
-			BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
-			img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
-			g.drawImage(img, 1500, 800, new ImageObserver() {
-				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-					return false;
-				}
-			});
+			if(game.getTable()[4]!=null)
+			{
+				BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
+				img = resize(img, (int)(img.getWidth()*0.5), (int)(img.getHeight()*0.5));
+				g.drawImage(img, 1500, 800, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			}
 		} catch (IOException e) {
 			System.out.println("Error on drawing traincards");
 			e.printStackTrace();
@@ -552,7 +636,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 			int x = topLeftX + staggerXCnt * ((maxWidth / (numOfCols)));
 			int y = topLeftY + ((i % modfactor) * heightOfBox);
-			g.drawRect(x, y, widthOfBox, heightOfBox);
+			
+			
+			if(c.isComplete())
+			{
+				g.setColor(lgreen);
+				g.fillRect(x, y, widthOfBox, heightOfBox);
+				g.setColor(Color.LIGHT_GRAY);
+				g.drawRect(x, y, widthOfBox, heightOfBox);
+				g.setColor(Color.DARK_GRAY);
+			}
+			else
+			{
+				g.setColor(Color.LIGHT_GRAY);
+				g.drawRect(x, y, widthOfBox, heightOfBox);
+			}
 			g.drawString(c.getStart() + " to " + c.getEnd(), x + 5, y + heightOfBox / 2 + 3);
 			g.drawString(c.getValue() + "", (x + widthOfBox) - 15, y + heightOfBox / 2 + 3);
 		}
@@ -560,7 +658,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX() + " " + e.getY());
+		//System.out.println(e.getX() + " " + e.getY());
 	}
 
 	@Override
@@ -578,12 +676,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			int ind=-1;
 			if(e.getX()>=1300&&e.getX()<=1650) 
 			{
-				if(e.getY()>=700&&e.getY()<=760)
+				if(e.getY()>=660&&e.getY()<=695)
 					ind=0;
-				else if(e.getY()>=780&&e.getY()<=840)
+				else if(e.getY()>=720&&e.getY()<=755)
 					ind=1;
-				else if(e.getY()>=860&&e.getY()<=920)
+				else if(e.getY()>=780&&e.getY()<=815)
 					ind=2;
+				else if(e.getY()>=840&&e.getY()<=875)
+					ind=3;
+				else if(e.getY()>=900&&e.getY()<=935)
+					ind=4;
 			}
 			if(ind!=-1&&ind<contracts.size()&&contracts.get(ind)!=null)
 			{
@@ -594,13 +696,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			for(Contract c:contracts)
 				if(c==null)
 					count++;
-			if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980&&count>1)
+			if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=950&&e.getY()<=990&&count>2)
 			{
 				game.replaceContracts(contracts);
 				if(game.currentPlayer==3)
 					stage=1;
 				else
-					contracts=game.drawContract();
+					contracts=game.drawContract(5);
 				game.nextPlayer();
 			}
 		}
@@ -613,7 +715,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 			else if(e.getX()>=1472&&e.getX()<=1688&&e.getY()>=516&&e.getY()<=649&&game.getNumContracts()>0)
 			{
-				contracts=game.drawContract();
+				contracts=game.drawContract(3);
 				stage=3;
 			}
 			Node n=game.findNode(e.getX(),e.getY());
@@ -622,6 +724,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				citySelect[0]=n;
 				stage=4;
 			}
+			boolean proceed=false;
+			for(TrainCard t:game.getTable())
+				if(t!=null)
+					proceed=true;
 			int ind=-1;
 			if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=700&&e.getY()<=755)
 				ind=0;
@@ -633,7 +739,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				ind=3;
 			else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=800&&e.getY()<=855)
 				ind=4;
-			if(ind!=-1&&game.getTable()[ind]!=null)
+			if(proceed&&ind!=-1&&game.getTable()[ind]!=null)
 			{
 				if(game.drawTrainCard(ind, false))
 				{
@@ -641,26 +747,18 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					if(lastRoundCount > 0)
 						lastRoundCount--;
 				}
+				else if(!(game.haveTable()||game.haveTrainCards()))
+				{
+					JOptionPane.showMessageDialog(null, "NO VALID MOVES. IT IS THE NEXT PLAYER'S TURN.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					game.nextPlayer();
+					if(lastRoundCount>0)
+						lastRoundCount--;
+				}
 				else
 					stage=2;
 			}
 		}
 		else if (stage == 2) {
-			if(!(game.haveTable()||game.haveTrainCards()))
-			{
-				game.nextPlayer();
-				stage=1;
-				if(lastRoundCount>0)
-					lastRoundCount--;
-			}
-			else if(e.getX()>=1218&&e.getX()<=1447&&e.getY()>=513&&e.getY()<=649&&game.haveTrainCards())
-			{
-				game.drawTrainCard(-1, true);
-				game.nextPlayer();
-				stage=1;
-				if(lastRoundCount>0)
-					lastRoundCount--;
-			}
 			int ind=-1;
 			if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=700&&e.getY()<=755)
 				ind=0;
@@ -672,7 +770,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				ind=3;
 			else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=800&&e.getY()<=855)
 				ind=4;
-			if(ind!=-1&&game.getTable()[ind]!=null)
+			if(e.getX()>=1218&&e.getX()<=1447&&e.getY()>=513&&e.getY()<=649&&game.haveTrainCards())
+			{
+				game.drawTrainCard(-1, true);
+				game.nextPlayer();
+				stage=1;
+				if(lastRoundCount>0)
+					lastRoundCount--;
+			}
+			else if(ind!=-1&&game.getTable()[ind]!=null)
 			{
 				if(game.drawTrainCard(ind, true))
 					JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE PICK A NON-WILD CARD.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
@@ -741,8 +847,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				else if(e.getX()>=427&&e.getX()<=469)
 					stack=ColorType.YELLOW;
 			}
-			System.out.println(stack);
-			System.out.println(game.players[game.currentPlayer].getTrainCards());
 			if(stack!=null)
 			{
 				if(!game.placeTrain(citySelect[0], citySelect[1], stack))
@@ -761,7 +865,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				citySelect[1]=null;
 			}
 			if(e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=1081)
-				JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE CLICK ON ACTUAL COLOR.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE CLICK ON ACTUAL COLOR.\nIF YOU WANT TO USE ONLY WILDS, CLICK ON A STACK FOR WHICH YOU HAVE NO CARDS.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 		if (game.lastRound() && lastRoundCount == 0)
 			lastRoundCount = 5;
@@ -778,6 +882,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		if(stage==6)
+			return;
 		if (game.getgBoard().findNode(e.getX(), e.getY()) != null)
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
 		else
@@ -790,9 +896,60 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			hoverC=true;
 		else
 			hoverC=false;
-
+		if(e.getY()>=810&&e.getY()<=1081)
+		{
+			if(e.getX()>=75&&e.getX()<=117)
+				hoverStack=new Color(92,97,92,230);
+			else if(e.getX()>=119&&e.getX()<=161)
+				hoverStack=new Color(154,196,70,230);
+			else if(e.getX()>=163&&e.getX()<=205)
+				hoverStack=new Color(205,135,173,230);
+			else if(e.getX()>=207&&e.getX()<=249)
+				hoverStack=new Color(255,255,255,230);
+			else if(e.getX()>=295&&e.getX()<=337)
+				hoverStack=new Color(210,158,53,230);
+			else if(e.getX()>=339&&e.getX()<=381)
+				hoverStack=new Color(206,66,49,230);
+			else if(e.getX()>=383&&e.getX()<=425)
+				hoverStack=new Color(4,160,211,230);
+			else if(e.getX()>=427&&e.getX()<=469)
+				hoverStack=new Color(230,230,77,230);
+			else
+				hoverStack=null;
+		}
+		else
+			hoverStack=null;
+		if(e.getX()>=1300&&e.getX()<=1650&&stage==0) 
+		{
+			if(e.getY()>=660&&e.getY()<=695)
+				hoverConStart=0;
+			else if(e.getY()>=720&&e.getY()<=755)
+				hoverConStart=1;
+			else if(e.getY()>=780&&e.getY()<=815)
+				hoverConStart=2;
+			else if(e.getY()>=840&&e.getY()<=875)
+				hoverConStart=3;
+			else if(e.getY()>=900&&e.getY()<=935)
+				hoverConStart=4;
+			else
+				hoverConStart=-1;
+		}
+		else
+			hoverConStart=-1;
+		if(e.getX()>=1300&&e.getX()<=1650&&stage==3) 
+		{
+			if(e.getY()>=700&&e.getY()<=760)
+				hoverCon=0;
+			else if(e.getY()>=780&&e.getY()<=840)
+				hoverCon=1;
+			else if(e.getY()>=860&&e.getY()<=920)
+				hoverCon=2;
+			else
+				hoverCon=-1;
+		}
+		else
+			hoverCon=-1;
 		//add contract selection(including done)(not null)(stage 0 and stage 3)
-		//add color stacks(only stage 5)
 		//add table deck(not null)(stage 1 and stage [red if wild]2)
 		repaint();
 	}
@@ -806,14 +963,18 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void startAnimationTimer() {
-		Timer animateTimer = new Timer(70, new MoveBox());
+		Timer animateTimer = new Timer(110, new MoveBox());
 		animateTimer.start();
 		this.moving = true;
 		this.repaint();
 	}
 	class MoveBox implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int targety = 110 + (game.currentPlayer * 100);
+			ArrayList<Player> playerCopy = new ArrayList<Player>();
+			for (int i = 0; i < game.players.length; i++)
+				playerCopy.add(game.players[i]);
+			Collections.sort(playerCopy);
+			int targety = 110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
 			if (moving) {
 				if (yLeader < targety) {
 					moveBox(true);
