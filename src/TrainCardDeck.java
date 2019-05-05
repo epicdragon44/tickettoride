@@ -73,7 +73,6 @@ public class TrainCardDeck {
 		for(TrainCard t:deck)
 			if(!t.getwild())
 				count++;
-		System.out.println(count);
 		return count;
 	}
 	

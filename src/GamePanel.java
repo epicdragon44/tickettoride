@@ -12,7 +12,9 @@ import java.util.*;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	private GameEngine game;
-	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen, hoverStack;
+	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
+	private ColorType hoverStack;
+	private HashMap<ColorType,ColorType> cMap;
 	private Font f;
 	Node gg;
 	private ArrayList<Contract> contracts;
@@ -35,17 +37,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
 		game = new GameEngine(this);
+		cMap=new HashMap<ColorType,ColorType>();
+		cMap.put(new ColorType(92,97,92,230),ColorType.BLACK);
+		cMap.put(new ColorType(154,196,70,230),ColorType.GREEN);
+		cMap.put(new ColorType(205,135,173,230),ColorType.PINK);
+		cMap.put(new ColorType(255,255,255,230),ColorType.WHITE);
+		cMap.put(new ColorType(210,158,53,230),ColorType.ORANGE);
+		cMap.put(new ColorType(206,66,49,230),ColorType.RED);
+		cMap.put(new ColorType(4,160,211,230),ColorType.BLUE);
+		cMap.put(new ColorType(230,230,77,230),ColorType.YELLOW);
+		cMap.put(null, null);
 		f = new Font("Brush Script MT", Font.BOLD, 30);
 		setLayout(null);
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 		lastRoundCount = 0;
-		stage = 0;
+		stage = 1;
 		citySelect = new Node[2];
 		contracts = game.drawContract(5);
 		hoverT=false;
 		hoverC=false;
-		hoverStack=null;
+		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
 		hoverCon=-1;
 		animating=false;
@@ -138,7 +150,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
 			}
 			if(stage==5)
-				if(hoverStack!=null)
+				if((hoverStack==null||!hoverStack.equals(ColorType.BLACK))&&game.getCardCount(cMap.get(hoverStack))>0)
 					drawConnection(g);
 		}
 		else {
@@ -169,14 +181,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	public void drawConnection(Graphics g) {
 		Track t=game.findTrack(citySelect[0],citySelect[1]);
-		g.setColor(hoverStack);
+		Graphics2D g2 = (Graphics2D) g;
+		if(hoverStack==null||hoverStack.equals(Color.BLACK)) {
+			float[] f={0.14285714f,(float)(0.14285714*2),(float)(0.14285714*3),(float)(0.14285714*4),(float)(0.14285714*5),(float)(0.14285714*6),1.0f};
+			Color[] col={new Color(255,0,0,230),new Color(13,139,242,230),new Color(0,0,255,230),
+					new Color(0,255,255,230),new Color(0,255,64,230),new Color(255,255,0,230),new Color(255,0,0,230)};
+			g2.setPaint(new LinearGradientPaint(t.getX1(),t.getY1(),t.getX2(),t.getY2(),f,col));
+		}
+		else
+			g2.setColor(hoverStack);
 
 		int baseX1 = t.getX1();
 		int baseX2 = t.getX2();
 		int baseY1 = t.getY1();
 		int baseY2 = t.getY2();
 
-		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(13, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 
 		g2.drawLine(baseX1, baseY1, baseX2, baseY2);
@@ -658,7 +677,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//System.out.println(e.getX() + " " + e.getY());
 	}
 
 	@Override
@@ -824,27 +842,26 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		else if(stage==5)
 		{
-			ColorType stack=null;
-			if(e.getY()>=810&&e.getY()<=1081)
-			{
-				if(e.getX()>=75&&e.getX()<=117)
-					stack=ColorType.BLACK;
-				else if(e.getX()>=119&&e.getX()<=161)
-					stack=ColorType.GREEN;
-				else if(e.getX()>=163&&e.getX()<=205)
-					stack=ColorType.PINK;
-				else if(e.getX()>=207&&e.getX()<=249)
-					stack=ColorType.WHITE;
-				else if(e.getX()>=295&&e.getX()<=337)
-					stack=ColorType.ORANGE;
-				else if(e.getX()>=339&&e.getX()<=381)
-					stack=ColorType.RED;
-				else if(e.getX()>=383&&e.getX()<=425)
-					stack=ColorType.BLUE;
-				else if(e.getX()>=427&&e.getX()<=469)
-					stack=ColorType.YELLOW;
-			}
-			if(stack!=null)
+			ColorType stack=ColorType.CYAN;
+			if(game.getCardCount(ColorType.BLACK)>0&&e.getX()>=75&&e.getX()<=117&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.BLACK)-1))
+				stack=ColorType.BLACK;
+			else if(game.getCardCount(ColorType.GREEN)>0&&e.getX()>=119&&e.getX()<=161&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.GREEN)-1))
+				stack=ColorType.GREEN;
+			else if(game.getCardCount(ColorType.PINK)>0&&e.getX()>=163&&e.getX()<=205&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.PINK)-1))
+				stack=ColorType.PINK;
+			else if(game.getCardCount(ColorType.WHITE)>0&&e.getX()>=207&&e.getX()<=249&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.WHITE)-1))
+				stack=ColorType.WHITE;
+			else if(game.getCardCount(ColorType.ORANGE)>0&&e.getX()>=295&&e.getX()<=337&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.ORANGE)-1))
+				stack=ColorType.ORANGE;
+			else if(game.getCardCount(ColorType.RED)>0&&e.getX()>=339&&e.getX()<=381&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.RED)-1))
+				stack=ColorType.RED;
+			else if(game.getCardCount(ColorType.BLUE)>0&&e.getX()>=383&&e.getX()<=425&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.BLUE)-1))
+				stack=ColorType.BLUE;
+			else if(game.getCardCount(ColorType.YELLOW)>0&&e.getX()>=427&&e.getX()<=469&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.YELLOW)-1))
+				stack=ColorType.YELLOW;
+			else if(game.getCardCount(null)>0&&e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(null)-1))
+				stack=null;
+			if(stack==null||!stack.equals(ColorType.CYAN))
 			{
 				if(!game.placeTrain(citySelect[0], citySelect[1], stack))
 				{
@@ -853,6 +870,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 				else
 				{
+					//add line drawing animation
 					game.nextPlayer();
 					stage=1;
 					if(lastRoundCount>0)
@@ -861,8 +879,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				citySelect[0]=null;
 				citySelect[1]=null;
 			}
-			if(e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=1081)
-				JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE CLICK ON ACTUAL COLOR.\nIF YOU WANT TO USE ONLY WILDS, CLICK ON A STACK FOR WHICH YOU HAVE NO CARDS.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 		if (game.lastRound() && lastRoundCount == 0)
 			lastRoundCount = 5;
@@ -893,29 +909,26 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			hoverC=true;
 		else
 			hoverC=false;
-		if(e.getY()>=810&&e.getY()<=1081)
-		{
-			if(e.getX()>=75&&e.getX()<=117)
-				hoverStack=new Color(92,97,92,230);
-			else if(e.getX()>=119&&e.getX()<=161)
-				hoverStack=new Color(154,196,70,230);
-			else if(e.getX()>=163&&e.getX()<=205)
-				hoverStack=new Color(205,135,173,230);
-			else if(e.getX()>=207&&e.getX()<=249)
-				hoverStack=new Color(255,255,255,230);
-			else if(e.getX()>=295&&e.getX()<=337)
-				hoverStack=new Color(210,158,53,230);
-			else if(e.getX()>=339&&e.getX()<=381)
-				hoverStack=new Color(206,66,49,230);
-			else if(e.getX()>=383&&e.getX()<=425)
-				hoverStack=new Color(4,160,211,230);
-			else if(e.getX()>=427&&e.getX()<=469)
-				hoverStack=new Color(230,230,77,230);
-			else
-				hoverStack=null;
-		}
-		else
+		if(game.getCardCount(ColorType.BLACK)>0&&e.getX()>=75&&e.getX()<=117&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.BLACK)-1))
+			hoverStack=new ColorType(92,97,92,230);
+		else if(game.getCardCount(ColorType.GREEN)>0&&e.getX()>=119&&e.getX()<=161&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.GREEN)-1))
+			hoverStack=new ColorType(154,196,70,230);
+		else if(game.getCardCount(ColorType.PINK)>0&&e.getX()>=163&&e.getX()<=205&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.PINK)-1))
+			hoverStack=new ColorType(205,135,173,230);
+		else if(game.getCardCount(ColorType.WHITE)>0&&e.getX()>=207&&e.getX()<=249&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.WHITE)-1))
+			hoverStack=new ColorType(255,255,255,230);
+		else if(game.getCardCount(ColorType.ORANGE)>0&&e.getX()>=295&&e.getX()<=337&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.ORANGE)-1))
+			hoverStack=new ColorType(210,158,53,230);
+		else if(game.getCardCount(ColorType.RED)>0&&e.getX()>=339&&e.getX()<=381&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.RED)-1))
+			hoverStack=new ColorType(206,66,49,230);
+		else if(game.getCardCount(ColorType.BLUE)>0&&e.getX()>=383&&e.getX()<=425&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.BLUE)-1))
+			hoverStack=new ColorType(4,160,211,230);
+		else if(game.getCardCount(ColorType.YELLOW)>0&&e.getX()>=427&&e.getX()<=469&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.YELLOW)-1))
+			hoverStack=new ColorType(230,230,77,230);
+		else if(game.getCardCount(null)>0&&e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(null)-1))
 			hoverStack=null;
+		else
+			hoverStack=ColorType.BLACK;
 		if(e.getX()>=1300&&e.getX()<=1650&&stage==0) 
 		{
 			if(e.getY()>=660&&e.getY()<=695)

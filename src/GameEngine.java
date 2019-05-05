@@ -45,7 +45,14 @@ public class GameEngine {
 		daddyPanel.startAnimationTimer();
 	}
 	
+	public int getCardCount(ColorType col)
+	{
+		return players[currentPlayer].getTrainCards().get(col);
+	}
+	
 	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
+		if(players[currentPlayer].getTrainCards().get(c)==0)
+			c=null;
 		if(checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
 		{
 			trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
@@ -61,6 +68,15 @@ public class GameEngine {
 		}
 	  	else
 	  		return false;
+	}
+	
+	private boolean checkEligibility(Node nodeOne, Node nodeTwo, ColorType c) {
+		int rand=players[currentPlayer].getTrainCards().get(null);
+		int col=0;
+		if(c!=null)
+			col=players[currentPlayer].getTrainCards().get(c);
+		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
+		return rand-(cost-col)>-1&&players[currentPlayer].getTrainsLeft()>cost-1;
 	}
 	
 	private boolean needTable()
@@ -94,13 +110,6 @@ public class GameEngine {
 			if(t!=null&&!t.getwild())
 				cnt++;
 		return cnt;
-	}
-	
-	private boolean checkEligibility(Node nodeOne, Node nodeTwo, ColorType c) {
-		int rand=players[currentPlayer].getTrainCards().get(null);
-		int col=players[currentPlayer].getTrainCards().get(c);
-		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
-		return rand-(cost-col)>-1&&players[currentPlayer].getTrainsLeft()>cost-1;
 	}
 	
 	public Board getgBoard() {
