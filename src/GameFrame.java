@@ -12,7 +12,6 @@ public class GameFrame extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gamePanel = new GamePanel();
 		add(gamePanel);
-
 		setVisible(true);
 	}
 

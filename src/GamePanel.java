@@ -18,7 +18,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Font f;
 	Node gg;
 	private ArrayList<Contract> contracts;
-	private int lastRoundCount, stage, hoverConStart, hoverCon, numCalled;
+	private int lastRoundCount, hoverConStart, hoverCon, numCalled;
+	protected int stage;
 	private Node[] citySelect;
 	private int[] endData;
 	private boolean hoverT,hoverC,animating;
@@ -146,9 +147,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 			}
 			if (lastRoundCount > 1) {
-				g.setColor(Color.RED);
-				g.setFont(f);
-				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
+				drawLastRoundNotice(g);
 			}
 			if(stage==5)
 				if((hoverStack==null||!hoverStack.equals(ColorType.BLACK))&&game.getCardCount(cMap.get(hoverStack))>0)
@@ -159,6 +158,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,g);
+	}
+
+	public void drawLastRoundNotice(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(450, 10, 335, 40);
+
+		g.setColor(Color.RED);
+		g.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		g.drawString("IT IS THE LAST ROUND!", 475, 40);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
@@ -354,8 +362,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int[] results = this.endData;
-		//int[] results = {15, 13, -11, 10, 1, 0};
+		int[] results = this.endData;/*
+		int[] results = {15, 13, -11, 10, 1, 0};*/
 
 		//draw contract payouts
 		int contractPayoutX = 75;
@@ -401,8 +409,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//end draw globetrotter
 
 		//draw scoreboard
-		Arrays.sort(game.players);
-
+		//Arrays.sort(game.players); ???
 		int scoreBoardX = 1364;
 		int scoreBoardY = 126;
 		int	scoreBoardShift = 100;
