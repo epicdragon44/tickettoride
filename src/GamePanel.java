@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setPreferredSize(new Dimension(1900, 1000));
 		setVisible(true);
 		lastRoundCount = 0;
-		stage = 1;
+		stage = 0;
 		numCalled=0;
 		citySelect = new Node[2];
 		contracts = game.drawContract(5);
