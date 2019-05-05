@@ -3,6 +3,7 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -20,7 +21,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int lastRoundCount, stage, hoverConStart, hoverCon;
 	private Node[] citySelect;
 	private int[] endData;
-	private boolean hoverT,hoverC;
+	private boolean hoverT,hoverC,animating;
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -59,6 +60,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
 		hoverCon=-1;
+		animating=false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -476,8 +478,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		return dimg;
 	}
 
-	private int xLeader = 1237;
-	private int yLeader = 110;
+	private double xLeader = 1237;
+	private double yLeader = 110;
 	protected boolean moving = true;
 	public void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
@@ -506,7 +508,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 				g.setColor(new Color(255, 255, 255, 125));
 
-				g.fillRoundRect(xLeader-25, yLeader, 500, 75, 25, 25);
+				Graphics2D g2=(Graphics2D)(g);
+				g2.fill(new RoundRectangle2D.Double(xLeader-25, yLeader, 500, 75, 25, 25));
 			}
 			g.setColor(Color.DARK_GRAY);
 			g.drawRoundRect(x, y + 15, boxWidth, boxHeight, 10, 10);
@@ -521,11 +524,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.drawString(playerCopy[i].getTrainsLeft() + "", trainX, y + 45);
 		}
 	}
-	private void moveBox(boolean down) {
-		if (down)
-			yLeader+=1;
-		else
-			yLeader-=1;
+	private void moveBox(double change) {
+		yLeader+=change;
 	}
 	private int getActualSize(HashMap<ColorType, Integer> map) {
 		int count = 0;
@@ -685,12 +685,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (game.getgBoard().findNode(e.getX(), e.getY()) != null) {
-			gg = game.getgBoard().findNode(e.getX(), e.getY());
-		}
 		if (stage == 6)
 			return;
-		else if (stage == 0) {
+		else if (stage == 0 || moving) {
 			int ind=-1;
 			if(e.getX()>=1300&&e.getX()<=1650) 
 			{
@@ -898,7 +895,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if(stage==6)
+		if(stage==6 || moving)
 			return;
 		if (game.getgBoard().findNode(e.getX(), e.getY()) != null)
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
@@ -975,9 +972,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void startAnimationTimer() {
-		Timer animateTimer = new Timer(110, new MoveBox());
-		animateTimer.start();
 		this.moving = true;
+		Timer animateTimer = new Timer(100, new MoveBox());
+		animateTimer.start();
 		this.repaint();
 	}
 	class MoveBox implements ActionListener {
@@ -986,13 +983,41 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			for (int i = 0; i < game.players.length; i++)
 				playerCopy.add(game.players[i]);
 			Collections.sort(playerCopy);
-			int targety = 110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
+			double targety = 110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
+			double change=(targety-yLeader)/150;
+			if (moving) {
+				if (yLeader != targety) 
+				{
+					moveBox(change);
+					repaint();
+				} 
+				else 
+					moving = false;
+			}
+		}
+	}
+	public void startAnimationTimer2() {
+		this.animating = true;
+		Timer animateTimer = new Timer(100, new AnimateTrack());
+		animateTimer.start();
+		this.repaint();
+	}
+	class AnimateTrack implements ActionListener 
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			ArrayList<Player> playerCopy = new ArrayList<Player>();
+			for (int i = 0; i < game.players.length; i++)
+				playerCopy.add(game.players[i]);
+			Collections.sort(playerCopy);
+			double targety = 110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
+			double change=(targety-yLeader)/150;
 			if (moving) {
 				if (yLeader < targety) {
-					moveBox(true);
+					moveBox(change);
 					repaint();
 				} else if (yLeader > targety) {
-					moveBox(false);
+					moveBox(change);
 					repaint();
 				} else {
 					moving = false;
