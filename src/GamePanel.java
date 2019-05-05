@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Font f;
 	Node gg;
 	private ArrayList<Contract> contracts;
-	private int lastRoundCount, stage, hoverConStart, hoverCon;
+	private int lastRoundCount, stage, hoverConStart, hoverCon, numCalled;
 	private Node[] citySelect;
 	private int[] endData;
 	private boolean hoverT,hoverC,animating;
@@ -53,6 +53,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setVisible(true);
 		lastRoundCount = 0;
 		stage = 1;
+		numCalled=0;
 		citySelect = new Node[2];
 		contracts = game.drawContract(5);
 		hoverT=false;
@@ -687,7 +688,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseReleased(MouseEvent e) {
 		if (stage == 6)
 			return;
-		else if (stage == 0 || moving) {
+		else if (stage == 0) {
 			int ind=-1;
 			if(e.getX()>=1300&&e.getX()<=1650) 
 			{
@@ -895,7 +896,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if(stage==6 || moving)
+		if(stage==6)
 			return;
 		if (game.getgBoard().findNode(e.getX(), e.getY()) != null)
 			gg = game.getgBoard().findNode(e.getX(), e.getY());
@@ -973,7 +974,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	public void startAnimationTimer() {
 		this.moving = true;
-		Timer animateTimer = new Timer(100, new MoveBox());
+		numCalled++;
+		Timer animateTimer = new Timer(10, new MoveBox());
 		animateTimer.start();
 		this.repaint();
 	}
@@ -984,7 +986,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				playerCopy.add(game.players[i]);
 			Collections.sort(playerCopy);
 			double targety = 110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
-			double change=(targety-yLeader)/150;
+			double change=(targety-yLeader)/(25+numCalled);
 			if (moving) {
 				if (yLeader != targety) 
 				{
@@ -993,35 +995,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				} 
 				else 
 					moving = false;
-			}
-		}
-	}
-	public void startAnimationTimer2() {
-		this.animating = true;
-		Timer animateTimer = new Timer(100, new AnimateTrack());
-		animateTimer.start();
-		this.repaint();
-	}
-	class AnimateTrack implements ActionListener 
-	{
-		public void actionPerformed(ActionEvent e) 
-		{
-			ArrayList<Player> playerCopy = new ArrayList<Player>();
-			for (int i = 0; i < game.players.length; i++)
-				playerCopy.add(game.players[i]);
-			Collections.sort(playerCopy);
-			double targety = 110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
-			double change=(targety-yLeader)/150;
-			if (moving) {
-				if (yLeader < targety) {
-					moveBox(change);
-					repaint();
-				} else if (yLeader > targety) {
-					moveBox(change);
-					repaint();
-				} else {
-					moving = false;
-				}
 			}
 		}
 	}
