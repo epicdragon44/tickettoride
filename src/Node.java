@@ -15,7 +15,8 @@ public class Node {
 	}
 
 	public boolean equals(Object o) {
-		return this.name.equals(((Node) (o)).name);
+		Node node=((Node) (o));
+		return node!=null&&this.name.equals(node.name);
 	}
 
 	public ArrayList<Track> getConnections() {

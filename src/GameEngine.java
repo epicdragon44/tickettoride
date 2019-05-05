@@ -58,8 +58,12 @@ public class GameEngine {
 			trashDeck.addAll(players[currentPlayer].placeTrains(gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString()), c));
 			for(Contract ct:players[currentPlayer].getContract())
 				ct.checkComplete(gBoard);
-			tDeck.restartDeck(trashDeck);
-			trashDeck=new ArrayList<TrainCard>();
+			if(tDeck.needsReset())
+			{
+				tDeck.restartDeck(trashDeck);
+				trashDeck=new ArrayList<TrainCard>();
+			}
+			System.out.println(getNonWildNum()+" "+getNonWildTable());
 			if(needTable())
 				resetTable();
 			if(checkWildLim())
@@ -84,14 +88,11 @@ public class GameEngine {
 		for(TrainCard t:tableDeck)
 			if(t==null)
 				return true;
-		return false;
+		return checkWildLim();
 	}
 	
 	private void resetTable()
 	{
-		for(int i=0;i<5;i++)
-			if(!tDeck.needsReset()&&tableDeck[i]==null)
-				tableDeck[i]=tDeck.draw();
 		for(int i=0;i<5;i++)
 		{
 			if(!tDeck.needsReset()&&(tableDeck[i]==null||tableDeck[i].getwild()))
@@ -101,6 +102,8 @@ public class GameEngine {
 				tableDeck[i]=tDeck.draw();
 			}
 		}
+		if(getNonWildNum()>0&&getNonWildTable()<3)
+			updateTable();
 	}
 	
 	private int getNonWildTable()
@@ -110,6 +113,15 @@ public class GameEngine {
 			if(t!=null&&!t.getwild())
 				cnt++;
 		return cnt;
+	}
+	
+	private int getNonWildNum()
+	{
+		int count=0;
+		for(TrainCard t:tDeck.getDeck())
+			if(!t.getwild())
+				count++;
+		return count;
 	}
 	
 	public Board getgBoard() {
@@ -183,11 +195,11 @@ public class GameEngine {
     			tableDeck[i]=null;
     		}
     	}
-    	if(tDeck.needsReset()&&haveTrainCards())
-		{
+    	if(trashDeck.size()!=0)
+    	{
 			tDeck.restartDeck(trashDeck);
 			trashDeck=new ArrayList<TrainCard>();
-		}
+    	}
     	for(int i=0;i<tableDeck.length;i++)
     	{
     		if(tableDeck[i]==null&&haveTrainCards())
@@ -200,7 +212,7 @@ public class GameEngine {
     			}
     		}
     	}
-    	if(tDeck.getNonWildNum()+getNonWildTable()>2&&checkWildLim())
+    	if(getNonWildNum()>0&&getNonWildTable()<3)
     		updateTable();
     }
     
@@ -226,10 +238,10 @@ public class GameEngine {
 					tableDeck[pos]=null;
 				else
 					tableDeck[pos]=tDeck.draw();
+				if(checkWildLim())
+					updateTable();
 			}
 		}
-		if(checkWildLim())
-			updateTable();
 		if(tDeck.needsReset()&&haveTrainCards())
 		{
 			tDeck.restartDeck(trashDeck);
