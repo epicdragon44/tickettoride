@@ -5,11 +5,11 @@
 13|Montreal|New_Orleans
 12|Boston|Miami
 14|Calgary|Nashville
-7|Salt_Lake_City|Kansas City
+7|Salt_Lake_City|Kansas_City
 19|Portland|Pittsburgh
 20|Seattle|New_York
-4|Washingston|Atlanta
-9|Los_Angeles|Oklahoma City
+4|Washington|Atlanta
+9|Los_Angeles|Oklahoma_City
 9|Seattle|Los_Angeles
 4|Boston|Washington
 6|Nashville|New_York

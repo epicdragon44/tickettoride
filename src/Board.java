@@ -53,6 +53,8 @@ public class Board {
 	public boolean isComplete(Contract c) {
 		Node startNode = findNode(c.getStart());
 		Node endNode = findNode(c.getEnd());
+		if(startNode==null||endNode==null)
+			return false;
 		return searchFrom(startNode, new ArrayList<>(), endNode);
 	}
 
@@ -146,7 +148,7 @@ public class Board {
 
 		for (Track t : n.getConnections()) {
 			if (t.getPlayer() != -1) { //check first to make sure someone actually owns the track lmfao
-				if (p.equals(daddyEngine.players[t.getPlayer()]) && visited.contains(t)) {
+				if (p.equals(daddyEngine.players[t.getPlayer()]) && !visited.contains(t)) {
 					visited.add(t);
 					visit(t.getOtherNode(n), cnt + 1, visited, p);
 				}

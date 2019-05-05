@@ -182,6 +182,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	public void drawConnection(Graphics g) {
 		Track t=game.findTrack(citySelect[0],citySelect[1]);
+		if(t==null)
+			return;
 		Graphics2D g2 = (Graphics2D) g;
 		if(hoverStack==null||hoverStack.equals(Color.BLACK)) {
 			float[] f={0.14285714f,(float)(0.14285714*2),(float)(0.14285714*3),(float)(0.14285714*4),(float)(0.14285714*5),(float)(0.14285714*6),1.0f};
