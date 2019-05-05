@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private GameEngine game;
 	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private ColorType hoverStack;
@@ -70,6 +70,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void paint(Graphics g) {
 		super.paint(g);
 
+		//DANIEL TEST CODE
+		drawLastRoundNotice(g);
+		
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
@@ -146,9 +149,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 			}
 			if (lastRoundCount > 1) {
-				g.setColor(Color.RED);
-				g.setFont(f);
-				g.drawString("IT IS THE LAST ROUND!", 1285, 45);
+				drawLastRoundNotice(g);
 			}
 			if(stage==5)
 				if((hoverStack==null||!hoverStack.equals(ColorType.BLACK))&&game.getCardCount(cMap.get(hoverStack))>0)
@@ -159,6 +160,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,g);
+	}
+
+	public void drawLastRoundNotice(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(1275, 10, 400, 50);
+
+		g.setColor(Color.RED);
+		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		g.drawString("IT IS THE LAST ROUND!", 1300, 45);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
@@ -997,5 +1007,22 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					moving = false;
 			}
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			stage = 1;
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
 	}
 }
