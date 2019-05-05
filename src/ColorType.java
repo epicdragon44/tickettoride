@@ -22,6 +22,11 @@ public class ColorType extends java.awt.Color {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public ColorType(int r, int g, int b, int a) {
+		super(r, g, b, a);
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		ColorType other = getColorType((Color)(o));

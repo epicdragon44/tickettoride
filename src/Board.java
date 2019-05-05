@@ -90,14 +90,8 @@ public class Board {
 	public Track findTrack(Node n, Node node)
 	{
 		for(Track t:n.getConnections())
-		{
 			if(t.getOtherNode(n).equals(node)&&t.getPlayer()==-1)
-			{
-				if(containsDuple(t, n)!=null&&containsDuple(t, n).getPlayer()==daddyEngine.currentPlayer)
-					continue;
 				return t;
-			}
-		}
 		return null;
 	}
 	
@@ -166,7 +160,7 @@ public class Board {
 		int x=0,y=0;
 		boolean available = false;
 		for (Track t : tracks) {
-			if (t.getOtherNode(start).equals(end) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
+			if (t.getOtherNode(start).equals(end) && ((c==null || t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c)))) {
 				if (t.getPlayer() == -1) {
 					x=t.getX2();
 					y=t.getY2();
@@ -176,11 +170,10 @@ public class Board {
 				}
 			}
 		}
-		System.out.println(available);
 		if (available) {
 			tracks = end.getConnections();
 			for (Track t : tracks) {
-				if (t.getOtherNode(end).equals(start) && ((t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) && t.getX1()==x && t.getY1()==y) {
+				if (t.getOtherNode(end).equals(start) && ((c==null || t.getColor().equals(ColorType.GRAY) || t.getColor().equals(c))) && t.getX1()==x && t.getY1()==y) {
 					if (t.getPlayer() == -1) {
 						t.setPlayer(player);
 						return true;
