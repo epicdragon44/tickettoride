@@ -162,11 +162,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	public void drawLastRoundNotice(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(1275, 10, 400, 50);
+		g.fillRect(450, 10, 335, 40);
 
 		g.setColor(Color.RED);
-		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		g.drawString("IT IS THE LAST ROUND!", 1300, 45);
+		g.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		g.drawString("IT IS THE LAST ROUND!", 475, 40);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
@@ -360,8 +360,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int[] results = this.endData;
-		//int[] results = {15, 13, -11, 10, 1, 0};
+		int[] results = this.endData;/*
+		int[] results = {15, 13, -11, 10, 1, 0};*/
 
 		//draw contract payouts
 		int contractPayoutX = 75;
@@ -407,8 +407,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//end draw globetrotter
 
 		//draw scoreboard
-		Arrays.sort(game.players);
-
+		//Arrays.sort(game.players); ???
 		int scoreBoardX = 1364;
 		int scoreBoardY = 126;
 		int	scoreBoardShift = 100;
