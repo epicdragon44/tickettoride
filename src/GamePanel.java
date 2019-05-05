@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	private GameEngine game;
 	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private ColorType hoverStack;
@@ -18,7 +18,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Font f;
 	Node gg;
 	private ArrayList<Contract> contracts;
-	private int lastRoundCount, stage, hoverConStart, hoverCon, numCalled;
+	private int lastRoundCount, hoverConStart, hoverCon, numCalled;
+	protected int stage;
 	private Node[] citySelect;
 	private int[] endData;
 	private boolean hoverT,hoverC,animating;
@@ -70,9 +71,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		//DANIEL TEST CODE
-		drawLastRoundNotice(g);
-		
 		if (stage != 6) {
 			drawBackground(g);
 			if (gg != null) {
@@ -1007,22 +1005,5 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					moving = false;
 			}
 		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			stage = 1;
-		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-
 	}
 }

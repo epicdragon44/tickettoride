@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
@@ -12,7 +14,6 @@ public class GameFrame extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gamePanel = new GamePanel();
 		add(gamePanel);
-
 		setVisible(true);
 	}
 
