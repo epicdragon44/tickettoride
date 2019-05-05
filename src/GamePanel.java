@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private GameEngine game;
 	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private ColorType hoverStack;
@@ -65,6 +65,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		animating=false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addKeyListener(this);
+	}
+
+	public void addNotify() {
+		super.addNotify();
+		requestFocus();
 	}
 
 	@Override
@@ -1005,4 +1011,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 		}
 	}
+
+	@Override
+	public void keyPressed(KeyEvent e) { }
+
+	@Override
+	public void keyReleased(KeyEvent e) { }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if (stage!=0 && e.getKeyCode() == 0) {
+			stage = 1;
+			citySelect[0]=null;
+			citySelect[1]=null;
+			repaint();
+		}
+	}
+
 }
