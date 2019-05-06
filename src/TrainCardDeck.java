@@ -39,6 +39,11 @@ public class TrainCardDeck {
 		
 		Collections.shuffle(deck);
 	}
+	
+	public ArrayList<TrainCard> getDeck()
+	{
+		return deck;
+	}
 
 	public void restartDeck(ArrayList<TrainCard> rep) {
 		if(rep.size()==0)
@@ -65,15 +70,6 @@ public class TrainCardDeck {
 	public int getSize()
 	{
 		return deck.size();
-	}
-	
-	public int getNonWildNum()
-	{
-		int count=0;
-		for(TrainCard t:deck)
-			if(!t.getwild())
-				count++;
-		return count;
 	}
 	
 	public String toString()
