@@ -362,8 +362,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int[] results = this.endData;/*
-		int[] results = {15, 13, -11, 10, 1, 0};*/
+		int[] results = this.endData;
 
 		//draw contract payouts
 		int contractPayoutX = 75;
@@ -409,7 +408,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//end draw globetrotter
 
 		//draw scoreboard
-		//Arrays.sort(game.players); ???
+		Player[] playerCopy = new Player[game.players.length];
+		for (int i = 0; i < game.players.length; i++)
+			playerCopy[i] = game.players[i];
+		Arrays.sort(playerCopy);
 		int scoreBoardX = 1364;
 		int scoreBoardY = 126;
 		int	scoreBoardShift = 100;
@@ -418,9 +420,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		for (int i = 0; i < game.players.length; i++) {
 			int x = scoreBoardX;
 			int y = scoreBoardY + i * scoreBoardShift;
-			g.setColor(game.players[i].getColor());
+			g.setColor(playerCopy[i].getColor());
 			g.fillRoundRect(x, y, width, height, 15, 15);
-			String pts = game.players[i].getPoints()+"";
+			String pts = playerCopy[i].getPoints()+"";
 			g.setColor(Color.BLACK);
 			g.drawString(pts, x+75, y+35);
 
