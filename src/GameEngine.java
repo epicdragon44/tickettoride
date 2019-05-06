@@ -63,7 +63,6 @@ public class GameEngine {
 				tDeck.restartDeck(trashDeck);
 				trashDeck=new ArrayList<TrainCard>();
 			}
-			System.out.println(getNonWildNum()+" "+getNonWildTable());
 			if(needTable())
 				resetTable();
 			if(checkWildLim())
@@ -106,7 +105,7 @@ public class GameEngine {
 			updateTable();
 	}
 	
-	private int getNonWildTable()
+	public int getNonWildTable()
 	{
 		int cnt=0;
 		for(TrainCard t:tableDeck)
@@ -115,11 +114,29 @@ public class GameEngine {
 		return cnt;
 	}
 	
-	private int getNonWildNum()
+	public int getNonWildNum()
 	{
 		int count=0;
 		for(TrainCard t:tDeck.getDeck())
 			if(!t.getwild())
+				count++;
+		return count;
+	}
+	
+	public int getWildTable()
+	{
+		int cnt=0;
+		for(TrainCard t:tableDeck)
+			if(t!=null&&t.getwild())
+				cnt++;
+		return cnt;
+	}
+	
+	public int getWildNum()
+	{
+		int count=0;
+		for(TrainCard t:tDeck.getDeck())
+			if(t.getwild())
 				count++;
 		return count;
 	}
@@ -212,7 +229,7 @@ public class GameEngine {
     			}
     		}
     	}
-    	if(getNonWildNum()>0&&getNonWildTable()<3)
+    	if(checkWildLim())
     		updateTable();
     }
     
@@ -292,20 +309,29 @@ public class GameEngine {
 		int[] place=new int[cnt.size()];
 		for(int i=0;i<cnt.size();i++)
 			place[i]=cnt.get(i);
-		int[][] rtn={contractCount[1],{findLongest()},place};
-		players[rtn[1][0]].addPoints(10);
+		int[][] rtn={contractCount[1],findLongest(),place};
 		for(Integer i:cnt)
 			players[i].addPoints(15);
 		return rtn;
 	}
 	
-	private int findLongest()
+	private int[] findLongest()
 	{
-		Player play=gBoard.findLongestTrainPlayer(players);
-		for(int i=0;i<players.length;i++)
-			if(players[i].getName().equals(play.getName()))
-				return i;
-		return -1;
+		ArrayList<Player> player=gBoard.findLongestTrainPlayer(players);
+		int[] rtn=new int[player.size()];
+		int count=0;
+		for(Player play:player)
+		{
+			for(int i=0;i<players.length;i++)
+			{
+				if(players[i].getName().equals(play.getName()))
+				{
+					rtn[count++]=i;
+					players[i].addPoints(10);
+				}
+			}
+		}
+		return rtn;
 	}
 
 	public Node findNode(int x, int y) {
