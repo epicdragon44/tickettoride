@@ -5,7 +5,7 @@ An Open-Source Java-based implementation of the popular board game.
 ## To-Do List:
 
 ### Classes:
-- [x] Board 
+- [x] Board
 - [x] ColorType
 - [x] Contract
 - [x] ContractDeck
@@ -23,7 +23,7 @@ An Open-Source Java-based implementation of the popular board game.
 - [x] Contract Completion
 
 ### Graphics:
-- [ ] GamePanel
+- [x] GamePanel
     - [x] Draw Connections
     - [x] Draw Decks
     - [x] Draw Background
@@ -31,10 +31,15 @@ An Open-Source Java-based implementation of the popular board game.
     - [x] Draw Rankings
     - [x] Draw Cards
     - [x] Draw Contracts
-    - [ ] Mouse Logic
-    - [ ] Game Logic
+    - [x] Mouse Logic
+    - [x] Game Logic
+    - [x] Instructions Dialog
+    - [x] Escape key
 - [x] GameFrame
     - [x] Constructor
     - [x] Main Method
 
 ## Known Bugs:
+    - [ ] Train cards(mainly wild limit)
+    - [ ] End game(why does it switch player colors, multiple peeps can get globetrotter)
+    - [ ] Longest train algorithm
