@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private GameEngine game;
 	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private ColorType hoverStack;
@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	protected int stage;
 	private Node[] citySelect;
 	private int[] endData;
-	private boolean hoverT,hoverC,animating;
+	private boolean hoverT,hoverC,animating, drawDirections;
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -59,12 +59,19 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		contracts = game.drawContract(5);
 		hoverT=false;
 		hoverC=false;
+		drawDirections = true;
 		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
 		hoverCon=-1;
 		animating=false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addKeyListener(this);
+	}
+
+	public void addNotify() {
+		super.addNotify();
+		requestFocus();
 	}
 
 	@Override
@@ -156,6 +163,53 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		else {
 			drawEndGame(g);
 		}
+
+		//draw instructions
+		if (drawDirections) {
+			g.setColor(Color.BLACK);
+			g.fillRect(8, 698, 570, 750 - 695);
+			try {
+				BufferedImage backgroundImg = ImageIO.read(new File("screenshot-terminal.png"));
+				g.drawImage(backgroundImg, 7, 695, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+						return false;
+					}
+				});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			g.setColor(Color.WHITE);
+			g.fillOval(35, 700, 13, 13);
+			g.fillOval(52, 700, 13, 13);
+
+			g.setColor(Color.GREEN);
+			if (stage == 0) {
+				g.setFont(new Font("Consolas", Font.PLAIN, 15));
+				g.drawString("Select at least three contracts.", 15, 738);
+			} else if (stage == 1) {
+				g.setFont(new Font("Consolas", Font.PLAIN, 10));
+				g.drawString("Click on two nodes to select the track in between. ", 15, 735);
+				g.drawString("Or, select a contract or train card from the right.", 15, 745);
+			} else if (stage == 3) {
+				g.setFont(new Font("Consolas", Font.PLAIN, 15));
+				g.drawString("Select at least one contract.", 15, 738);
+			} else if (stage == 4) {
+				g.setFont(new Font("Consolas", Font.PLAIN, 15));
+				g.drawString("Hit Esc to cancel selected nodes.", 15, 738);
+			} else if (stage == 5) {
+				g.setFont(new Font("Consolas", Font.PLAIN, 15));
+				g.drawString("Select which card in your hand to use on the track.", 15, 738);
+			}
+		}
+		else {
+			g.setColor(Color.GRAY);
+			g.fillRect(7, 715, 260, 25);
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Consolas", Font.PLAIN, 15));
+			g.drawString("Click here to see Instructions", 15, 730);
+		}
+
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,g);
 	}
@@ -689,6 +743,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(e.getX() + " " + e.getY());
 	}
 
 	@Override
@@ -899,6 +954,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			stage = 6;
 			endData=game.endGame();
 		}
+
+		if (Math.abs(e.getX() - 22)<10 && Math.abs(e.getY() - 710)<10 && drawDirections) {
+			drawDirections = false;
+		} else if (e.getX() > 10 && e.getX() < 266 && e.getY() > 719 && e.getY() < 738 && !drawDirections) {
+			drawDirections = true;
+		}
+
 		repaint();
 	}
 
@@ -1009,4 +1071,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 		}
 	}
+
+	@Override
+	public void keyPressed(KeyEvent e) { }
+
+	@Override
+	public void keyReleased(KeyEvent e) { }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if (stage!=0 && e.getKeyCode() == 0) {
+			stage = 1;
+			citySelect[0]=null;
+			citySelect[1]=null;
+			repaint();
+		}
+	}
+
 }
