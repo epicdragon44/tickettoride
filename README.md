@@ -40,6 +40,3 @@ An Open-Source Java-based implementation of the popular board game.
     - [x] Main Method
 
 ## Known Bugs:
-    - [ ] Train cards(mainly wild limit)
-    - [ ] End game(why does it switch player colors, multiple peeps can get globetrotter)
-    - [ ] Longest train algorithm
