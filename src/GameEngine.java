@@ -251,9 +251,12 @@ public class GameEngine {
 	}
 
 	//returns contract payouts,then longest train,then globetrotter
-	public int[] endGame() {
+	public int[][] endGame() {
+		for(int i=0;i<players.length;i++)
+			for(Contract ct:players[i].getContract())
+				ct.checkComplete(gBoard);
 		int[][] contractCount= {{0,0,0,0},{0,0,0,0}};
-		for(int i=0;i<contractCount.length;i++)
+		for(int i=0;i<players.length;i++)
 		{
 			for(Contract c:players[i].getContract())
 			{
@@ -270,18 +273,29 @@ public class GameEngine {
 				}
 			}
 		}
-		int val=Integer.MIN_VALUE,place=0;
-		for(int i=0;i<contractCount.length;i++)
+		ArrayList<Integer> cnt=new ArrayList<Integer>();
+		cnt.add(0);
+		int val=contractCount[0][0];
+		for(int i=1;i<players.length;i++)
 		{
-			if(contractCount[0][i]>val)
+			if(contractCount[0][i]==val)
+			{
+				cnt.add(i);
+			}
+			else if(contractCount[0][i]>val)
 			{
 				val=contractCount[0][i];
-				place=i;
+				cnt=new ArrayList<Integer>();
+				cnt.add(i);
 			}
 		}
-		int[] rtn={contractCount[1][0],contractCount[1][1],contractCount[1][2],contractCount[1][3],findLongest(),place};
-		players[rtn[4]].addPoints(10);
-		players[place].addPoints(15);
+		int[] place=new int[cnt.size()];
+		for(int i=0;i<cnt.size();i++)
+			place[i]=cnt.get(i);
+		int[][] rtn={contractCount[1],{findLongest()},place};
+		players[rtn[1][0]].addPoints(10);
+		for(Integer i:cnt)
+			players[i].addPoints(15);
 		return rtn;
 	}
 	
