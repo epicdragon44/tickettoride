@@ -9,7 +9,7 @@ Winnipeg Gray 6 819 132 559 77,Duluth Gray 3 819 152 699 202, Montreal Black 5 8
 Montreal 1073 60
 Sault_St._Marie Black 5 1055 59 844 135,Toronto Gray 3 1065 63 978 158,New_York Blue 3 1066 80 1087 209,Boston Gray 2 1082 75 1146 129,Boston Gray 2 1091 63 1156 117
 Seattle 85 157
-Vancouver Gray 1 80 142 79 103,Vancover Gray 1 95 141 94 103,Calgary Gray 4 98 156 247 72,Helena Yellow 6 101 174 361 231,Portland Gray 1 73 167 56 201,Portland Gray 1 87 172 70 207
+Vancouver Gray 1 80 142 79 103,Vancouver Gray 1 95 141 94 103,Calgary Gray 4 98 156 247 72,Helena Yellow 6 101 174 361 231,Portland Gray 1 73 167 56 201,Portland Gray 1 87 172 70 207
 Helena 379 232
 Calgary Gray 4 375 215 264 80,Winnipeg Blue 4 395 213 518 89,Duluth Orange 6 395 230 662 225,Omaha Red 5 408 244 611 329,Denver Green 4 387 244 451 404,Salt_Lake_City Pink 3 368 247 301 360,Seattle Yellow 6 361 231 101 174
 Duluth 675 224

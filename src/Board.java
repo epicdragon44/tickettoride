@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 public class Board {
 	public Node[] cities;
 	protected int maxLen;
-	private Player bestPlayer;
+	private ArrayList<Player> bestPlayer;
 	private GameEngine daddyEngine;
 
 	public Board(GameEngine game) throws Exception {
@@ -34,7 +34,7 @@ public class Board {
 		}
 		sc.close();
 		maxLen = Integer.MIN_VALUE;
-		bestPlayer = null;
+		bestPlayer = new ArrayList<Player>();
 	}
 
 	public int connectionCost(String s, String e) {
@@ -132,7 +132,7 @@ public class Board {
 
 	//beginning of longest train algorithm ...
 
-	public Player findLongestTrainPlayer(Player[] players) {
+	public ArrayList<Player> findLongestTrainPlayer(Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)
 			for (Node n : cities)
@@ -141,16 +141,19 @@ public class Board {
 	}
 
 	private void visit(Node n, int cnt, List<Track> visited, Player p) {
+		if (cnt == maxLen&&!bestPlayer.contains(p))
+			bestPlayer.add(p);
 		if (cnt > maxLen) {
 			maxLen = cnt;
-			bestPlayer = p;
+			bestPlayer.clear();
+			bestPlayer.add(p);
 		}
 
 		for (Track t : n.getConnections()) {
 			if (t.getPlayer() != -1) { //check first to make sure someone actually owns the track lmfao
 				if (p.equals(daddyEngine.players[t.getPlayer()]) && !visited.contains(t)) {
 					visited.add(t);
-					visit(t.getOtherNode(n), cnt + 1, visited, p);
+					visit(t.getOtherNode(n), cnt + t.getCost(), visited, p);
 				}
 			}
 		}

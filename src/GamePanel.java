@@ -78,6 +78,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		super.paint(g);
 
 		if (stage != 6) {
+			if ((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2))
+			{
+				stage = 6;
+				endData=game.endGame();
+				JOptionPane.showMessageDialog(null, "Due to the impossibilty of a proper table, the game is over.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
+			}
 			drawBackground(g);
 			if (gg != null) {
 				if ((stage==1)&&(game.isNodeEligible(gg.getX(), gg.getY()) != null)) {
@@ -185,7 +191,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.setColor(Color.GREEN);
 			if (stage == 0) {
 				g.setFont(new Font("Consolas", Font.PLAIN, 15));
-				g.drawString("Select at least three contracts.", 15, 738);
+				g.drawString("Select at least three contracts, then hit done.", 15, 738);
 			} else if (stage == 1) {
 				g.setFont(new Font("Consolas", Font.PLAIN, 10));
 				g.drawString("Click on two nodes to select the track in between. ", 15, 735);
@@ -421,6 +427,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			e.printStackTrace();
 		}
 		int[][] results = this.endData;
+		Graphics2D g2 = (Graphics2D) g;
 
 		//draw contract payouts
 		int contractPayoutX = 75;
@@ -435,7 +442,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if (results[0][i] > -1)
 				toDraw = "+"+toDraw;
 			g.drawString(toDraw, contractPayoutX + i * contractPayoutXShift + 10, contractPayoutY + 50);
-			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 			g2.setColor(Color.BLACK);
 			g2.drawRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
@@ -444,11 +450,25 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		g.setFont(new Font("Times new Roman", Font.BOLD, 40));
 		//draw longest path
-		g.setColor(game.players[results[1][0]].getColor());
-		g.fillRoundRect(600, 860, 125, 125, 25, 25);
+		if(results[1].length>1)
+		{
+			Color[] col=new Color[results[1].length];
+			float[] f=new float[results[1].length];
+			for(int i=0;i<results[1].length;i++)
+			{
+				col[i]=game.players[results[1][i]].getColor();
+				f[i]=(float)((1.0/results[1].length)*(i+1));
+			}
+			g2.setPaint(new LinearGradientPaint(600f,860f,725f,985f,f,col));
+			g2.fillRoundRect(600, 860, 125, 125, 25, 25);
+		}
+		else
+		{
+			g.setColor(game.players[results[1][0]].getColor());
+			g.fillRoundRect(600, 860, 125, 125, 25, 25);
+		}
 		g.setColor(Color.BLACK);
 		g.drawString("+10", 630, 930);
-		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 		g2.setColor(Color.BLACK);
 		g2.drawRoundRect(600, 860, 125, 125, 25, 25);
@@ -968,10 +988,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		if (game.lastRound() && lastRoundCount == 0)
 			lastRoundCount = 5;
-		if (lastRoundCount == 1)
+		if (lastRoundCount == 1||((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2)))
 		{
 			stage = 6;
 			endData=game.endGame();
+		}
+		if ((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2))
+		{
+			stage = 6;
+			endData=game.endGame();
+			JOptionPane.showMessageDialog(null, "Due to the impossibilty of a proper table, the game is over.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		if (Math.abs(e.getX() - 22)<10 && Math.abs(e.getY() - 710)<10 && drawDirections) {
@@ -979,7 +1005,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} else if (e.getX() > 10 && e.getX() < 266 && e.getY() > 719 && e.getY() < 738 && !drawDirections) {
 			drawDirections = true;
 		}
-
+		
 		repaint();
 	}
 
