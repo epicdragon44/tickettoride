@@ -101,7 +101,7 @@ public class GameEngine {
 				tableDeck[i]=tDeck.draw();
 			}
 		}
-		if(getNonWildNum()>0&&getNonWildTable()<3)
+		if(checkWildLim())
 			updateTable();
 	}
 	
@@ -120,6 +120,9 @@ public class GameEngine {
 		for(TrainCard t:tDeck.getDeck())
 			if(!t.getwild())
 				count++;
+		for(TrainCard t:trashDeck)
+			if(!t.getwild())
+				count++;
 		return count;
 	}
 	
@@ -136,6 +139,9 @@ public class GameEngine {
 	{
 		int count=0;
 		for(TrainCard t:tDeck.getDeck())
+			if(t.getwild())
+				count++;
+		for(TrainCard t:trashDeck)
 			if(t.getwild())
 				count++;
 		return count;
@@ -222,14 +228,14 @@ public class GameEngine {
     		if(tableDeck[i]==null&&haveTrainCards())
     		{
     			tableDeck[i]=tDeck.draw();
-    			if(tDeck.needsReset()&&haveTrainCards())
+    			if(tDeck.needsReset())
     			{
     				tDeck.restartDeck(trashDeck);
     				trashDeck=new ArrayList<TrainCard>();
     			}
     		}
     	}
-    	if(checkWildLim())
+    	if(checkWildLim()&&(getNonWildNum()+getNonWildTable()<3)&&(getWildNum()+getWildTable()>2))
     		updateTable();
     }
     
@@ -259,7 +265,7 @@ public class GameEngine {
 					updateTable();
 			}
 		}
-		if(tDeck.needsReset()&&haveTrainCards())
+		if(tDeck.needsReset())
 		{
 			tDeck.restartDeck(trashDeck);
 			trashDeck=new ArrayList<TrainCard>();
