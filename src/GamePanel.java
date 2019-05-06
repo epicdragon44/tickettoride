@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int lastRoundCount, hoverConStart, hoverCon, numCalled;
 	protected int stage;
 	private Node[] citySelect;
-	private int[] endData;
+	private int[][] endData;
 	private boolean hoverT,hoverC, drawDirections;
 
 	public GamePanel() throws Exception {
@@ -420,7 +420,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int[] results = this.endData;
+		int[][] results = this.endData;
 
 		//draw contract payouts
 		int contractPayoutX = 75;
@@ -431,8 +431,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.fillRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Arial", Font.BOLD, 35));
-			String toDraw = results[i]+"";
-			if (results[i] > -1)
+			String toDraw = results[0][i]+"";
+			if (results[0][i] > -1)
 				toDraw = "+"+toDraw;
 			g.drawString(toDraw, contractPayoutX + i * contractPayoutXShift + 10, contractPayoutY + 50);
 			Graphics2D g2 = (Graphics2D) g;
@@ -444,7 +444,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		g.setFont(new Font("Times new Roman", Font.BOLD, 40));
 		//draw longest path
-		g.setColor(game.players[results[4]].getColor());
+		g.setColor(game.players[results[1][0]].getColor());
 		g.fillRoundRect(600, 860, 125, 125, 25, 25);
 		g.setColor(Color.BLACK);
 		g.drawString("+10", 630, 930);
@@ -455,8 +455,23 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//end drawing longest path
 
 		//draw globetrotter
-		g.setColor(game.players[results[5]].getColor());
-		g.fillRoundRect(970, 860, 125, 125, 25, 25);
+		if(results[2].length>1)
+		{
+			Color[] col=new Color[results[2].length];
+			float[] f=new float[results[2].length];
+			for(int i=0;i<results[2].length;i++)
+			{
+				col[i]=game.players[results[2][i]].getColor();
+				f[i]=(float)((1.0/results[2].length)*(i+1));
+			}
+			g2.setPaint(new LinearGradientPaint(970f,860f,1095f,985f,f,col));
+			g2.fillRoundRect(970, 860, 125, 125, 25, 25);
+		}
+		else
+		{
+			g.setColor(game.players[results[2][0]].getColor());
+			g.fillRoundRect(970, 860, 125, 125, 25, 25);
+		}
 		g.setColor(Color.BLACK);
 		g.drawString("+15", 1000, 930);
 		g2 = (Graphics2D) g;
