@@ -168,7 +168,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if (drawDirections) {
 			g.setColor(Color.BLACK);
 			g.fillRect(8, 698, 570, 750 - 695);
-			g.setColor(Color.GREEN);
 			try {
 				BufferedImage backgroundImg = ImageIO.read(new File("screenshot-terminal.png"));
 				g.drawImage(backgroundImg, 7, 695, new ImageObserver() {
@@ -180,6 +179,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			g.setColor(Color.WHITE);
+			g.fillOval(35, 700, 13, 13);
+			g.fillOval(52, 700, 13, 13);
+
+			g.setColor(Color.GREEN);
 			if (stage == 0) {
 				g.setFont(new Font("Consolas", Font.PLAIN, 15));
 				g.drawString("Select at least three contracts.", 15, 738);
