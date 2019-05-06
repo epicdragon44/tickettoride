@@ -215,12 +215,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void drawLastRoundNotice(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(450, 10, 335, 40);
-
-		g.setColor(Color.RED);
-		g.setFont(new Font("Times New Roman", Font.BOLD, 25));
-		g.drawString("IT IS THE LAST ROUND!", 475, 40);
+		g.setColor(Color.GREEN);
+		g.setFont(new Font("Consolas", Font.PLAIN, 15));
+		g.drawString("IT IS THE LAST ROUND!", 15, 738);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
