@@ -21,8 +21,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int lastRoundCount, hoverConStart, hoverCon, numCalled;
 	protected int stage;
 	private Node[] citySelect;
-	private int[] endData;
-	private boolean hoverT,hoverC,animating, drawDirections;
+	private int[][] endData;
+	private boolean hoverT,hoverC, drawDirections;
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -63,7 +63,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
 		hoverCon=-1;
-		animating=false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -191,16 +190,24 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.setFont(new Font("Consolas", Font.PLAIN, 10));
 				g.drawString("Click on two nodes to select the track in between. ", 15, 735);
 				g.drawString("Or, select a contract or train card from the right.", 15, 745);
+			} else if (stage == 2) {
+				g.setFont(new Font("Consolas", Font.PLAIN, 10));
+				g.drawString("Select a train card from the deck. ", 15, 735);
+				g.drawString("Or, select a non-wild face-up card.", 15, 745);
 			} else if (stage == 3) {
 				g.setFont(new Font("Consolas", Font.PLAIN, 15));
-				g.drawString("Select at least one contract.", 15, 738);
+				g.drawString("Select at least one contract, then hit done.", 15, 738);
 			} else if (stage == 4) {
-				g.setFont(new Font("Consolas", Font.PLAIN, 15));
-				g.drawString("Hit Esc to cancel selected nodes.", 15, 738);
+				g.setFont(new Font("Consolas", Font.PLAIN, 10));
+				g.drawString("Select a 2nd node. ", 15, 735);
+				g.drawString("Or, hit Esc to cancel selected node.", 15, 745);
 			} else if (stage == 5) {
-				g.setFont(new Font("Consolas", Font.PLAIN, 15));
-				g.drawString("Select which card in your hand to use on the track.", 15, 738);
+				g.setFont(new Font("Consolas", Font.PLAIN, 10));
+				g.drawString("Select which card in your hand to use on the track. ", 15, 735);
+				g.drawString("Or, hit Esc to cancel selected nodes.", 15, 745);
 			}
+			if(lastRoundCount>1)
+				drawLastRoundNotice(g);
 		}
 		else {
 			g.setColor(Color.GRAY);
@@ -217,7 +224,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void drawLastRoundNotice(Graphics g) {
 		g.setColor(Color.GREEN);
 		g.setFont(new Font("Consolas", Font.PLAIN, 15));
-		g.drawString("IT IS THE LAST ROUND!", 15, 738);
+		g.drawString("IT IS THE LAST ROUND!", 350, 740);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
@@ -413,7 +420,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int[] results = this.endData;
+		int[][] results = this.endData;
 
 		//draw contract payouts
 		int contractPayoutX = 75;
@@ -424,8 +431,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.fillRoundRect(contractPayoutX + i * contractPayoutXShift, contractPayoutY, 80, 80, 15, 15);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Arial", Font.BOLD, 35));
-			String toDraw = results[i]+"";
-			if (results[i] > -1)
+			String toDraw = results[0][i]+"";
+			if (results[0][i] > -1)
 				toDraw = "+"+toDraw;
 			g.drawString(toDraw, contractPayoutX + i * contractPayoutXShift + 10, contractPayoutY + 50);
 			Graphics2D g2 = (Graphics2D) g;
@@ -437,7 +444,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		g.setFont(new Font("Times new Roman", Font.BOLD, 40));
 		//draw longest path
-		g.setColor(game.players[results[4]].getColor());
+		g.setColor(game.players[results[1][0]].getColor());
 		g.fillRoundRect(600, 860, 125, 125, 25, 25);
 		g.setColor(Color.BLACK);
 		g.drawString("+10", 630, 930);
@@ -448,8 +455,23 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		//end drawing longest path
 
 		//draw globetrotter
-		g.setColor(game.players[results[5]].getColor());
-		g.fillRoundRect(970, 860, 125, 125, 25, 25);
+		if(results[2].length>1)
+		{
+			Color[] col=new Color[results[2].length];
+			float[] f=new float[results[2].length];
+			for(int i=0;i<results[2].length;i++)
+			{
+				col[i]=game.players[results[2][i]].getColor();
+				f[i]=(float)((1.0/results[2].length)*(i+1));
+			}
+			g2.setPaint(new LinearGradientPaint(970f,860f,1095f,985f,f,col));
+			g2.fillRoundRect(970, 860, 125, 125, 25, 25);
+		}
+		else
+		{
+			g.setColor(game.players[results[2][0]].getColor());
+			g.fillRoundRect(970, 860, 125, 125, 25, 25);
+		}
 		g.setColor(Color.BLACK);
 		g.drawString("+15", 1000, 930);
 		g2 = (Graphics2D) g;
@@ -740,7 +762,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX() + " " + e.getY());
+		//System.out.println(e.getX() + " " + e.getY());
 	}
 
 	@Override
