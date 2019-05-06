@@ -16,7 +16,7 @@ public class Player implements Comparable<Player>
 		this.c = n;
 		name = n.toString();
 		points=0;
-		trainsLeft=3;
+		trainsLeft=45;
 		contracts=new ArrayList<Contract>();
 		trainCards=new HashMap<ColorType, Integer>();
 		trainCards.put(ColorType.BLACK, 0);
@@ -100,11 +100,14 @@ public class Player implements Comparable<Player>
 			addPoints(15);
 		decrementtrainsLeft(num);
 		ArrayList<TrainCard> rtn=new ArrayList<TrainCard>();
-		while(num!=0&&trainCards.get(col)!=0)
+		if(col!=null)
 		{
-			trainCards.put(col,trainCards.get(col)-1);
-			rtn.add(new TrainCard(col,false));
-			num--;
+			while(num!=0&&trainCards.get(col)!=0)
+			{
+				trainCards.put(col,trainCards.get(col)-1);
+				rtn.add(new TrainCard(col,false));
+				num--;
+			}
 		}
 		while(num!=0)
 		{

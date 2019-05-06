@@ -76,13 +76,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-
 		if (stage != 6) {
 			if ((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2))
 			{
 				stage = 6;
 				endData=game.endGame();
 				JOptionPane.showMessageDialog(null, "Due to the impossibilty of a proper table, the game is over.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
+				repaint();
 			}
 			drawBackground(g);
 			if (gg != null) {
@@ -988,7 +988,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		if (game.lastRound() && lastRoundCount == 0)
 			lastRoundCount = 5;
-		if (lastRoundCount == 1||((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2)))
+		if (lastRoundCount == 1)
 		{
 			stage = 6;
 			endData=game.endGame();
