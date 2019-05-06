@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	protected int stage;
 	private Node[] citySelect;
 	private int[] endData;
-	private boolean hoverT,hoverC,animating, drawDirections;
+	private boolean hoverT,hoverC, drawDirections;
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -63,7 +63,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
 		hoverCon=-1;
-		animating=false;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -191,16 +190,24 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				g.setFont(new Font("Consolas", Font.PLAIN, 10));
 				g.drawString("Click on two nodes to select the track in between. ", 15, 735);
 				g.drawString("Or, select a contract or train card from the right.", 15, 745);
+			} else if (stage == 2) {
+				g.setFont(new Font("Consolas", Font.PLAIN, 10));
+				g.drawString("Select a train card from the deck. ", 15, 735);
+				g.drawString("Or, select a non-wild face-up card.", 15, 745);
 			} else if (stage == 3) {
 				g.setFont(new Font("Consolas", Font.PLAIN, 15));
-				g.drawString("Select at least one contract.", 15, 738);
+				g.drawString("Select at least one contract, then hit done.", 15, 738);
 			} else if (stage == 4) {
-				g.setFont(new Font("Consolas", Font.PLAIN, 15));
-				g.drawString("Hit Esc to cancel selected nodes.", 15, 738);
+				g.setFont(new Font("Consolas", Font.PLAIN, 10));
+				g.drawString("Select a 2nd node. ", 15, 735);
+				g.drawString("Or, hit Esc to cancel selected node.", 15, 745);
 			} else if (stage == 5) {
-				g.setFont(new Font("Consolas", Font.PLAIN, 15));
-				g.drawString("Select which card in your hand to use on the track.", 15, 738);
+				g.setFont(new Font("Consolas", Font.PLAIN, 10));
+				g.drawString("Select which card in your hand to use on the track. ", 15, 735);
+				g.drawString("Or, hit Esc to cancel selected nodes.", 15, 745);
 			}
+			if(lastRoundCount>1)
+				drawLastRoundNotice(g);
 		}
 		else {
 			g.setColor(Color.GRAY);
@@ -217,7 +224,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void drawLastRoundNotice(Graphics g) {
 		g.setColor(Color.GREEN);
 		g.setFont(new Font("Consolas", Font.PLAIN, 15));
-		g.drawString("IT IS THE LAST ROUND!", 15, 738);
+		g.drawString("IT IS THE LAST ROUND!", 350, 740);
 	}
 
 	public void drawConnections(Node n1, Graphics g) {
@@ -740,7 +747,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX() + " " + e.getY());
+		//System.out.println(e.getX() + " " + e.getY());
 	}
 
 	@Override
