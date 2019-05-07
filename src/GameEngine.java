@@ -50,6 +50,11 @@ public class GameEngine {
 		return players[currentPlayer].getTrainCards().get(col);
 	}
 	
+	public Track getLastPlaced()
+	{
+		return gBoard.getLastPlaced();
+	}
+	
 	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
 		if(players[currentPlayer].getTrainCards().get(c)==0)
 			c=null;

@@ -66,6 +66,12 @@ public class Track {
 		return n1.equals(t.getNode1())&&n2.equals(t.getNode2());
 	}
 	
+	public boolean animateEquals(Object o)
+	{
+		Track t=(Track)o;
+		return t.getPlayer()==player&&((n1.equals(t.getNode1())&&n2.equals(t.getNode2()))||(n2.equals(t.getNode1())&&n1.equals(t.getNode2())));
+	}
+	
 	public Node getOtherNode(Node from)
 	{
 		if(from.equals(n1))
