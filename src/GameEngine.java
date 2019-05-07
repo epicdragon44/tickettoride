@@ -240,7 +240,7 @@ public class GameEngine {
     			}
     		}
     	}
-    	if(checkWildLim()&&(getNonWildNum()+getNonWildTable()<3)&&(getWildNum()+getWildTable()>2))
+    	if(checkWildLim()&&getNonWildNum()+getNonWildTable()>2)
     		updateTable();
     }
     

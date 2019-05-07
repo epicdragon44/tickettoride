@@ -1150,8 +1150,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				return;
 			double targetx = lastPlaced.getX2();
 			double targety = lastPlaced.getY2();
-			double changeX=(targetx-lastPlaced.getX1())/(7+2*lastPlaced.getCost());
-			double changeY=(targety-lastPlaced.getY1())/(7+2*lastPlaced.getCost());
+			double changeX=(targetx-lastPlaced.getX1())/(7);
+			double changeY=(targety-lastPlaced.getY1())/(7);
 			if (Math.abs(lineX-targetx)>0.5&&Math.abs(lineY-targety)>0.5) 
 			{
 					lineX+=changeX;
@@ -1161,7 +1161,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			else 
 			{
 				lastPlaced=null;
-				animateTimer2.start();
+				animateTimer2.stop();
 			}
 		}
 	}
