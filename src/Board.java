@@ -9,6 +9,7 @@ public class Board {
 	protected int maxLen;
 	private ArrayList<Player> bestPlayer;
 	private GameEngine daddyEngine;
+	Track last;
 
 	public Board(GameEngine game) throws Exception {
 		this.daddyEngine = game;
@@ -35,6 +36,7 @@ public class Board {
 		sc.close();
 		maxLen = Integer.MIN_VALUE;
 		bestPlayer = new ArrayList<Player>();
+		last=null;
 	}
 
 	public int connectionCost(String s, String e) {
@@ -72,6 +74,11 @@ public class Board {
 		return false;
 	}
 	//...end of contract completeness algorithm
+	
+	public Track getLastPlaced()
+	{
+		return last;
+	}
 
 	public Node findNode(String name) {
 		for (Node n : cities) {
@@ -171,6 +178,7 @@ public class Board {
 					y=t.getY2();
 					t.setPlayer(player);
 					available = true;
+					last=t;
 					break;
 				}
 			}

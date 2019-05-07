@@ -59,13 +59,13 @@ New_Orleans Red 6 1093 704 842 659,Atlanta Blue 5 1095 688 959 518,Charleston Pi
 New_Orleans 830 657
 Houston Gray 2 815 655 729 668,Little_Rock Green 3 818 644 758 527,Atlanta Yellow 4 830 643 933 499,Atlanta Orange 4 845 651 947 510,Miami Red 6 842 659 1093 704
 Houston 715 672
-El_Paso Green 6 704 675 447 660,Dallas Gray 1 669 636 695 663,Dallas Gray 1 680 625 706 654,New_Orleans Gray 2 729 668 815 655
+El_Paso Green 6 704 675 447 660,Dallas Gray 1 695 663 669 636,Dallas Gray 1 706 654 680 625,New_Orleans Gray 2 729 668 815 655
 El_Paso 437 652
 Los_Angeles Black 6 411 656 149 605,Phoenix Gray 3 424 646 300 609,Santa_Fe Gray 2 436 636 441 552,Oklahoma_City Yellow 5 448 645 628 518,Dallas Red 4 483 652 647 628,Houston Green 6 447 660 704 675
 Los_Angeles 139 598
 San_Francisco Yellow 3 117 593 41 485,San_Francisco Pink 3 128 584 53 475,Las_Vegas Gray 2 145 584 209 530,Phoenix Gray 3 151 593 280 605,El_Paso Black 6 149 605 411 656
 Dallas 662 621
-El_Paso Red 4 647 628 483 652,Oklahoma_City Gray 2 653 608 643 525,Oklahoma_City Gray 2 668 606 658 523,Little_Rock Gray 2 685 596 736 528,Houston Gray 1 695 663 669 636,Houston Gray 1 706 654 680 625
+El_Paso Red 4 647 628 483 652,Oklahoma_City Gray 2 653 608 643 525,Oklahoma_City Gray 2 668 606 658 523,Little_Rock Gray 2 685 596 736 528,Houston Gray 1 669 636 695 663,Houston Gray 1 680 625 706 654
 Phoenix 289 606
 Los_Angeles Gray 3 280 605 151 593,Denver White 5 299 599 436 435,Santa_Fe Gray 3 306 596 428 541,El_Paso Gray 3 300 609 424 646
 Las_Vegas 220 524
