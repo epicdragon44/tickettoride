@@ -158,12 +158,20 @@ public class Board {
 
 		for (Track t : n.getConnections()) {
 			if (t.getPlayer() != -1) { //check first to make sure someone actually owns the track lmfao
-				if (p.equals(daddyEngine.players[t.getPlayer()]) && !visited.contains(t)) {
+				if (p.equals(daddyEngine.players[t.getPlayer()]) && !contains(t,visited)) {
 					visited.add(t);
 					visit(t.getOtherNode(n), cnt + t.getCost(), visited, p);
 				}
 			}
 		}
+	}
+	
+	private boolean contains(Track t,List<Track> v)
+	{
+		for(Track tr:v)
+			if(tr.animateEquals(t))
+				return true;
+		return false;
 	}
 	//... end of longest train algorithm
 
