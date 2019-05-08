@@ -20,13 +20,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Node gg;
 	private double lineX,lineY;
 	private ArrayList<Contract> contracts;
-	private int lastRoundCount, hoverConStart, hoverCon, numCalled;
+	private int lastRoundCount, hoverConStart, hoverCon, numCalled, numLooped;
 	protected int stage;
 	private Node[] citySelect;
 	private int[][] endData;
 	private boolean hoverT,hoverC, drawDirections;
 	private Track lastPlaced;
-	private Timer animateTimer2;
+	private Timer animateTimer, animateTimer2;
 
 	public GamePanel() throws Exception {
 		blue = new Color(98, 151, 255);
@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		dgreen = new Color(67, 216, 67);
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
-		game = new GameEngine(this);
+		game = new GameEngine();
 		cMap=new HashMap<ColorType,ColorType>();
 		cMap.put(new ColorType(92,97,92,230),ColorType.BLACK);
 		cMap.put(new ColorType(154,196,70,230),ColorType.GREEN);
@@ -59,6 +59,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		lastRoundCount = 0;
 		stage = 1;
 		numCalled=0;
+		numLooped=0;
 		citySelect = new Node[2];
 		contracts = game.drawContract(5);
 		hoverT=false;
@@ -82,7 +83,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
+		if(lastPlaced==null||numLooped==0)
+			super.paint(g);
+		else
+		{
+			animateLine(g);
+			return;
+		}
 		if (stage != 6) {
 			if ((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2))
 			{
@@ -232,8 +239,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,g);
-		if(lastPlaced!=null)
-			animateLine(g);
 	}
 
 	public void drawLastRoundNotice(Graphics g) {
@@ -1111,7 +1116,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void startAnimationTimer() {
 		this.moving = true;
 		numCalled++;
-		Timer animateTimer = new Timer(10, new MoveBox());
+		animateTimer = new Timer(10, new MoveBox());
 		animateTimer.start();
 		this.repaint();
 	}
@@ -1130,7 +1135,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					repaint();
 				} 
 				else 
+				{
 					moving = false;
+					animateTimer.stop();
+				}
 			}
 		}
 	}
@@ -1139,7 +1147,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		lastPlaced=game.getLastPlaced();
 		lineX=lastPlaced.getX1();
 		lineY=lastPlaced.getY1();
-		animateTimer2 = new Timer(1, new AnimateLine());
+		animateTimer2 = new Timer(10, new AnimateLine());
 		animateTimer2.setRepeats(true);
 		animateTimer2.start();
 		this.repaint();
@@ -1150,17 +1158,19 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				return;
 			double targetx = lastPlaced.getX2();
 			double targety = lastPlaced.getY2();
-			double changeX=(targetx-lastPlaced.getX1())/(7);
-			double changeY=(targety-lastPlaced.getY1())/(7);
+			double changeX=(targetx-lastPlaced.getX1())/(50);
+			double changeY=(targety-lastPlaced.getY1())/(50);
 			if (Math.abs(lineX-targetx)>0.5&&Math.abs(lineY-targety)>0.5) 
 			{
 					lineX+=changeX;
 					lineY+=changeY;
+					numLooped++;
 					repaint();
 			} 
 			else 
 			{
 				lastPlaced=null;
+				numLooped=0;
 				animateTimer2.stop();
 			}
 		}
