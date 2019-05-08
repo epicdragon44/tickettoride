@@ -848,6 +848,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				else
 					contracts=game.drawContract(5);
 				game.nextPlayer();
+				startAnimationTimer();
 			}
 		}
 		else if(stage==1)
@@ -890,6 +891,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					game.nextPlayer();
 					if(lastRoundCount > 0)
 						lastRoundCount--;
+					startAnimationTimer();
 				}
 				else if(!(game.haveTable()||game.haveTrainCards()))
 				{
@@ -897,6 +899,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					game.nextPlayer();
 					if(lastRoundCount>0)
 						lastRoundCount--;
+					startAnimationTimer();
 				}
 				else
 					stage=2;
@@ -921,6 +924,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				stage=1;
 				if(lastRoundCount>0)
 					lastRoundCount--;
+				startAnimationTimer();
 			}
 			else if(ind!=-1&&game.getTable()[ind]!=null)
 			{
@@ -932,6 +936,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					stage=1;
 					if(lastRoundCount>0)
 						lastRoundCount--;
+					startAnimationTimer();
 				}
 			}
 		}
@@ -958,6 +963,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				stage=1;
 				if(lastRoundCount>0)
 					lastRoundCount--;
+				startAnimationTimer();
 			}
 		}
 		else if(stage==4)
@@ -999,9 +1005,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 				else
 				{
-					startLineAnimation();
+					ArrayList<Player> playerCopy = new ArrayList<Player>();
+					for (int i = 0; i < game.players.length; i++)
+						playerCopy.add(game.players[i]);
+					Collections.sort(playerCopy);
 					game.nextPlayer();
 					stage=1;
+					yLeader=110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
+					startLineAnimation();
 					if(lastRoundCount>0)
 						lastRoundCount--;
 				}
@@ -1129,13 +1140,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			double targety = 110 + (playerCopy.indexOf(game.players[game.currentPlayer]) * 100);
 			double change=(targety-yLeader)/(25+numCalled);
 			if (moving) {
-				if (yLeader != targety) 
+				if (Math.abs(yLeader-targety)>3) 
 				{
 					moveBox(change);
 					repaint();
 				} 
 				else 
 				{
+					yLeader=targety;
 					moving = false;
 					animateTimer.stop();
 				}
