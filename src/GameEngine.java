@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 
 public class GameEngine {
-	private GamePanel daddyPanel;
-
 	public Player[] players;
 
 	private ContractDeck cDeck;
@@ -14,9 +12,7 @@ public class GameEngine {
 	
 	public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 	
-	public GameEngine(GamePanel daddyPanel) throws Exception {
-		this.daddyPanel = daddyPanel;
-
+	public GameEngine() throws Exception {
 		players=new Player[4];
 		players[0]=new Player(ColorType.RED);
 		players[1]=new Player(ColorType.GREEN);
@@ -42,7 +38,6 @@ public class GameEngine {
 
 	public void nextPlayer() {
 		currentPlayer = (currentPlayer+1)%4;
-		daddyPanel.startAnimationTimer();
 	}
 	
 	public int getCardCount(ColorType col)
