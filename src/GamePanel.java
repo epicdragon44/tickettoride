@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	protected int stage;
 	private Node[] citySelect;
 	private int[][] endData;
-	private boolean hoverT,hoverC, drawDirections;
+	private boolean hoverT,hoverC, drawDirections, takeScreen;
 	private Track lastPlaced;
 	private Timer animateTimer, animateTimer2;
 	private BufferedImage bg;
@@ -68,6 +68,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		contracts = game.drawContract(5);
 		hoverT=false;
 		hoverC=false;
+		takeScreen=false;
 		drawDirections = true;
 		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
@@ -101,13 +102,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if(lastPlaced!=null&&numLooped>0)
 		{
 			animateLine(g);
-			return;
+			if(numMoved!=0)
+				return;
 		}
 		if (stage != 6) {
 			if ((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2))
 			{
 				stage = 6;
 				endData=game.endGame();
+				numMoved=2;
 				JOptionPane.showMessageDialog(null, "Due to the impossibilty of a proper table, the game is over.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
 				repaint();
 			}
@@ -253,16 +256,22 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		ArrayList<Track> visited=new ArrayList<Track>();
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,visited,g);
-		if(numMoved==0)
+		if(numMoved==0&&takeScreen)
 		{
 			try
 			{
 				Robot rob=new Robot();
 				bg=rob.createScreenCapture(new Rectangle(83,34,this.getBounds().width,this.getBounds().height));
+				numMoved=1;
+				takeScreen=false;
 			} catch(Exception e) {}
 		}
 		else if(numMoved==-1)
 			drawBox(g);
+		if(numMoved==0&&!takeScreen)
+		{
+			takeScreen=true;
+		}
 	}
 
 	public void drawLastRoundNotice(Graphics g) {
@@ -1060,10 +1069,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		{
 			stage = 6;
 			endData=game.endGame();
+			numMoved=2;
 		}
 		if ((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2))
 		{
 			stage = 6;
+			numMoved=2;
 			endData=game.endGame();
 			JOptionPane.showMessageDialog(null, "Due to the impossibilty of a proper table, the game is over.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -1173,7 +1184,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 	class MoveBox implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			numMoved=1;
 			if (Math.abs(yLeader-targety)>0.005) 
 			{
 				moveBox(change);
