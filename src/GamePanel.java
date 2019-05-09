@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				repaint();
 			}
 			drawBackground(g);
-			if (gg != null) {
+			if (gg != null && numMoved!=0) {
 				if ((stage==1)&&(game.isNodeEligible(gg.getX(), gg.getY()) != null)) {
 					if (game.isNodeEligible(gg.getX(), gg.getY()))
 						g.setColor(lgreen);
@@ -257,10 +257,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		{
 			try
 			{
-				bg=new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_RGB);
-				File outputfile = new File("saved.png");
-			    ImageIO.write(bg, "png", outputfile);
-				System.out.println("gay");
+				Robot rob=new Robot();
+				bg=rob.createScreenCapture(new Rectangle(83,34,this.getBounds().width,this.getBounds().height));
 			} catch(Exception e) {}
 		}
 		else if(numMoved==-1)
@@ -1176,7 +1174,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	class MoveBox implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			numMoved=1;
-			if (Math.abs(yLeader-targety)>3) 
+			if (Math.abs(yLeader-targety)>0.005) 
 			{
 				moveBox(change);
 				repaint();
