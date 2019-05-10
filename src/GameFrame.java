@@ -1,5 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
@@ -15,23 +21,66 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 
+	public void startDuluth()
+	{
+		
+	}
+	
+	public void endDuluth()
+	{
+		
+	}
+	
+	public void startCanada()
+	{
+		
+	}
+	
+	public void endCanada()
+	{
+		
+	}
+	
+	public void startSleep()
+	{
+		
+	}
+	
+	public void endSleep()
+	{
+		
+	}
+	
 	public static void main(String[] args) throws Exception {
+		JWindow window = new JWindow();
+		window.setContentPane(new BackgroundPanel(ImageIO.read(new File("yeet.jpg"))));
+		window.setBounds(576, 250, 768, 513);
+		window.setVisible(true);
+		try {
+		    Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+		window.setVisible(false);
 		GameFrame game = new GameFrame("Ticket to Ride");
 	}
 }
 
 class BackgroundPanel extends JComponent {
     private Image image;
+
     private int x, y, length, height;
     public BackgroundPanel(Image im) {
-        image = im;
-        x = 0;
-        y = 225;
-        
-    }
+		image = im;
+		x = 0;
+		y = 225;
+	}
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this);
     }
+
+
 }

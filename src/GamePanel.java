@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Node gg;
 	private double lineX,lineY;
 	private ArrayList<Contract> contracts;
-	private int lastRoundCount, hoverConStart, hoverCon, numCalled, numLooped, numMoved;
+	private int lastRoundCount, hoverConStart, hoverCon, numCalled, numLooped, numMoved, hoverTab;
 	protected int stage;
 	private Node[] citySelect;
 	private int[][] endData;
@@ -74,6 +74,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
 		hoverCon=-1;
+		hoverTab=-1;
 		bg=null;
 		lineX=0;
 		lineY=0;
@@ -92,21 +93,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void paint(Graphics g) {
 		if(lastPlaced==null||numLooped==0||moving)
 			super.paint(g);
-		if(numMoved==1)
-		{
-			Graphics2D g2 = (Graphics2D) g;
-			g2.drawImage(bg, 0, 0, this);
-			drawBox(g);
-			if(lastPlaced==null)
-				return;
-		}
-		if(lastPlaced!=null&&numLooped>0)
-		{
-			animateLine(g);
-			if(numMoved!=0)
-				return;
-		}
 		if (stage != 6) {
+			if(numMoved==1)
+			{
+				Graphics2D g2 = (Graphics2D) g;
+				g2.drawImage(bg, 0, 0, this);
+				drawBox(g);
+				if(lastPlaced==null)
+					return;
+			}
+			if(lastPlaced!=null&&numLooped>0)
+			{
+				animateLine(g);
+				if(numMoved!=0)
+					return;
+			}
 			if ((game.getNonWildNum()+game.getNonWildTable()<3)&&(game.getWildNum()+game.getWildTable()>2))
 			{
 				stage = 6;
@@ -195,9 +196,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if(stage==5)
 				if((hoverStack==null||!hoverStack.equals(ColorType.BLACK))&&game.getCardCount(cMap.get(hoverStack))>0)
 					drawConnection(g);
+			if(numMoved==0&&takeScreen)
+			{
+				try
+				{
+					Robot rob=new Robot();
+					bg=rob.createScreenCapture(new Rectangle(83,28,this.getBounds().width,this.getBounds().height));
+					numMoved=1;
+					takeScreen=false;
+				} catch(Exception e) {}
+			}
+			else if(numMoved==-1)
+				drawBox(g);
+			if(numMoved==0&&!takeScreen)
+			{
+				takeScreen=true;
+			}
 		}
 		else {
 			drawEndGame(g);
+			if(lastPlaced!=null)
+				lastPlaced=null;
 		}
 
 		//draw instructions
@@ -257,22 +276,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		ArrayList<Track> visited=new ArrayList<Track>();
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,visited,g);
-		if(numMoved==0&&takeScreen)
-		{
-			try
-			{
-				Robot rob=new Robot();
-				bg=rob.createScreenCapture(new Rectangle(83,28,this.getBounds().width,this.getBounds().height));
-				numMoved=1;
-				takeScreen=false;
-			} catch(Exception e) {}
-		}
-		else if(numMoved==-1)
-			drawBox(g);
-		if(numMoved==0&&!takeScreen)
-		{
-			takeScreen=true;
-		}
 	}
 
 	public void drawLastRoundNotice(Graphics g) {
