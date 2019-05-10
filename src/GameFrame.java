@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -54,7 +56,7 @@ public class GameFrame extends JFrame {
 	public static void main(String[] args) throws Exception {
 		JWindow window = new JWindow();
 		window.setContentPane(new BackgroundPanel(ImageIO.read(new File("yeet.jpg"))));
-		window.setBounds(576, 250, 768, 513);
+		window.setBounds(576, 250, 768, 550);
 		window.setVisible(true);
 		try {
 		    Thread.sleep(2000);
@@ -68,12 +70,31 @@ public class GameFrame extends JFrame {
 
 class BackgroundPanel extends JComponent {
     private Image image;
+    private Timer animateTimer2;
+
+    private int x, y, length, height;
     public BackgroundPanel(Image im) {
-        image = im;
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, this);
-    }
+		image = im;
+		x = 0;
+		y = 495;
+		length = 0;
+		height = 18;
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(image, 0, 0, this);
+		animateTimer2 = new Timer(900, new AnimateLine());
+		animateTimer2.start();
+		g.setColor(new ColorType(170, 85, 85));
+		g.fillRect(x, y, length, height);
+		this.repaint();
+	}
+
+	class AnimateLine implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			length++;
+		}
+	}
 }
