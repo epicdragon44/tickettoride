@@ -14,7 +14,6 @@ import java.util.List;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private GameEngine game;
-	private GameFrame frame;
 	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private ColorType hoverStack;
 	private HashMap<ColorType,ColorType> cMap;
@@ -26,7 +25,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	protected int stage;
 	private Node[] citySelect;
 	private int[][] endData;
-	private boolean hoverT,hoverC, drawDirections, drawMinimization, takeScreen;
+	private boolean hoverT, hoverC, drawDirections, drawMinimization, takeScreen, canadaMode;
 	private Track lastPlaced;
 	private Timer animateTimer, animateTimer2;
 	private BufferedImage bg;
@@ -46,7 +45,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
 		game = new GameEngine();
-		frame=fr;
 		cMap=new HashMap<ColorType,ColorType>();
 		cMap.put(new ColorType(92,97,92,230),ColorType.BLACK);
 		cMap.put(new ColorType(154,196,70,230),ColorType.GREEN);
@@ -1125,10 +1123,30 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseMoved(MouseEvent e) {
 		if(stage==6)
 			return;
-		if (game.getgBoard().findNode(e.getX(), e.getY()) != null)
-			gg = game.getgBoard().findNode(e.getX(), e.getY());
+		if (game.findNode(e.getX(), e.getY()) != null)
+		{
+			gg = game.findNode(e.getX(), e.getY());
+			if(stage!=0&&stage!=2&&stage!=3&&!canadaMode&&isCanadian(gg))
+			{
+				canadaMode=true;
+				try
+				{
+					daddyFrame.startCanada();
+				}catch(Exception E) {}
+			}
+		}
 		else
+		{
+			if(canadaMode&&!(stage==4&&isCanadian(citySelect[0]))&&!(stage==5&&(isCanadian(citySelect[0])||isCanadian(citySelect[1]))))
+			{
+				try
+				{
+					daddyFrame.endCanada();
+				}catch(Exception E) {}
+				canadaMode=false;
+			}
 			gg=null;
+		}
 		if(e.getX()>=1218&&e.getX()<=1447&&e.getY()>=513&&e.getY()<=649)
 			hoverT=true;
 		else
@@ -1189,6 +1207,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			hoverCon=-1;
 		//add table deck(not null)(stage 1 and stage [red if wild]2)
 		repaint();
+	}
+	
+	private boolean isCanadian(Node n)
+	{
+		if(n.toString().equals("Clagary")||n.toString().equals("Vancouver")||n.toString().equals("Winnipeg")
+				||n.toString().equals("Toronto")||n.toString().equals("Montreal"))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	@Override
