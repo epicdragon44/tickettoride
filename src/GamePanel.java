@@ -261,7 +261,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			try
 			{
 				Robot rob=new Robot();
-				bg=rob.createScreenCapture(new Rectangle(83,34,this.getBounds().width,this.getBounds().height));
+				bg=rob.createScreenCapture(new Rectangle(83,28,this.getBounds().width,this.getBounds().height));
 				numMoved=1;
 				takeScreen=false;
 			} catch(Exception e) {}
@@ -459,15 +459,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		g2.setColor(Color.GRAY);
 		g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 
-		g2.drawRect(3, 3, 1170, 755);
+		g2.drawRect(2, 2, 1170, 755);
 
 		int bound = 575; //screw around with this to get content drawn to fit
 
-		g2.drawRect(3, 758, bound, 240);
+		g2.drawRect(2, 758, bound, 240);
 
 		g2.drawRect(bound+5, 758, 1168-bound, 240);
 
-		g2.drawRect(1175, 2, 575, 995);
+		g2.drawRect(1175, 2, 576, 995);
 	}
 
 	public void drawEndGame(Graphics g)
