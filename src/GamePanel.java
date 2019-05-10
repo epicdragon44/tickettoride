@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setPreferredSize(new Dimension(1754, 1000));
 		setVisible(true);
 		lastRoundCount = 0;
-		stage = 1;
+		stage = 0;
 		numCalled=0;
 		numLooped=0;
 		numMoved=-1;
