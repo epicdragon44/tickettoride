@@ -872,7 +872,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX() + " " + e.getY()); //TEMP CODE
+		//System.out.println(e.getX() + " " + e.getY()); //TEMP CODE
 		if (stage == 6 && e.getX() > 1270 && e.getX() < 1680 && e.getY() > 760 && e.getY() < 870) {
 			daddyFrame.setVisible(false);
 			try {
