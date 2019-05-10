@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	protected int stage;
 	private Node[] citySelect;
 	private int[][] endData;
-	private boolean hoverT,hoverC, drawDirections, takeScreen;
+	private boolean hoverT,hoverC, drawDirections, drawMinimization, takeScreen;
 	private Track lastPlaced;
 	private Timer animateTimer, animateTimer2;
 	private BufferedImage bg;
@@ -70,6 +70,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		hoverC=false;
 		takeScreen=false;
 		drawDirections = true;
+		drawMinimization = true;
 		hoverStack=ColorType.BLACK;
 		hoverConStart=-1;
 		hoverCon=-1;
@@ -264,7 +265,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if(lastRoundCount>1)
 				drawLastRoundNotice(g);
 		}
-		else {
+		else if (drawMinimization) {
 			g.setColor(Color.GRAY);
 			g.fillRect(7, 715, 260, 25);
 			g.setColor(Color.WHITE);
@@ -477,6 +478,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	{
 		g.clearRect(1185, 12, 1740-1185, 983-12);
 		g.clearRect(9, 764, 1742-9, 987-764);
+		g.clearRect(5, 10, 1160-5, 750-10);
+		drawDirections = false;
+		drawMinimization = false;
+		repaint();
 		try {
 			BufferedImage img = ImageIO.read(new File("endgamebase.png"));;
 			img = resize(img, (int)(img.getWidth()*1.5), (int)(img.getHeight()*1.5));
@@ -855,7 +860,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//System.out.println(e.getX() + " " + e.getY());
+		System.out.println(e.getX() + " " + e.getY());
 	}
 
 	@Override
