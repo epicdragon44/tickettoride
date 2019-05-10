@@ -19,3 +19,19 @@ public class GameFrame extends JFrame {
 		GameFrame game = new GameFrame("Ticket to Ride");
 	}
 }
+
+class BackgroundPanel extends JComponent {
+    private Image image;
+    private int x, y, length, height;
+    public BackgroundPanel(Image im) {
+        image = im;
+        x = 0;
+        y = 225;
+        
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this);
+    }
+}
