@@ -30,8 +30,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Track lastPlaced;
 	private Timer animateTimer, animateTimer2;
 	private BufferedImage bg;
+	private GameFrame daddyFrame;
 
-	public GamePanel(GameFrame fr) throws Exception {
+	public GamePanel(GameFrame daddyFrame) throws Exception {
 		blue = new Color(98, 151, 255);
 		red = new Color(255, 88, 88);
 		yellow = Color.YELLOW;
@@ -81,6 +82,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		lineX=0;
 		lineY=0;
 		lastPlaced=null;
+		this.daddyFrame = daddyFrame;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -595,6 +597,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g2.drawRoundRect(x, y, width, height, 15, 15);
 		}
 		//end drawing scoreboard
+
+		g.setColor(ColorType.gray);
+		g.fillRect(1270, 760, 1680-1270, 870-760);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		g.setColor(ColorType.white);
+		g.drawString("Click here to start a new game", 1295, 825);
+		g.setColor(Color.DARK_GRAY);
+		g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+		g2.drawRect(1270, 760, 1680-1270, 870-760);
 	}
 
 	public void drawHand(Graphics g) {
@@ -862,7 +874,15 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getX() + " " + e.getY());
+		//System.out.println(e.getX() + " " + e.getY()); //TEMP CODE
+		if (stage == 6 && e.getX() > 1270 && e.getX() < 1680 && e.getY() > 760 && e.getY() < 870) {
+			daddyFrame.setVisible(false);
+			try {
+				new GameFrame("Ticket to Ride");
+			} catch (Exception error) {
+				error.printStackTrace();
+			}
+		}
 	}
 
 	@Override
