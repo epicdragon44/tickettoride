@@ -1,20 +1,21 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
+	private AudioInputStream input;
+	private Clip clip;
 
 	public GameFrame(String str) throws Exception {
 		super(str);
-		getContentPane().setBackground(Color.DARK_GRAY);
+		setContentPane(new BackgroundPanel());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -33,29 +34,29 @@ public class GameFrame extends JFrame {
 		
 	}
 	
-	public void startCanada()
+	public void startCanada() throws Exception
 	{
-		
+		setContentPane(new BackgroundPanel(ImageIO.read(new File("Canada.png"))));
+		add(gamePanel);
+		input= AudioSystem.getAudioInputStream(new File("Anthem.wav").getAbsoluteFile()); 
+        clip = AudioSystem.getClip(); 
+        clip.open(input);
+        clip.loop(clip.LOOP_CONTINUOUSLY);
+        clip.start();
+		setVisible(true);
 	}
 	
-	public void endCanada()
+	public void endCanada() throws Exception
 	{
-		
-	}
-	
-	public void startSleep()
-	{
-		
-	}
-	
-	public void endSleep()
-	{
-		
+		setContentPane(new BackgroundPanel());
+		add(gamePanel);
+        clip.stop();
+		setVisible(true);
 	}
 	
 	public static void main(String[] args) throws Exception {
 		JWindow window = new JWindow();
-		window.setContentPane(new BackgroundPanel(ImageIO.read(new File("yeet.jpg"))));
+		window.setContentPane(new LoadingPanel(ImageIO.read(new File("yeet.jpg"))));
 		window.setBounds(576, 250, 768, 550);
 		window.setVisible(true);
 		try {
@@ -68,12 +69,12 @@ public class GameFrame extends JFrame {
 	}
 }
 
-class BackgroundPanel extends JComponent {
+class LoadingPanel extends JComponent {
     private Image image;
     private Timer animateTimer2;
 
     private int x, y, length, height;
-    public BackgroundPanel(Image im) {
+    public LoadingPanel(Image im) {
 		image = im;
 		x = 0;
 		y = 495;
@@ -97,4 +98,30 @@ class BackgroundPanel extends JComponent {
 			length++;
 		}
 	}
+}
+
+class BackgroundPanel extends JComponent {
+	private Image image;
+	private boolean def;
+	
+	public BackgroundPanel() {
+        image = null;
+        def=true;
+    }
+	
+    public BackgroundPanel(Image im) {
+        image = im;
+        def=false;
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if(def)
+        {
+        	g.setColor(Color.DARK_GRAY);
+        	g.fillRect(0, 0, 1920, 1080);
+        }
+        else
+        	g.drawImage(image, 0, 0, this);
+    }
 }
