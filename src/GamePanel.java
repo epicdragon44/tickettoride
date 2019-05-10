@@ -14,6 +14,7 @@ import java.util.List;
 
 public class GamePanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private GameEngine game;
+	private GameFrame frame;
 	private Color red, blue, yellow, green, dgreen, gray, gold, lblue, lred, lgreen;
 	private ColorType hoverStack;
 	private HashMap<ColorType,ColorType> cMap;
@@ -30,7 +31,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Timer animateTimer, animateTimer2;
 	private BufferedImage bg;
 
-	public GamePanel() throws Exception {
+	public GamePanel(GameFrame fr) throws Exception {
 		blue = new Color(98, 151, 255);
 		red = new Color(255, 88, 88);
 		yellow = Color.YELLOW;
@@ -44,6 +45,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		gray = new Color(205, 208, 205);
 		gold = new Color(218, 218, 4);
 		game = new GameEngine();
+		frame=fr;
 		cMap=new HashMap<ColorType,ColorType>();
 		cMap.put(new ColorType(92,97,92,230),ColorType.BLACK);
 		cMap.put(new ColorType(154,196,70,230),ColorType.GREEN);

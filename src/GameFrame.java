@@ -18,7 +18,7 @@ public class GameFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		gamePanel = new GamePanel();
+		gamePanel = new GamePanel(this);
 		add(gamePanel);
 		setVisible(true);
 	}
