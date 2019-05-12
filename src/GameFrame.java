@@ -11,7 +11,7 @@ import java.io.File;
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
 	private AudioInputStream input;
-	private Clip clip, backMusic, hover, click, ching;
+	private Clip clip, backMusic, hover, click, ching, wrong;
 	private boolean mute;
 
 	public GameFrame(String str) throws Exception {
@@ -34,6 +34,8 @@ public class GameFrame extends JFrame {
         hover.open(AudioSystem.getAudioInputStream(new File("hover.wav").getAbsoluteFile()));
         ching = AudioSystem.getClip(); 
         ching.open(AudioSystem.getAudioInputStream(new File("chaChing.wav").getAbsoluteFile()));
+        wrong = AudioSystem.getClip(); 
+        wrong.open(AudioSystem.getAudioInputStream(new File("wrong.wav").getAbsoluteFile()));
 		setVisible(true);
 	}
 
@@ -136,6 +138,16 @@ public class GameFrame extends JFrame {
 		ching = AudioSystem.getClip(); 
         ching.open(AudioSystem.getAudioInputStream(new File("chaChing.wav").getAbsoluteFile()));
 		ching.start();
+	}
+	
+	public void wrong() throws Exception
+	{
+		if(mute)
+			return;
+		wrong.stop();
+		wrong = AudioSystem.getClip(); 
+        wrong.open(AudioSystem.getAudioInputStream(new File("wrong.wav").getAbsoluteFile()));
+		wrong.start();
 	}
 	
 	public static void main(String[] args) throws Exception {

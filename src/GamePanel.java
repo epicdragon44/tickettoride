@@ -1117,8 +1117,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 			else if(ind!=-1&&game.getTable()[ind]!=null)
 			{
-				if(game.drawTrainCard(ind, true))
+				if(game.drawTrainCard(ind, true)) 
+				{
+					try
+					{
+						daddyFrame.wrong();
+					}catch(Exception E) {}
 					JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE PICK A NON-WILD CARD.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
+				}
 				else
 				{
 					game.nextPlayer();
@@ -1205,6 +1211,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			{
 				if(!game.placeTrain(citySelect[0], citySelect[1], stack))
 				{
+					try
+					{
+						daddyFrame.wrong();
+					}catch(Exception E) {}
 					JOptionPane.showMessageDialog(null, "MOVE INVALID. PLEASE RESTART TURN.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
 					stage=1;
 				}
