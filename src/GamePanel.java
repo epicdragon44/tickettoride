@@ -24,8 +24,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int lastRoundCount, hoverConStart, hoverCon, numCalled, numLooped, numMoved, hoverTab;
 	protected int stage;
 	private Node[] citySelect;
+	private Image icon;
 	private int[][] endData;
-	private boolean hoverT, hoverC, drawDirections, drawMinimization, takeScreen, canadaMode;
+	private boolean hoverT, hoverC, drawDirections, drawMinimization, takeScreen, canadaMode, duluthMode, mute;
 	private Track lastPlaced;
 	private Timer animateTimer, animateTimer2;
 	private BufferedImage bg;
@@ -62,6 +63,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		setVisible(true);
 		lastRoundCount = 0;
 		stage = 0;
+		canadaMode=false;
+		duluthMode=false;
+		mute=false;
 		numCalled=0;
 		numLooped=0;
 		numMoved=-1;
@@ -73,6 +77,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		drawDirections = true;
 		drawMinimization = true;
 		hoverStack=ColorType.BLACK;
+		icon = new ImageIcon("Flag.gif").getImage();
 		hoverConStart=-1;
 		hoverCon=-1;
 		hoverTab=-1;
@@ -175,7 +180,26 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				drawContractSelect(g);
 			}
 			else
+			{
+				if(numMoved!=0&&(stage==1||stage==2)&&hoverTab!=-1&&game.getTable()[hoverTab]!=null)
+				{
+					if(stage==2&&game.getTable()[hoverTab].getwild())
+						g.setColor(lred);
+					else
+						g.setColor(lgreen);
+					if(hoverTab==0)
+						g.fillRoundRect(1295, 695, 100, 65, 10, 10);
+					else if(hoverTab==1)
+						g.fillRoundRect(1495, 695, 100, 65, 10, 10);
+					else if(hoverTab==2)
+						g.fillRoundRect(1395, 745, 100, 65, 10, 10);
+					else if(hoverTab==3)
+						g.fillRoundRect(1295, 795, 100, 65, 10, 10);
+					else if(hoverTab==4)
+						g.fillRoundRect(1495, 795, 100, 65, 10, 10);
+				}
 				drawTable(g);
+			}
 			if(stage==4||stage==5){
 				if(citySelect[0]!=null)
 				{
@@ -198,6 +222,30 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if(stage==5)
 				if((hoverStack==null||!hoverStack.equals(ColorType.BLACK))&&game.getCardCount(cMap.get(hoverStack))>0)
 					drawConnection(g);
+			if(mute)
+			{
+				try {
+					BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
+					g.drawImage(ImageIO.read(new File("muted.png")), 1667, 913, new ImageObserver() {
+						@Override
+						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+							return false;
+						}
+					});
+				} catch (IOException e) {}
+			}
+			else
+			{
+				try {
+					BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
+					g.drawImage(ImageIO.read(new File("unmuted.png")), 1667, 913, new ImageObserver() {
+						@Override
+						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+							return false;
+						}
+					});
+				} catch (IOException e) {}
+			}
 			if(numMoved==0&&takeScreen)
 			{
 				try
@@ -278,6 +326,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		ArrayList<Track> visited=new ArrayList<Track>();
 		for(Node city:game.getgBoard().cities)
 			drawConnections(city,visited,g);
+		if(canadaMode)
+			g.drawImage(icon, 1020, 80, this);
+		else if(duluthMode)
+		{
+			try
+			{
+				g.drawImage(ImageIO.read(new File("check.png")), 660, 133, this);
+				g.drawImage(ImageIO.read(new File("x.png")), 658, 204, this);
+			}catch(Exception e) {}
+		}
 	}
 
 	public void drawLastRoundNotice(Graphics g) {
@@ -874,9 +932,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseClicked(MouseEvent e) {
 		//System.out.println(e.getX() + " " + e.getY()); //TEMP CODE
 		if (stage == 6 && e.getX() > 1270 && e.getX() < 1680 && e.getY() > 760 && e.getY() < 870) {
-			daddyFrame.setVisible(false);
+			daddyFrame.mute();
+			daddyFrame.dispose();
 			try {
-				new GameFrame("Ticket to Ride");
+				daddyFrame=new GameFrame("Ticket to Ride");
 			} catch (Exception error) {
 				error.printStackTrace();
 			}
@@ -889,6 +948,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if(e.getX()>1667&&e.getX()<1748&&e.getY()>913&&e.getY()<995)
+		{
+			if(!mute)
+			{
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
+				mute=true;
+				daddyFrame.mute();
+			}
+			else
+			{
+				mute=false;
+				daddyFrame.unmute();
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
+			}
+		}
 		if (stage == 6||moving)
 			return;
 		else if (stage == 0) {
@@ -910,6 +990,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			{
 				game.takeContract(contracts.get(ind));
 				contracts.set(ind,null);
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 			}
 			int count=0;
 			for(Contract c:contracts)
@@ -923,6 +1007,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				else
 					contracts=game.drawContract(5);
 				game.nextPlayer();
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 				startAnimationTimer();
 			}
 		}
@@ -932,17 +1020,29 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			{
 				game.drawTrainCard(-1, false);
 				stage=2;
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 			}
 			else if(e.getX()>=1472&&e.getX()<=1688&&e.getY()>=516&&e.getY()<=649&&game.getNumContracts()>0)
 			{
 				contracts=game.drawContract(3);
 				stage=3;
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 			}
 			Node n=game.findNode(e.getX(),e.getY());
 			if(n!=null&&game.isNodeEligible(e.getX(), e.getY()))
 			{
 				citySelect[0]=n;
 				stage=4;
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 			}
 			boolean proceed=false;
 			for(TrainCard t:game.getTable())
@@ -966,6 +1066,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					game.nextPlayer();
 					if(lastRoundCount > 0)
 						lastRoundCount--;
+					try
+					{
+						daddyFrame.click();
+					}catch(Exception E) {}
 					startAnimationTimer();
 				}
 				else if(!(game.haveTable()||game.haveTrainCards()))
@@ -977,7 +1081,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					startAnimationTimer();
 				}
 				else
+				{
 					stage=2;
+					try
+					{
+						daddyFrame.click();
+					}catch(Exception E) {}
+				}
 			}
 		}
 		else if (stage == 2) {
@@ -999,6 +1109,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				stage=1;
 				if(lastRoundCount>0)
 					lastRoundCount--;
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 				startAnimationTimer();
 			}
 			else if(ind!=-1&&game.getTable()[ind]!=null)
@@ -1011,6 +1125,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					stage=1;
 					if(lastRoundCount>0)
 						lastRoundCount--;
+					try
+					{
+						daddyFrame.click();
+					}catch(Exception E) {}
 					startAnimationTimer();
 				}
 			}
@@ -1030,6 +1148,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			{
 				game.takeContract(contracts.get(ind));
 				contracts.set(ind,null);
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 			}
 			else if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980&&contracts.contains(null))
 			{
@@ -1038,6 +1160,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				stage=1;
 				if(lastRoundCount>0)
 					lastRoundCount--;
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 				startAnimationTimer();
 			}
 		}
@@ -1048,6 +1174,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			{
 				citySelect[1]=n;
 				stage=5;
+				try
+				{
+					daddyFrame.click();
+				}catch(Exception E) {}
 			}
 		}
 		else if(stage==5)
@@ -1084,6 +1214,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					stage=1;
 					if(lastRoundCount>0)
 						lastRoundCount--;
+					try
+					{
+						daddyFrame.ching();
+					}catch(Exception E) {}
 					startAnimationTimer();
 					startLineAnimation();
 				}
@@ -1109,10 +1243,17 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		if (Math.abs(e.getX() - 22)<10 && Math.abs(e.getY() - 710)<10 && drawDirections) {
 			drawDirections = false;
+			try
+			{
+				daddyFrame.click();
+			}catch(Exception E) {}
 		} else if (e.getX() > 10 && e.getX() < 266 && e.getY() > 719 && e.getY() < 738 && !drawDirections) {
 			drawDirections = true;
+			try
+			{
+				daddyFrame.click();
+			}catch(Exception E) {}
 		}
-		
 		repaint();
 	}
 
@@ -1121,72 +1262,249 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if(stage==6)
+		if(stage==6||moving)
 			return;
-		if (game.findNode(e.getX(), e.getY()) != null)
+		if(isCanadian(e))
 		{
-			gg = game.findNode(e.getX(), e.getY());
-			if(stage!=0&&stage!=2&&stage!=3&&!canadaMode&&isCanadian(gg))
+			canadaMode=true;
+			if(!mute)
 			{
-				canadaMode=true;
 				try
 				{
 					daddyFrame.startCanada();
 				}catch(Exception E) {}
 			}
 		}
-		else
+		else if(canadaMode)
 		{
-			if(canadaMode&&!(stage==4&&isCanadian(citySelect[0]))&&!(stage==5&&(isCanadian(citySelect[0])||isCanadian(citySelect[1]))))
+			canadaMode=false;
+			if(!mute)
 			{
 				try
 				{
 					daddyFrame.endCanada();
 				}catch(Exception E) {}
-				canadaMode=false;
 			}
-			gg=null;
 		}
+		if(isDuluth(e))
+		{
+			duluthMode=true;
+			if(!mute)
+			{
+				try
+				{
+					daddyFrame.startDuluth();
+				}catch(Exception E) {}
+			}
+		}
+		else if(duluthMode)
+		{
+			duluthMode=false;
+			if(!mute)
+			{
+				try
+				{
+					daddyFrame.endDuluth();
+				}catch(Exception E) {}
+			}
+		}
+		if (game.findNode(e.getX(), e.getY()) != null)
+		{
+			if((gg==null||!gg.equals(game.findNode(e.getX(), e.getY())))&&(stage==1||stage==4))
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
+			gg = game.findNode(e.getX(), e.getY());
+		}
+		else
+			gg=null;
 		if(e.getX()>=1218&&e.getX()<=1447&&e.getY()>=513&&e.getY()<=649)
+		{
+			if(!hoverT&&(stage==1||stage==2))
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverT=true;
+		}
 		else
 			hoverT=false;
 		if(e.getX()>=1472&&e.getX()<=1688&&e.getY()>=516&&e.getY()<=649)
+		{
+			if(!hoverC&&stage==1)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverC=true;
+		}
 		else
 			hoverC=false;
 		if(game.getCardCount(ColorType.BLACK)>0&&e.getX()>=75&&e.getX()<=117&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.BLACK)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(92,97,92,230)))&&stage==5&&game.getCardCount(ColorType.BLACK)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(92,97,92,230);
+		}
 		else if(game.getCardCount(ColorType.GREEN)>0&&e.getX()>=119&&e.getX()<=161&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.GREEN)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(154,196,70,230)))&&stage==5&&game.getCardCount(ColorType.GREEN)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(154,196,70,230);
+		}
 		else if(game.getCardCount(ColorType.PINK)>0&&e.getX()>=163&&e.getX()<=205&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.PINK)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(205,135,173,230)))&&stage==5&&game.getCardCount(ColorType.PINK)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(205,135,173,230);
+		}
 		else if(game.getCardCount(ColorType.WHITE)>0&&e.getX()>=207&&e.getX()<=249&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.WHITE)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(255,255,255,230)))&&stage==5&&game.getCardCount(ColorType.WHITE)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(255,255,255,230);
+		}
 		else if(game.getCardCount(ColorType.ORANGE)>0&&e.getX()>=295&&e.getX()<=337&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.ORANGE)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(210,158,53,230)))&&stage==5&&game.getCardCount(ColorType.ORANGE)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(210,158,53,230);
+		}
 		else if(game.getCardCount(ColorType.RED)>0&&e.getX()>=339&&e.getX()<=381&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.RED)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(206,66,49,230)))&&stage==5&&game.getCardCount(ColorType.RED)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(206,66,49,230);
+		}
 		else if(game.getCardCount(ColorType.BLUE)>0&&e.getX()>=383&&e.getX()<=425&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.BLUE)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(4,160,211,230)))&&stage==5&&game.getCardCount(ColorType.BLUE)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(4,160,211,230);
+		}
 		else if(game.getCardCount(ColorType.YELLOW)>0&&e.getX()>=427&&e.getX()<=469&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(ColorType.YELLOW)-1))
+		{
+			if((hoverStack==null||hoverStack.equals(ColorType.BLACK)||!hoverStack.equals(new ColorType(230,230,77,230)))&&stage==5&&game.getCardCount(ColorType.YELLOW)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=new ColorType(230,230,77,230);
+		}
 		else if(game.getCardCount(null)>0&&e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(null)-1))
+		{
+			if(((hoverStack!=null&&hoverStack.equals(ColorType.BLACK))||!hoverStack.equals(new ColorType(92,97,92,230)))&&stage==5&&game.getCardCount(null)>0)
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
 			hoverStack=null;
+		}
 		else
 			hoverStack=ColorType.BLACK;
 		if(e.getX()>=1300&&e.getX()<=1650&&stage==0) 
 		{
 			if(e.getY()>=660&&e.getY()<=695)
+			{
+				if(hoverConStart!=0&&contracts.get(0)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverConStart=0;
+			}
 			else if(e.getY()>=720&&e.getY()<=755)
+			{
+				if(hoverConStart!=1&&contracts.get(1)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverConStart=1;
+			}
 			else if(e.getY()>=780&&e.getY()<=815)
+			{
+				if(hoverConStart!=2&&contracts.get(2)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverConStart=2;
+			}
 			else if(e.getY()>=840&&e.getY()<=875)
+			{
+				if(hoverConStart!=3&&contracts.get(3)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverConStart=3;
+			}
 			else if(e.getY()>=900&&e.getY()<=935)
+			{
+				if(hoverConStart!=4&&contracts.get(4)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverConStart=4;
+			}
 			else
 				hoverConStart=-1;
 		}
@@ -1195,28 +1513,111 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if(e.getX()>=1300&&e.getX()<=1650&&stage==3) 
 		{
 			if(e.getY()>=700&&e.getY()<=760)
+			{
+				if(hoverCon!=0&&contracts.size()>0&&contracts.get(0)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverCon=0;
+			}
 			else if(e.getY()>=780&&e.getY()<=840)
+			{
+				if(hoverCon!=1&&contracts.size()>1&&contracts.get(1)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverCon=1;
+			}
 			else if(e.getY()>=860&&e.getY()<=920)
+			{
+				if(hoverCon!=2&&contracts.size()>2&&contracts.get(2)!=null)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
 				hoverCon=2;
+			}
 			else
 				hoverCon=-1;
 		}
 		else
 			hoverCon=-1;
-		//add table deck(not null)(stage 1 and stage [red if wild]2)
+		if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=700&&e.getY()<=755)
+		{
+			if(hoverTab!=0&&game.getTable()[0]!=null&&(stage==1||stage==2))
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
+			hoverTab=0;
+		}
+		else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=700&&e.getY()<=755)
+		{
+			if(hoverTab!=1&&game.getTable()[1]!=null&&(stage==1||stage==2))
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
+			hoverTab=1;
+		}
+		else if(e.getX()>=1400&&e.getX()<=1490&&e.getY()>=750&&e.getY()<=800)
+		{
+			if(hoverTab!=2&&game.getTable()[2]!=null&&(stage==1||stage==2))
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
+			hoverTab=2;
+		}
+		else if(e.getX()>=1300&&e.getX()<=1390&&e.getY()>=800&&e.getY()<=855)
+		{
+			if(hoverTab!=3&&game.getTable()[3]!=null&&(stage==1||stage==2))
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
+			hoverTab=3;
+		}
+		else if(e.getX()>=1500&&e.getX()<=1590&&e.getY()>=800&&e.getY()<=855)
+		{
+			if(hoverTab!=4&&game.getTable()[4]!=null&&(stage==1||stage==2))
+			{
+				try
+				{
+					daddyFrame.hover();
+				}catch(Exception E) {}
+			}
+			hoverTab=4;
+		}
+		else
+			hoverTab=-1;
 		repaint();
 	}
 	
-	private boolean isCanadian(Node n)
+	private boolean isCanadian(MouseEvent e)
 	{
-		if(n.toString().equals("Clagary")||n.toString().equals("Vancouver")||n.toString().equals("Winnipeg")
-				||n.toString().equals("Toronto")||n.toString().equals("Montreal"))
-		{
-			return true;
-		}
-		return false;
+		return Math.sqrt(Math.pow(e.getX() - 1019, 2) + Math.pow(e.getY() - 131, 2)) <= 10;
+	}
+	
+	private boolean isDuluth(MouseEvent e)
+	{
+		return Math.sqrt(Math.pow(e.getX() - 677, 2) + Math.pow(e.getY() - 160, 2)) <= 10;
 	}
 
 	@Override
