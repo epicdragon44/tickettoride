@@ -142,7 +142,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 			drawRankings(g);
 			drawContracts(g);
-			drawHand(g);
 			if (game.getNumContracts() != 0)
 			{
 				if(hoverC&&stage==1&&numMoved!=0)
@@ -220,13 +219,35 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				drawLastRoundNotice(g);
 			}
 			if(stage==5)
+			{
 				if((hoverStack==null||!hoverStack.equals(ColorType.BLACK))&&game.getCardCount(cMap.get(hoverStack))>0)
-					drawConnection(g);
+				{
+					g.setColor(lgreen);
+					if(hoverStack==null)
+						g.fillRoundRect(246, 805, 52, 65+10*game.getCardCount(null), 10, 10);
+					else if(hoverStack.equals(new ColorType(154,196,70,230)))
+						g.fillRoundRect(114, 805, 52, 65+10*game.getCardCount(ColorType.GREEN), 10, 10);
+					else if(hoverStack.equals(new ColorType(205,135,173,230)))
+						g.fillRoundRect(158, 805, 52, 65+10*game.getCardCount(ColorType.PINK), 10, 10);
+					else if(hoverStack.equals(new ColorType(255,255,255,230)))
+						g.fillRoundRect(202, 805, 52, 65+10*game.getCardCount(ColorType.WHITE), 10, 10);
+					else if(hoverStack.equals(new ColorType(210,158,53,230)))
+						g.fillRoundRect(290, 805, 52, 65+10*game.getCardCount(ColorType.ORANGE), 10, 10);
+					else if(hoverStack.equals(new ColorType(206,66,49,230)))
+						g.fillRoundRect(334, 805, 52, 65+10*game.getCardCount(ColorType.RED), 10, 10);
+					else if(hoverStack.equals(new ColorType(4,160,211,230)))
+						g.fillRoundRect(378, 805, 52, 65+10*game.getCardCount(ColorType.BLUE), 10, 10);
+					else if(hoverStack.equals(new ColorType(230,230,77,230)))
+						g.fillRoundRect(422, 805, 52, 65+10*game.getCardCount(ColorType.YELLOW), 10, 10);
+					else if(hoverStack.equals(new ColorType(92,97,92,230)))
+						g.fillRoundRect(70, 805, 52, 65+10*game.getCardCount(ColorType.BLACK), 10, 10);
+				}
+			}
+			drawHand(g);
 			if(mute)
 			{
 				try {
-					BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
-					g.drawImage(ImageIO.read(new File("muted.png")), 1667, 913, new ImageObserver() {
+					g.drawImage(ImageIO.read(new File("resources/muted.png")), 1667, 913, new ImageObserver() {
 						@Override
 						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 							return false;
@@ -237,8 +258,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			else
 			{
 				try {
-					BufferedImage img = ImageIO.read(new File(getCardPath(game.getTable()[4])));
-					g.drawImage(ImageIO.read(new File("unmuted.png")), 1667, 913, new ImageObserver() {
+					g.drawImage(ImageIO.read(new File("resources/unmuted.png")), 1667, 913, new ImageObserver() {
 						@Override
 						public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 							return false;
@@ -274,7 +294,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			g.setColor(Color.BLACK);
 			g.fillRect(8, 698, 570, 750 - 695);
 			try {
-				BufferedImage backgroundImg = ImageIO.read(new File("screenshot-terminal.png"));
+				BufferedImage backgroundImg = ImageIO.read(new File("resources/screenshot-terminal.png"));
 				g.drawImage(backgroundImg, 7, 695, new ImageObserver() {
 					@Override
 					public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -332,8 +352,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		{
 			try
 			{
-				g.drawImage(ImageIO.read(new File("check.png")), 660, 133, this);
-				g.drawImage(ImageIO.read(new File("x.png")), 658, 204, this);
+				g.drawImage(ImageIO.read(new File("resources/check.png")), 660, 133, this);
+				g.drawImage(ImageIO.read(new File("resources/x.png")), 658, 204, this);
 			}catch(Exception e) {}
 		}
 	}
@@ -374,30 +394,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			if(tr.animateEquals(t))
 				return true;
 		return false;
-	}
-	
-	public void drawConnection(Graphics g) {
-		Track t=game.findTrack(citySelect[0],citySelect[1]);
-		if(t==null)
-			return;
-		Graphics2D g2 = (Graphics2D) g;
-		if(hoverStack==null||hoverStack.equals(Color.BLACK)) {
-			float[] f={0.14285714f,(float)(0.14285714*2),(float)(0.14285714*3),(float)(0.14285714*4),(float)(0.14285714*5),(float)(0.14285714*6),1.0f};
-			Color[] col={new Color(255,0,0,230),new Color(13,139,242,230),new Color(0,0,255,230),
-					new Color(0,255,255,230),new Color(0,255,64,230),new Color(255,255,0,230),new Color(255,0,0,230)};
-			g2.setPaint(new LinearGradientPaint(t.getX1(),t.getY1(),t.getX2(),t.getY2(),f,col));
-		}
-		else
-			g2.setColor(hoverStack);
-
-		int baseX1 = t.getX1();
-		int baseX2 = t.getX2();
-		int baseY1 = t.getY1();
-		int baseY2 = t.getY2();
-
-		g2.setStroke(new BasicStroke(13, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-
-		g2.drawLine(baseX1, baseY1, baseX2, baseY2);
 	}
 	
 	public void drawContractSelect(Graphics g)
@@ -475,7 +471,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	public void drawCDeck(Graphics g) {
 		try {
-			BufferedImage backgroundImg = ImageIO.read(new File("contractcard.png"));
+			BufferedImage backgroundImg = ImageIO.read(new File("resources/contractcard.png"));
 			g.drawImage(backgroundImg, 1460, 500, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -489,7 +485,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	public void drawTDeck(Graphics g) {
 		try {
-			BufferedImage backgroundImg = ImageIO.read(new File("traincard.png"));
+			BufferedImage backgroundImg = ImageIO.read(new File("resources/traincard.png"));
 			g.drawImage(backgroundImg, 1210, 500, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -503,7 +499,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 	public void drawBackground(Graphics g) {
 		try {
-			BufferedImage backgroundImg = ImageIO.read(new File("Background.png"));
+			BufferedImage backgroundImg = ImageIO.read(new File("resources/Background.png"));
 			g.drawImage(backgroundImg, 5, 5, new ImageObserver() {
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
@@ -543,7 +539,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		drawMinimization = false;
 		repaint();
 		try {
-			BufferedImage img = ImageIO.read(new File("endgamebase.png"));;
+			BufferedImage img = ImageIO.read(new File("resources/endgamebase.png"));;
 			img = resize(img, (int)(img.getWidth()*1.5), (int)(img.getHeight()*1.5));
 			g.drawImage(img, 5, 5, new ImageObserver() {
 				@Override
@@ -684,11 +680,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			for (int j = 0; j < ((Integer) (entry.getValue())); j++) {
 				int y = topLeftY + (yShift * j);
 
-				String toAdd;
+				String toAdd="resources/";
 				if (entry.getKey() == null)
-					toAdd = "rainbow";
+					toAdd += "rainbow";
 				else
-					toAdd = (entry.getKey()).toString();
+					toAdd += (entry.getKey()).toString();
 				String path = (toAdd + "train.png");
 				try {
 					BufferedImage img = ImageIO.read(new File(path));
@@ -859,9 +855,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		if (t == null)
 			return null;
 		else if(t.getColor() == null)
-			return "rainbowtrain2.png";
+			return "resources/rainbowtrain2.png";
 		else
-			return t.getColor().toString() + "train2.png";
+			return "resources/" + t.getColor().toString() + "train2.png";
 	}
 
 	public void drawContracts(Graphics g) {
@@ -1447,7 +1443,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		else if(game.getCardCount(null)>0&&e.getX()>=251&&e.getX()<=293&&e.getY()>=810&&e.getY()<=875+10*(game.getCardCount(null)-1))
 		{
-			if(((hoverStack!=null&&hoverStack.equals(ColorType.BLACK))||!hoverStack.equals(new ColorType(92,97,92,230)))&&stage==5&&game.getCardCount(null)>0)
+			if(hoverStack!=null&&hoverStack.equals(ColorType.BLACK)&&stage==5&&game.getCardCount(null)>0)
 			{
 				try
 				{

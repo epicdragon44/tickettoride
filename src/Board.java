@@ -14,7 +14,7 @@ public class Board {
 	public Board(GameEngine game) throws Exception {
 		this.daddyEngine = game;
 
-		Scanner sc = new Scanner(new File("Nodes.txt"));
+		Scanner sc = new Scanner(new File("resources/Nodes.txt"));
 		cities = new Node[36];
 		int cnt = 0;
 		ArrayList<String[]> cons=new ArrayList<String[]>();

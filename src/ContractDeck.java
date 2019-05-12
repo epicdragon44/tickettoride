@@ -8,7 +8,7 @@ public class ContractDeck {
 	{
 		deck = new LinkedList<Contract>();
 		ArrayList<Contract> temp=new ArrayList<Contract>();
-		BufferedReader bf=new BufferedReader(new FileReader("tickets.txt"));
+		BufferedReader bf=new BufferedReader(new FileReader("resources/tickets.txt"));
 		for(int i=Integer.parseInt(bf.readLine());i>0;i--)
 		{
 			StringTokenizer st=new StringTokenizer(bf.readLine(),"|");
