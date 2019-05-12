@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		drawDirections = true;
 		drawMinimization = true;
 		hoverStack=ColorType.BLACK;
-		icon = new ImageIcon("Flag.gif").getImage();
+		icon = new ImageIcon("resources/Flag.gif").getImage();
 		hoverConStart=-1;
 		hoverCon=-1;
 		hoverTab=-1;
