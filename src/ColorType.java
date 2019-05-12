@@ -1,5 +1,8 @@
 import java.awt.*;
 
+/**
+ * This class extends Java Swing Color class to provide much needed-functionality such as getting color from a String and comparing colors
+ */
 public class ColorType extends java.awt.Color {
 	private static final long serialVersionUID = 1L;
 	public static final ColorType RED = new ColorType(255, 0, 0);
@@ -15,7 +18,6 @@ public class ColorType extends java.awt.Color {
 	public static final ColorType DARK_GRAY = new ColorType(64, 64, 64);
 	public static final ColorType PINK = new ColorType(255, 175, 175);
 	public static final ColorType ORANGE = new ColorType(255, 200, 0);
-
 
 	public ColorType(int r, int g, int b) {
 		super(r, g, b);

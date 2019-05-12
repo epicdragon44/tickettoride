@@ -1,5 +1,6 @@
-import java.awt.Color;
-
+/**
+ * Simple Data Structure class to represent a Train Card, with a color and a boolean to check if it is wild
+ */
 public class TrainCard {
 	private ColorType color;
 	private boolean isWild;

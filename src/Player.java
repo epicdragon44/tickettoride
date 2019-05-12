@@ -1,6 +1,9 @@
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * Simple Data Structure class that represents a Player in the game, with a name, number of points, color, count of trains left, list of contracts, map of traincards, and helper methods
+ */
 public class Player implements Comparable<Player>
 {
 	private String name;
@@ -98,7 +101,7 @@ public class Player implements Comparable<Player>
 			addPoints(10);
 		else if(num==6)
 			addPoints(15);
-		decrementtrainsLeft(num);
+		decrementTrainsLeft(num);
 		ArrayList<TrainCard> rtn=new ArrayList<TrainCard>();
 		if(col!=null)
 		{
@@ -124,7 +127,7 @@ public class Player implements Comparable<Player>
 		return name.equals(((Player)(obj)).getName());
 	}
 
-	private void decrementtrainsLeft(int num)
+	private void decrementTrainsLeft(int num)
 	{
 		trainsLeft-=num;
 	}

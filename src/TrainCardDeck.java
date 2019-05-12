@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Simple Data Structure class to hold a list of Train Cards and its helper methods to help manage the deck
+ */
 public class TrainCardDeck {
 	private ArrayList<TrainCard> deck;
 

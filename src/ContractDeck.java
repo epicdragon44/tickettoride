@@ -1,6 +1,9 @@
 import java.util.*;
 import java.io.*;
 
+/**
+ * This is a simple data structure class that holds a queue of Contracts and provides a few helper methods to assist with their management
+ */
 public class ContractDeck {
 	private Queue<Contract> deck;
 

@@ -1,5 +1,8 @@
 import java.awt.Color;
 
+/**
+ * Simple Data Structure class to represent an edge in the graph of the game, holding the cost of the track, the player that owns it, its two nodes, its color, and its endpoint coordinates
+ */
 public class Track {
 	private int cost, player;
 	private Node n1,n2;

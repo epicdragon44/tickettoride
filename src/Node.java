@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Simple Data Structure class to represent a node in a graph, with an arraylist of connections, coordinates, a radius, and a name, as well as helper methods
+ */
 public class Node {
 	private ArrayList<Track> connections;
 	private int x, y;

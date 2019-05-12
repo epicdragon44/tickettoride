@@ -1,17 +1,26 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+/**
+ * This is a complex data structure class that manages the graph theory implementation of the game board. Full JavaDoc annotations are available for all of its methods
+ */
 public class Board {
-	public Node[] cities;
-	protected int maxLen;
+	protected Node[] cities;
+	private int maxLen;
 	private ArrayList<Player> bestPlayer;
 	private GameEngine daddyEngine;
-	Track last;
+	private Track last;
 
-	public Board(GameEngine game) throws Exception {
+	/**
+	 * Constructs a new Board
+	 * @param game The overriding GameEngine
+	 * @throws FileNotFoundException In case the file Nodes.txt isn't found
+	 */
+	public Board(GameEngine game) throws FileNotFoundException {
 		this.daddyEngine = game;
 
 		Scanner sc = new Scanner(new File("resources/Nodes.txt"));
@@ -20,26 +29,32 @@ public class Board {
 		ArrayList<String[]> cons=new ArrayList<String[]>();
 		while (sc.hasNextLine()) {
 			StringTokenizer st = new StringTokenizer(sc.nextLine());
-			Node node = new Node(st.nextToken(), (int) (Integer.parseInt(st.nextToken()) ), (int) (Integer.parseInt(st.nextToken())));
+			Node node = new Node(st.nextToken(), (Integer.parseInt(st.nextToken())), (Integer.parseInt(st.nextToken())));
 			cons.add(sc.nextLine().split(","));
 			cities[cnt++] = node;
 		}
 		for (int i=0;i<cons.size();i++) {
 			for(int j=0;j<cons.get(i).length;j++)
 			{
-				StringTokenizer yeet = new StringTokenizer(cons.get(i)[j]);
-				Node connex = findNode(yeet.nextToken());
+				StringTokenizer st = new StringTokenizer(cons.get(i)[j]);
+				Node connex = findNode(st.nextToken());
 				if (connex != null)
-					cities[i].addConnection(connex, ColorType.getColor(yeet.nextToken().toUpperCase()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()), Integer.parseInt(yeet.nextToken()));
+					cities[i].addConnection(connex, ColorType.getColor(st.nextToken().toUpperCase()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 			}
 		}
 		sc.close();
 		maxLen = Integer.MIN_VALUE;
-		bestPlayer = new ArrayList<Player>();
+		bestPlayer = new ArrayList<>();
 		last=null;
 	}
 
-	public int connectionCost(String s, String e) {
+	/**
+	 * Calculates the cost of a connection between two nodes
+	 * @param s Name of first node
+	 * @param e Name of second node
+	 * @return Cost of connection
+	 */
+	protected int connectionCost(String s, String e) {
 		Node start = findNode(s);
 		Node end = findNode(e);
 		ArrayList<Track> tracks = start.getConnections();
@@ -52,7 +67,13 @@ public class Board {
 	}
 
 	//beginning of contract completeness algorithm ...
-	public boolean isComplete(Contract c) {
+
+	/**
+	 * Determines if a Contract is completed
+	 * @param c The Contract in question
+	 * @return Boolean indicating completeness
+	 */
+	protected boolean isComplete(Contract c) {
 		Node startNode = findNode(c.getStart());
 		Node endNode = findNode(c.getEnd());
 		if(startNode==null||endNode==null)
@@ -60,6 +81,13 @@ public class Board {
 		return searchFrom(startNode, new ArrayList<>(), endNode);
 	}
 
+	/**
+	 * Helper method for isComplete to recursively search from a given node for a target
+	 * @param n Starting node
+	 * @param visited Empty Arraylist to record visited tracks
+	 * @param target Ending node
+	 * @return Boolean indicating if a path was found
+	 */
 	private boolean searchFrom(Node n, ArrayList<Track> visited, Node target) {
 		if (n.equals(target)) {
 			return true;
@@ -74,13 +102,22 @@ public class Board {
 		return false;
 	}
 	//...end of contract completeness algorithm
-	
-	public Track getLastPlaced()
+
+	/**
+	 * Get the most recently placed Track
+	 * @return The most recently placed Track
+	 */
+	protected Track getLastPlaced()
 	{
 		return last;
 	}
 
-	public Node findNode(String name) {
+	/**
+	 * Finds a node with the given name
+	 * @param name String name of interest
+	 * @return The Node with the given name, or null if none found
+	 */
+	protected Node findNode(String name) {
 		for (Node n : cities) {
 			if(n.toString().equals(name))
 				return n;
@@ -88,23 +125,41 @@ public class Board {
 		return null;
 	}
 
-	public Node findNode(int x, int y) {
+	/**
+	 * Finds a node that contains the given coordinates
+	 * @param x X Coordinate
+	 * @param y Y Coordinate
+	 * @return The Node that contains the given coordinates, or null if none found
+	 */
+	protected Node findNode(int x, int y) {
 		for (Node n : cities) {
 			if (n.contains(x, y))
 				return n;
 		}
 		return null;
 	}
-	
-	public Track findTrack(Node n, Node node)
+
+	/**
+	 * Finds the track between two given nodes
+	 * @param n First Node
+	 * @param node Second Node
+	 * @return The Track between the two nodes
+	 */
+	protected Track findTrack(Node n, Node node)
 	{
 		for(Track t:n.getConnections())
 			if(t.getOtherNode(n).equals(node)&&t.getPlayer()==-1)
 				return t;
 		return null;
 	}
-	
-	public Boolean isNodeEligible(int x,int y)
+
+	/**
+	 * Checks if the node at the given coordinates is valid
+	 * @param x X Coordinate
+	 * @param y Y Coordinate
+	 * @return Boolean indicating validity
+	 */
+	protected Boolean isNodeEligible(int x,int y)
 	{
 		Node n=findNode(x,y);
 		if(n==null)
@@ -114,8 +169,15 @@ public class Board {
 				return true;
 		return false;
 	}
-	
-	public Boolean isNodeEligible(int x,int y,Node n)
+
+	/**
+	 * Checks if the node at the given coordinates is valid
+	 * @param x X Coordinate
+	 * @param y Y Coordinate
+	 * @param n The Node to connect to
+	 * @return Boolean indicating validity
+	 */
+	protected Boolean isNodeEligible(int x,int y,Node n)
 	{
 		Node node=findNode(x,y);
 		if(node==null)
@@ -129,7 +191,13 @@ public class Board {
 			}
 		return false;
 	}
-	
+
+	/**
+	 * Checks if there is a duplicate track
+	 * @param t The Track
+	 * @param n The Node whose tracks to check through for a duplicate
+	 * @return Duplicate Track or null if none found
+	 */
 	private Track containsDuple(Track t, Node n) {
 		for(Track tr:n.getConnections())
 			if (t.getOtherNode(n).equals(tr.getOtherNode(n))&&(tr.getX1()!=t.getX1()||tr.getY1()!=t.getY1()))
@@ -139,7 +207,12 @@ public class Board {
 
 	//beginning of longest train algorithm ...
 
-	public ArrayList<Player> findLongestTrainPlayer(Player[] players) {
+	/**
+	 * Find List of Player(s) with longest train(s)
+	 * @param players Array of all players in game
+	 * @return List of Player(s) with longest train(s)
+	 */
+	protected ArrayList<Player> findLongestTrainPlayer(Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)
 			for (Node n : cities)
@@ -147,6 +220,13 @@ public class Board {
 		return bestPlayer;
 	}
 
+	/**
+	 * Helper method for findLongestTrainPlayer to visit nodes recursively searching for longest train
+	 * @param n Starting node
+	 * @param cnt Count of nodes; Pass in as zero
+	 * @param visited List of Visited Tracks; Pass in empty
+	 * @param p Player in question
+	 */
 	private void visit(Node n, int cnt, List<Track> visited, Player p) {
 		if (cnt == maxLen&&!bestPlayer.contains(p))
 			bestPlayer.add(p);
@@ -165,7 +245,13 @@ public class Board {
 			}
 		}
 	}
-	
+
+	/**
+	 * Checks if a List of tracks contains a certain track graphically
+	 * @param t Track in question
+	 * @param v List of Tracks to search
+	 * @return Whether or not it is contained
+	 */
 	private boolean contains(Track t,List<Track> v)
 	{
 		for(Track tr:v)
@@ -175,7 +261,15 @@ public class Board {
 	}
 	//... end of longest train algorithm
 
-	public boolean placeTrains(int player, ColorType c, Node start, Node end) {
+	/**
+	 * Method to place trains
+	 * @param player Player placing the trains
+	 * @param c Color of the trains
+	 * @param start Starting node
+	 * @param end Ending node
+	 * @return Whether placement was successful
+	 */
+	protected boolean placeTrains(int player, ColorType c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();
 		int x=0,y=0;
 		boolean available = false;

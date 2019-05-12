@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * Simple JFrame extension to draw window and manage sounds
+ */
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
 	private AudioInputStream input;
@@ -168,6 +171,9 @@ public class GameFrame extends JFrame {
 	}
 }
 
+/**
+ * Simple animated loading screen panel
+ */
 class LoadingPanel extends JComponent {
     private Image image;
     private Timer animateTimer2;
@@ -199,6 +205,9 @@ class LoadingPanel extends JComponent {
 	}
 }
 
+/**
+ * Simple background panel
+ */
 class BackgroundPanel extends JComponent {
 	private Image image;
 	private boolean def;

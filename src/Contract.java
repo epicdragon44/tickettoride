@@ -1,3 +1,6 @@
+/**
+ * This class is a simple data structure that holds Strings indicating the start and end nodes of the contract, the contract's value, and whether it's complete
+ */
 public class Contract {
     private String start, end;
     private int value;

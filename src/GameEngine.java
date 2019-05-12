@@ -1,5 +1,9 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This is a complex class that manages all the internal state and mechanics of the game in one area, Full JavaDoc annotations are available for each method.
+ */
 public class GameEngine {
 	public Player[] players;
 
@@ -11,8 +15,12 @@ public class GameEngine {
 	public int currentPlayer;
 	
 	public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
-	
-	public GameEngine() throws Exception {
+
+	/**
+	 * Constructs a default GameEngine
+	 * @throws IOException Problems with reading input from files
+	 */
+	public GameEngine() throws IOException {
 		players=new Player[4];
 		players[0]=new Player(ColorType.RED);
 		players[1]=new Player(ColorType.GREEN);
@@ -36,20 +44,39 @@ public class GameEngine {
 			updateTable();
 	}
 
+	/**
+	 * Moves onto the next player
+	 */
 	public void nextPlayer() {
 		currentPlayer = (currentPlayer+1)%4;
 	}
-	
+
+	/**
+	 * Gets the card count for a certain Color
+	 * @param col ColorType of interest
+	 * @return The card count for that Color
+	 */
 	public int getCardCount(ColorType col)
 	{
 		return players[currentPlayer].getTrainCards().get(col);
 	}
-	
+
+	/**
+	 * Gets the most recently placed Track
+	 * @return The most recently placed Track
+	 */
 	public Track getLastPlaced()
 	{
 		return gBoard.getLastPlaced();
 	}
-	
+
+	/**
+	 * Places trains between two nodes of a certain color
+	 * @param nodeOne The First Node
+	 * @param nodeTwo The Second Node
+	 * @param c The Color to make the Train
+	 * @return Boolean indicating whether the operation occurred successfully
+	 */
 	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
 		if(players[currentPlayer].getTrainCards().get(c)==0)
 			c=null;
@@ -72,7 +99,14 @@ public class GameEngine {
 	  	else
 	  		return false;
 	}
-	
+
+	/**
+	 * Checks the eligibility of an attempted train laying
+	 * @param nodeOne The first node
+	 * @param nodeTwo The second node
+	 * @param c The color of the train
+	 * @return Whether it is eligible
+	 */
 	private boolean checkEligibility(Node nodeOne, Node nodeTwo, ColorType c) {
 		int rand=players[currentPlayer].getTrainCards().get(null);
 		int col=0;
@@ -81,7 +115,11 @@ public class GameEngine {
 		int cost=gBoard.connectionCost(nodeOne.toString(), nodeTwo.toString());
 		return rand-(cost-col)>-1&&players[currentPlayer].getTrainsLeft()>cost-1;
 	}
-	
+
+	/**
+	 * Checks whether the table is needed
+	 * @return Whether the table is needed
+	 */
 	private boolean needTable()
 	{
 		for(TrainCard t:tableDeck)
@@ -89,7 +127,10 @@ public class GameEngine {
 				return true;
 		return checkWildLim();
 	}
-	
+
+	/**
+	 * Resets the table
+	 */
 	private void resetTable()
 	{
 		for(int i=0;i<5;i++)
@@ -104,7 +145,11 @@ public class GameEngine {
 		if(checkWildLim())
 			updateTable();
 	}
-	
+
+	/**
+	 * Gets the non wild table card count
+	 * @return The non wild table card count
+	 */
 	public int getNonWildTable()
 	{
 		int cnt=0;
@@ -113,7 +158,11 @@ public class GameEngine {
 				cnt++;
 		return cnt;
 	}
-	
+
+	/**
+	 * Gets the non wild table card number
+	 * @return The non wild table card number
+	 */
 	public int getNonWildNum()
 	{
 		int count=0;
@@ -125,7 +174,11 @@ public class GameEngine {
 				count++;
 		return count;
 	}
-	
+
+	/**
+	 * Get the wild table count
+	 * @return Wild table count
+	 */
 	public int getWildTable()
 	{
 		int cnt=0;
@@ -134,7 +187,11 @@ public class GameEngine {
 				cnt++;
 		return cnt;
 	}
-	
+
+	/**
+	 * Get number of wild cards
+	 * @return Number of wild cards
+	 */
 	public int getWildNum()
 	{
 		int count=0;
@@ -146,23 +203,39 @@ public class GameEngine {
 				count++;
 		return count;
 	}
-	
+
+	/**
+	 * Get the Board
+	 * @return The Board
+	 */
 	public Board getgBoard() {
 		return gBoard;
 	}
-	
+
+	/**
+	 * Get the number of Contracts
+	 * @return The number of Contracts
+ 	 */
 	public int getNumContracts()
 	{
 		return cDeck.size();
 	}
-	
+
+	/**
+	 * Checks if there are train cards
+	 * @return Boolean indicating whether there are train cards
+	 */
 	public boolean haveTrainCards()
 	{
 		if(tDeck.needsReset())
 			return trashDeck.size()!=0;
 		return true;
 	}
-	
+
+	/**
+	 * Checks if there is a table
+	 * @return Boolean indicating whether there is a table
+	 */
 	public boolean haveTable()
 	{
 		for(TrainCard t:tableDeck)
@@ -170,36 +243,40 @@ public class GameEngine {
 				return true;
 		return false;
 	}
-	
+
+	/**
+	 * Get the Table
+	 * @return Array of TrainCards comprising the table
+	 */
 	public TrainCard[] getTable()
 	{
 		return tableDeck;
 	}
 
-	public ContractDeck getcDeck() {
-		return cDeck;
-	}
-
-	public TrainCardDeck gettDeck() {
-		return tDeck;
-	}
-	
+	/**
+	 * Draws the number of passed in contracts
+	 * @param num The number of contracts
+	 * @return Array of contracts
+	 */
 	public ArrayList<Contract> drawContract(int num) {
 		if(cDeck.size()>0)
 			return cDeck.draw(Math.min(cDeck.size(), num));
 		return null;
 	}
-	
+
+	/**
+	 * Gives the current player a certain Contract c
+	 * @param c The contract to give the player
+	 */
 	public void takeContract(Contract c)
 	{
 		players[currentPlayer].addContract(c);
 	}
-	
-	public Track findTrack(Node n1, Node n2)
-	{
-		return gBoard.findTrack(n1,n2);
-	}
-	
+
+	/**
+	 * Check whether the wild card limit has been exceeded
+	 * @return Boolean indicating whether the wild card limit has been exceeded
+	 */
 	public boolean checkWildLim() {
 		int c=0;
 		for(TrainCard t:tableDeck)
@@ -208,7 +285,10 @@ public class GameEngine {
 					return true;
 	  return false;
 	}
-  
+
+	/**
+	 * Method to update the table
+	 */
 	public void updateTable() {
     	for(int i=0;i<tableDeck.length;i++)
     	{
@@ -238,15 +318,24 @@ public class GameEngine {
     	if(checkWildLim()&&getNonWildNum()+getNonWildTable()>2)
     		updateTable();
     }
-    
-    public boolean lastRound() {
+
+	/**
+	 * Method to check if it is the last round
+	 * @return Boolena indicating whether it is the last round
+	 */
+	public boolean lastRound() {
     	for(Player p:players)
     		if(p.getTrainsLeft()<3)
     			return true;
     	return false;
     }
-    
-    //returns if face up wild drawn and takes if 1 card already drawn
+
+	/**
+	 * Draws a train card
+	 * @param pos Position of drawn wild
+	 * @param oneDrawn Boolean of the drawn card
+	 * @return Boolean indicating if face up wild drawn and takes if 1 card already drawn
+	 */
 	public boolean drawTrainCard(int pos, boolean oneDrawn) {
 		TrainCard rtn=new TrainCard(null,false);
 		if(pos==-1)
@@ -273,7 +362,10 @@ public class GameEngine {
 		return rtn.getwild();
 	}
 
-	//returns contract payouts,then longest train,then globetrotter
+	/**
+	 *  Gets the end game results
+	 * @return returns contract payouts,then longest train,then globetrotter
+	 */
 	public int[][] endGame() {
 		for(int i=0;i<players.length;i++)
 			for(Contract ct:players[i].getContract())
@@ -320,7 +412,11 @@ public class GameEngine {
 			players[i].addPoints(15);
 		return rtn;
 	}
-	
+
+	/**
+	 * Gets the longest train player ints
+	 * @return The longest train player ints
+	 */
 	private int[] findLongest()
 	{
 		ArrayList<Player> player=gBoard.findLongestTrainPlayer(players);
@@ -340,22 +436,46 @@ public class GameEngine {
 		return rtn;
 	}
 
+	/**
+	 * Finds a node that contains the given x and y coordinates
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @return The Node that contains the coordinates
+	 */
 	public Node findNode(int x, int y) {
 		return gBoard.findNode(x, y);
 	}
-	
+
+	/**
+	 * Replace the passed in contracts
+	 * @param c Contracts of interest
+	 */
 	public void replaceContracts(ArrayList<Contract> c)
 	{
 		cDeck.replace(c);
 	}
 	
 	//for stage 1;draw green circle if true, draw red circle if false , don't draw anything if null
+
+	/**
+	 * Checks if node at given x and y is eligible
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @return Boolean indicating elibility
+	 */
 	public Boolean isNodeEligible(int x,int y)
 	{
 		return gBoard.isNodeEligible(x,y);
 	}
 	
 	//for stage 4;draw green circle if true, draw red circle if false , don't draw anything if null
+	/**
+	 * Checks if node at given x and y is eligible
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param n Node in question
+	 * @return Boolean indicating elibility
+	 */
 	public Boolean isNodeEligible(int x,int y,Node n)
 	{
 		return gBoard.isNodeEligible(x,y,n);

@@ -1,3 +1,6 @@
+/**
+ * Class solely for debugging uses
+ */
 public class GameTextRunner {
     private static GameEngine g;
     public static void main(String[] args) throws Exception {
