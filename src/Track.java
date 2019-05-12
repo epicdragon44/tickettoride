@@ -29,36 +29,36 @@ public class Track {
 		y1=y;
 		y2=yy;
 	}
-	
-	public boolean setPlayer(int i)
+
+	 boolean setPlayer(int i)
 	{
 		if(player!=-1)
 			return false;
 		player=i;
 		return true;
 	}
-	
-	public int getPlayer()
+
+	 int getPlayer()
 	{
 		return player;
 	}
-	
-	public Color getColor()
+
+	 Color getColor()
 	{
 		return color;
 	}
-	
-	public int getCost()
+
+	 int getCost()
 	{
 		return cost;
 	}
-	
-	public Node getNode1()
+
+	 Node getNode1()
 	{
 		return n1;
 	}
-	
-	public Node getNode2()
+
+	 Node getNode2()
 	{
 		return n2;
 	}
@@ -68,33 +68,33 @@ public class Track {
 		Track t=(Track)o;
 		return n1.equals(t.getNode1())&&n2.equals(t.getNode2());
 	}
-	
-	public boolean animateEquals(Object o)
+
+	 boolean animateEquals(Object o)
 	{
 		Track t=(Track)o;
 		return t.getPlayer()==player&&((n1.equals(t.getNode1())&&n2.equals(t.getNode2()))||(n2.equals(t.getNode1())&&n1.equals(t.getNode2())));
 	}
-	
-	public Node getOtherNode(Node from)
+
+	 Node getOtherNode(Node from)
 	{
 		if(from.equals(n1))
 			return n2;
 		return n1;
 	}
-	
-	public int getY2() {
+
+	 int getY2() {
 		return y2;
 	}
-	
-	public int getY1() {
+
+	 int getY1() {
 		return y1;
 	}
 
-	public int getX2() {
+	 int getX2() {
 		return x2;
 	}
 
-	public int getX1() {
+	 int getX1() {
 		return x1;
 	}
 }

@@ -37,22 +37,22 @@ public class Player implements Comparable<Player>
 	{
 		return name;
 	}
-	
-	public int getPoints()
+
+	 int getPoints()
 	{
 		return points;
 	}
-	
-	public void addPoints(int num)
+
+	 void addPoints(int num)
 	{
 		points+=num;
 	}
 
-	public int getTrainsLeft() {
+	 int getTrainsLeft() {
 		return trainsLeft;
 	}
 
-	public Color getColor() {
+	 Color getColor() {
 		return c;
 	}
 
@@ -60,8 +60,8 @@ public class Player implements Comparable<Player>
 	{
 		return contracts;
 	}
-	
-	public void addContract(Contract c)
+
+	 void addContract(Contract c)
 	{
 		contracts.add(c);
 	}
@@ -78,18 +78,18 @@ public class Player implements Comparable<Player>
 			}
 		}
 	}
-	
-	public HashMap<ColorType, Integer> getTrainCards()
+
+	 HashMap<ColorType, Integer> getTrainCards()
 	{
 		return trainCards;
 	}
-	
-	public void drawTrainCards(TrainCard train)
+
+	 void drawTrainCards(TrainCard train)
 	{
 		trainCards.put(train.getColor(),trainCards.get(train.getColor())+1);
 	}
-	
-	public ArrayList<TrainCard> placeTrains(int num, ColorType col)
+
+	 ArrayList<TrainCard> placeTrains(int num, ColorType col)
 	{
 		if(num==1||num==2)
 			addPoints(num);

@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private double lineX,lineY;
 	private ArrayList<Contract> contracts;
 	private int lastRoundCount, hoverConStart, hoverCon, numCalled, numLooped, numMoved, hoverTab;
-	protected int stage;
+	 int stage;
 	private Node[] citySelect;
 	private Image icon;
 	private int[][] endData;
@@ -190,7 +190,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 			{
 				if(numMoved!=0&&(stage==1||stage==2)&&hoverTab!=-1&&game.getTable()[hoverTab]!=null)
 				{
-					if(stage==2&&game.getTable()[hoverTab].getwild())
+					if(stage==2&&game.getTable()[hoverTab].getWild())
 						g.setColor(lred);
 					else
 						g.setColor(lgreen);
@@ -370,7 +370,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawLastRoundNotice(Graphics g) {
+	 void drawLastRoundNotice(Graphics g) {
 		g.setColor(Color.GREEN);
 		g.setFont(new Font("Consolas", Font.PLAIN, 15));
 		g.drawString("IT IS THE LAST ROUND!", 350, 740);
@@ -380,7 +380,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawConnections(Node n1, ArrayList<Track> visited, Graphics g) {
+	private void drawConnections(Node n1, ArrayList<Track> visited, Graphics g) {
 		for (Track t : n1.getConnections()) {
 			if (t.getPlayer() == -1||contains(t,visited))
 				continue;
@@ -422,7 +422,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawContractSelect(Graphics g)
+	private void drawContractSelect(Graphics g)
 	{
 		Font font=new Font("Arial Narrow", Font.ITALIC, 25);
 		int xA=1300;
@@ -465,7 +465,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawContractSelectStart(Graphics g)
+	private void drawContractSelectStart(Graphics g)
 	{
 		Font font=new Font("Arial Narrow", Font.ITALIC, 20);
 		int xA=1300;
@@ -503,7 +503,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawCDeck(Graphics g) {
+	private void drawCDeck(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("resources/contractcard.png"));
 			g.drawImage(backgroundImg, 1460, 500, new ImageObserver() {
@@ -521,7 +521,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawTDeck(Graphics g) {
+	private void drawTDeck(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("resources/traincard.png"));
 			g.drawImage(backgroundImg, 1210, 500, new ImageObserver() {
@@ -539,7 +539,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawBackground(Graphics g) {
+	private void drawBackground(Graphics g) {
 		try {
 			BufferedImage backgroundImg = ImageIO.read(new File("resources/Background.png"));
 			g.drawImage(backgroundImg, 5, 5, new ImageObserver() {
@@ -576,7 +576,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawEndGame(Graphics g)
+	private void drawEndGame(Graphics g)
 	{
 		g.clearRect(1185, 12, 1740-1185, 983-12);
 		g.clearRect(9, 764, 1742-9, 987-764);
@@ -711,7 +711,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawHand(Graphics g) {
+	private void drawHand(Graphics g) {
 		Player currentPlayer = game.players[game.currentPlayer];
 
 		int topLeftX = 75;
@@ -775,13 +775,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	private double xLeader = 1237,yLeader = 110,targety,change;
-	protected boolean moving = false;
+	private boolean moving = false;
 
 	/**
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawRankings(Graphics g) {
+	private void drawRankings(Graphics g) {
 		Player[] playerCopy = new Player[game.players.length];
 		for (int i = 0; i < game.players.length; i++)
 			playerCopy[i] = game.players[i];
@@ -844,7 +844,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawTable(Graphics g) {
+	private void drawTable(Graphics g) {
 		try {
 			if(game.getTable()[0]!=null)
 			{
@@ -946,7 +946,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawContracts(Graphics g) {
+	private void drawContracts(Graphics g) {
 		int modfactor = 7;
 
 		g.setColor(Color.LIGHT_GRAY);
@@ -995,7 +995,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Animates a line
 	 * @param g Graphics object
 	 */
-	public void animateLine(Graphics g)
+	private void animateLine(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		float z=(float)Math.sqrt(Math.pow(lastPlaced.getX2()-lastPlaced.getX1(), 2)+Math.pow(lastPlaced.getY2()-lastPlaced.getY1(), 2))/lastPlaced.getCost();
@@ -1011,7 +1011,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 * Draws the specified item
 	 * @param g The Graphics object
 	 */
-	public void drawBox(Graphics g)
+	private void drawBox(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(new Color(255, 255, 255, 125));
@@ -1742,7 +1742,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	/**
 	 * Starts Timer to manage Animations
 	 */
-	public void startAnimationTimer() {
+	private void startAnimationTimer() {
 		this.moving = true;
 		ArrayList<Player> playerCopy = new ArrayList<Player>();
 		for (int i = 0; i < game.players.length; i++)
@@ -1780,7 +1780,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	/**
 	 * Starts the line animation
 	 */
-	public void startLineAnimation() {
+	private void startLineAnimation() {
 		lastPlaced=game.getLastPlaced();
 		lineX=lastPlaced.getX1();
 		lineY=lastPlaced.getY1();

@@ -5,14 +5,14 @@ import java.util.ArrayList;
  * This is a complex class that manages all the internal state and mechanics of the game in one area, Full JavaDoc annotations are available for each method.
  */
 public class GameEngine {
-	public Player[] players;
+	 Player[] players;
 
 	private ContractDeck cDeck;
 	private TrainCardDeck tDeck;
 	private ArrayList<TrainCard> trashDeck;
 	private Board gBoard;
 	private TrainCard[] tableDeck;
-	public int currentPlayer;
+	 int currentPlayer;
 	
 	public static final int[] PTS_PER_TRACK = {0, 1, 2, 4, 7, 10, 15};
 
@@ -47,7 +47,7 @@ public class GameEngine {
 	/**
 	 * Moves onto the next player
 	 */
-	public void nextPlayer() {
+	 void nextPlayer() {
 		currentPlayer = (currentPlayer+1)%4;
 	}
 
@@ -56,7 +56,7 @@ public class GameEngine {
 	 * @param col ColorType of interest
 	 * @return The card count for that Color
 	 */
-	public int getCardCount(ColorType col)
+	 int getCardCount(ColorType col)
 	{
 		return players[currentPlayer].getTrainCards().get(col);
 	}
@@ -65,7 +65,7 @@ public class GameEngine {
 	 * Gets the most recently placed Track
 	 * @return The most recently placed Track
 	 */
-	public Track getLastPlaced()
+	 Track getLastPlaced()
 	{
 		return gBoard.getLastPlaced();
 	}
@@ -77,7 +77,7 @@ public class GameEngine {
 	 * @param c The Color to make the Train
 	 * @return Boolean indicating whether the operation occurred successfully
 	 */
-	public boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
+	 boolean placeTrain(Node nodeOne, Node nodeTwo, ColorType c) {
 		if(players[currentPlayer].getTrainCards().get(c)==0)
 			c=null;
 		if(checkEligibility(nodeOne, nodeTwo, c)&&gBoard.placeTrains(currentPlayer, c, nodeOne, nodeTwo))
@@ -135,7 +135,7 @@ public class GameEngine {
 	{
 		for(int i=0;i<5;i++)
 		{
-			if(!tDeck.needsReset()&&(tableDeck[i]==null||tableDeck[i].getwild()))
+			if(!tDeck.needsReset()&&(tableDeck[i]==null||tableDeck[i].getWild()))
 			{
 				if(tableDeck[i]!=null)
 					tDeck.replace(tableDeck[i]);
@@ -150,11 +150,11 @@ public class GameEngine {
 	 * Gets the non wild table card count
 	 * @return The non wild table card count
 	 */
-	public int getNonWildTable()
+	 int getNonWildTable()
 	{
 		int cnt=0;
 		for(TrainCard t:tableDeck)
-			if(t!=null&&!t.getwild())
+			if(t!=null&&!t.getWild())
 				cnt++;
 		return cnt;
 	}
@@ -163,14 +163,14 @@ public class GameEngine {
 	 * Gets the non wild table card number
 	 * @return The non wild table card number
 	 */
-	public int getNonWildNum()
+	 int getNonWildNum()
 	{
 		int count=0;
 		for(TrainCard t:tDeck.getDeck())
-			if(!t.getwild())
+			if(!t.getWild())
 				count++;
 		for(TrainCard t:trashDeck)
-			if(!t.getwild())
+			if(!t.getWild())
 				count++;
 		return count;
 	}
@@ -179,11 +179,11 @@ public class GameEngine {
 	 * Get the wild table count
 	 * @return Wild table count
 	 */
-	public int getWildTable()
+	 int getWildTable()
 	{
 		int cnt=0;
 		for(TrainCard t:tableDeck)
-			if(t!=null&&t.getwild())
+			if(t!=null&&t.getWild())
 				cnt++;
 		return cnt;
 	}
@@ -192,14 +192,14 @@ public class GameEngine {
 	 * Get number of wild cards
 	 * @return Number of wild cards
 	 */
-	public int getWildNum()
+	 int getWildNum()
 	{
 		int count=0;
 		for(TrainCard t:tDeck.getDeck())
-			if(t.getwild())
+			if(t.getWild())
 				count++;
 		for(TrainCard t:trashDeck)
-			if(t.getwild())
+			if(t.getWild())
 				count++;
 		return count;
 	}
@@ -208,7 +208,7 @@ public class GameEngine {
 	 * Get the Board
 	 * @return The Board
 	 */
-	public Board getgBoard() {
+	 Board getgBoard() {
 		return gBoard;
 	}
 
@@ -216,7 +216,7 @@ public class GameEngine {
 	 * Get the number of Contracts
 	 * @return The number of Contracts
  	 */
-	public int getNumContracts()
+	 int getNumContracts()
 	{
 		return cDeck.size();
 	}
@@ -225,7 +225,7 @@ public class GameEngine {
 	 * Checks if there are train cards
 	 * @return Boolean indicating whether there are train cards
 	 */
-	public boolean haveTrainCards()
+	 boolean haveTrainCards()
 	{
 		if(tDeck.needsReset())
 			return trashDeck.size()!=0;
@@ -236,7 +236,7 @@ public class GameEngine {
 	 * Checks if there is a table
 	 * @return Boolean indicating whether there is a table
 	 */
-	public boolean haveTable()
+	 boolean haveTable()
 	{
 		for(TrainCard t:tableDeck)
 			if(t!=null&&t.getColor()!=null)
@@ -248,7 +248,7 @@ public class GameEngine {
 	 * Get the Table
 	 * @return Array of TrainCards comprising the table
 	 */
-	public TrainCard[] getTable()
+	 TrainCard[] getTable()
 	{
 		return tableDeck;
 	}
@@ -258,7 +258,7 @@ public class GameEngine {
 	 * @param num The number of contracts
 	 * @return Array of contracts
 	 */
-	public ArrayList<Contract> drawContract(int num) {
+	 ArrayList<Contract> drawContract(int num) {
 		if(cDeck.size()>0)
 			return cDeck.draw(Math.min(cDeck.size(), num));
 		return null;
@@ -268,7 +268,7 @@ public class GameEngine {
 	 * Gives the current player a certain Contract c
 	 * @param c The contract to give the player
 	 */
-	public void takeContract(Contract c)
+	 void takeContract(Contract c)
 	{
 		players[currentPlayer].addContract(c);
 	}
@@ -277,10 +277,10 @@ public class GameEngine {
 	 * Check whether the wild card limit has been exceeded
 	 * @return Boolean indicating whether the wild card limit has been exceeded
 	 */
-	public boolean checkWildLim() {
+	 boolean checkWildLim() {
 		int c=0;
 		for(TrainCard t:tableDeck)
-			if(t!=null&&t.getwild())
+			if(t!=null&&t.getWild())
 				if(++c==3)
 					return true;
 	  return false;
@@ -289,7 +289,7 @@ public class GameEngine {
 	/**
 	 * Method to update the table
 	 */
-	public void updateTable() {
+	 void updateTable() {
     	for(int i=0;i<tableDeck.length;i++)
     	{
     		if(tableDeck[i]!=null)
@@ -323,7 +323,7 @@ public class GameEngine {
 	 * Method to check if it is the last round
 	 * @return Boolena indicating whether it is the last round
 	 */
-	public boolean lastRound() {
+	 boolean lastRound() {
     	for(Player p:players)
     		if(p.getTrainsLeft()<3)
     			return true;
@@ -336,14 +336,14 @@ public class GameEngine {
 	 * @param oneDrawn Boolean of the drawn card
 	 * @return Boolean indicating if face up wild drawn and takes if 1 card already drawn
 	 */
-	public boolean drawTrainCard(int pos, boolean oneDrawn) {
+	 boolean drawTrainCard(int pos, boolean oneDrawn) {
 		TrainCard rtn=new TrainCard(null,false);
 		if(pos==-1)
 			players[currentPlayer].drawTrainCards(tDeck.draw());
 		else
 		{
 			rtn=tableDeck[pos];
-			if(!(rtn.getwild()&&oneDrawn))
+			if(!(rtn.getWild()&&oneDrawn))
 			{
 				players[currentPlayer].drawTrainCards(rtn);
 				if(!haveTrainCards())
@@ -359,14 +359,14 @@ public class GameEngine {
 			tDeck.restartDeck(trashDeck);
 			trashDeck=new ArrayList<TrainCard>();
 		}
-		return rtn.getwild();
+		return rtn.getWild();
 	}
 
 	/**
 	 *  Gets the end game results
 	 * @return returns contract payouts,then longest train,then globetrotter
 	 */
-	public int[][] endGame() {
+	 int[][] endGame() {
 		for(int i=0;i<players.length;i++)
 			for(Contract ct:players[i].getContract())
 				ct.checkComplete(gBoard);
@@ -442,7 +442,7 @@ public class GameEngine {
 	 * @param y y coordinate
 	 * @return The Node that contains the coordinates
 	 */
-	public Node findNode(int x, int y) {
+	 Node findNode(int x, int y) {
 		return gBoard.findNode(x, y);
 	}
 
@@ -450,7 +450,7 @@ public class GameEngine {
 	 * Replace the passed in contracts
 	 * @param c Contracts of interest
 	 */
-	public void replaceContracts(ArrayList<Contract> c)
+	 void replaceContracts(ArrayList<Contract> c)
 	{
 		cDeck.replace(c);
 	}
@@ -463,7 +463,7 @@ public class GameEngine {
 	 * @param y y coordinate
 	 * @return Boolean indicating elibility
 	 */
-	public Boolean isNodeEligible(int x,int y)
+	 Boolean isNodeEligible(int x,int y)
 	{
 		return gBoard.isNodeEligible(x,y);
 	}
@@ -476,7 +476,7 @@ public class GameEngine {
 	 * @param n Node in question
 	 * @return Boolean indicating elibility
 	 */
-	public Boolean isNodeEligible(int x,int y,Node n)
+	 Boolean isNodeEligible(int x,int y,Node n)
 	{
 		return gBoard.isNodeEligible(x,y,n);
 	}

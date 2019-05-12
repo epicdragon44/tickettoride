@@ -11,17 +11,17 @@ public class TrainCard {
 		isWild=wild;
 	}
 
-	public boolean getwild() {
+	 boolean getWild() {
 		return isWild;
 	}
 
-	public ColorType getColor()
+	 ColorType getColor()
 	{
 		return color;
 	}
 
 	public boolean equals(TrainCard b) {
-		return (isWild&&b.getwild())||color.equals(b.getColor());
+		return (isWild&&b.getWild())||color.equals(b.getColor());
 	}
 	
 	public String toString()

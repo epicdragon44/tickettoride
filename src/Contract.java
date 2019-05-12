@@ -22,12 +22,12 @@ public class Contract {
         return end;
     }
 
-    public boolean isComplete()
+    protected boolean isComplete()
     {
     	return complete;
     }
-    
-    public void checkComplete(Board b)
+
+    protected void checkComplete(Board b)
     {
     	if(!complete)
     		complete=b.isComplete(this);
@@ -45,7 +45,7 @@ public class Contract {
 		this.value = value;
 	}
 
-	public int getValue() {
+    protected int getValue() {
         return value;
     }
 	

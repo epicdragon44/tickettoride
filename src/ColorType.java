@@ -5,19 +5,19 @@ import java.awt.*;
  */
 public class ColorType extends java.awt.Color {
 	private static final long serialVersionUID = 1L;
-	public static final ColorType RED = new ColorType(255, 0, 0);
-	public static final ColorType GREEN = new ColorType(0, 255, 0);
-	public static final ColorType BLUE = new ColorType(0, 0, 255);
-	public static final ColorType YELLOW = new ColorType(255, 255, 0);
-	public static final ColorType MAGENTA = new ColorType(255, 0, 255);
-	public static final ColorType CYAN = new ColorType(0, 255, 255);
-	public static final ColorType WHITE = new ColorType(255, 255, 255);
-	public static final ColorType BLACK = new ColorType(0, 0, 0);
-	public static final ColorType GRAY = new ColorType(128, 128, 128);
-	public static final ColorType LIGHT_GRAY = new ColorType(192, 192, 192);
-	public static final ColorType DARK_GRAY = new ColorType(64, 64, 64);
-	public static final ColorType PINK = new ColorType(255, 175, 175);
-	public static final ColorType ORANGE = new ColorType(255, 200, 0);
+	 static final ColorType RED = new ColorType(255, 0, 0);
+	 static final ColorType GREEN = new ColorType(0, 255, 0);
+	 static final ColorType BLUE = new ColorType(0, 0, 255);
+	 static final ColorType YELLOW = new ColorType(255, 255, 0);
+	 static final ColorType MAGENTA = new ColorType(255, 0, 255);
+	 static final ColorType CYAN = new ColorType(0, 255, 255);
+	 static final ColorType WHITE = new ColorType(255, 255, 255);
+	 static final ColorType BLACK = new ColorType(0, 0, 0);
+	 static final ColorType GRAY = new ColorType(128, 128, 128);
+	 static final ColorType LIGHT_GRAY = new ColorType(192, 192, 192);
+	 static final ColorType DARK_GRAY = new ColorType(64, 64, 64);
+	 static final ColorType PINK = new ColorType(255, 175, 175);
+	 static final ColorType ORANGE = new ColorType(255, 200, 0);
 
 	public ColorType(int r, int g, int b) {
 		super(r, g, b);
