@@ -11,7 +11,8 @@ import java.io.File;
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
 	private AudioInputStream input;
-	private Clip clip;
+	private Clip clip, backMusic, hover, click, ching;
+	private boolean mute;
 
 	public GameFrame(String str) throws Exception {
 		super(str);
@@ -21,21 +22,52 @@ public class GameFrame extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		gamePanel = new GamePanel(this);
 		add(gamePanel);
+		mute=false;
+		clip=null;
+        backMusic = AudioSystem.getClip(); 
+        backMusic.open(AudioSystem.getAudioInputStream(new File("Ragtime.wav").getAbsoluteFile()));
+        backMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        backMusic.start();
+        click = AudioSystem.getClip(); 
+        click.open(AudioSystem.getAudioInputStream(new File("click.wav").getAbsoluteFile()));
+        hover = AudioSystem.getClip(); 
+        hover.open(AudioSystem.getAudioInputStream(new File("hover.wav").getAbsoluteFile()));
+        ching = AudioSystem.getClip(); 
+        ching.open(AudioSystem.getAudioInputStream(new File("chaChing.wav").getAbsoluteFile()));
 		setVisible(true);
 	}
 
-	public void startDuluth()
+	public void startDuluth() throws Exception
 	{
-		
+		if(mute||(clip!=null&&clip.isRunning()))
+			return;
+		backMusic.stop();
+		setContentPane(new BackgroundPanel(ImageIO.read(new File("Duluth.png"))));
+		add(gamePanel);
+		input= AudioSystem.getAudioInputStream(new File("RealDuluth.wav").getAbsoluteFile()); 
+        clip = AudioSystem.getClip(); 
+        clip.open(input);
+        clip.loop(clip.LOOP_CONTINUOUSLY);
+        clip.start();
+		setVisible(true);
 	}
 	
 	public void endDuluth()
 	{
-		
+		setContentPane(new BackgroundPanel());
+		add(gamePanel);
+		if(clip!=null)
+			clip.stop();
+        clip=null;
+        backMusic.start();
+		setVisible(true);
 	}
 	
 	public void startCanada() throws Exception
 	{
+		if(mute||(clip!=null&&clip.isRunning()))
+			return;
+		backMusic.stop();
 		setContentPane(new BackgroundPanel(ImageIO.read(new File("Canada.png"))));
 		add(gamePanel);
 		input= AudioSystem.getAudioInputStream(new File("Anthem.wav").getAbsoluteFile()); 
@@ -46,12 +78,64 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public void endCanada() throws Exception
+	public void endCanada()
 	{
 		setContentPane(new BackgroundPanel());
 		add(gamePanel);
-        clip.stop();
+		if(clip!=null)
+			clip.stop();
+        clip=null;
+        backMusic.start();
 		setVisible(true);
+	}
+	
+	public void mute()
+	{
+		mute=true;
+		if(clip!=null)
+			clip.stop();
+		clip=null;
+		if(backMusic!=null)
+			backMusic.stop();
+		setContentPane(new BackgroundPanel());
+		add(gamePanel);
+		setVisible(true);
+	}
+	
+	public void unmute()
+	{
+		mute=false;
+		backMusic.start();
+	}
+	
+	public void click() throws Exception
+	{
+		if(mute)
+			return;
+		click.stop();
+		click = AudioSystem.getClip(); 
+        click.open(AudioSystem.getAudioInputStream(new File("click.wav").getAbsoluteFile()));
+		click.start();
+	}
+	
+	public void hover() throws Exception
+	{
+		if(mute)
+			return;
+		hover.stop();
+		hover = AudioSystem.getClip(); 
+        hover.open(AudioSystem.getAudioInputStream(new File("hover.wav").getAbsoluteFile()));
+		hover.start();
+	}
+	
+	public void ching() throws Exception
+	{
+		if(mute)
+			return;
+		ching.stop();
+		ching = AudioSystem.getClip(); 
+        ching.open(AudioSystem.getAudioInputStream(new File("chaChing.wav").getAbsoluteFile()));
+		ching.start();
 	}
 	
 	public static void main(String[] args) throws Exception {
