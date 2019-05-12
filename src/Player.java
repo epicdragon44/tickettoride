@@ -1,6 +1,9 @@
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * Simple Data Structure class that represents a Player in the game, with a name, number of points, color, count of trains left, list of contracts, map of traincards, and helper methods
+ */
 public class Player implements Comparable<Player>
 {
 	private String name;
@@ -34,22 +37,22 @@ public class Player implements Comparable<Player>
 	{
 		return name;
 	}
-	
-	public int getPoints()
+
+	 int getPoints()
 	{
 		return points;
 	}
-	
-	public void addPoints(int num)
+
+	 void addPoints(int num)
 	{
 		points+=num;
 	}
 
-	public int getTrainsLeft() {
+	 int getTrainsLeft() {
 		return trainsLeft;
 	}
 
-	public Color getColor() {
+	 Color getColor() {
 		return c;
 	}
 
@@ -57,8 +60,8 @@ public class Player implements Comparable<Player>
 	{
 		return contracts;
 	}
-	
-	public void addContract(Contract c)
+
+	 void addContract(Contract c)
 	{
 		contracts.add(c);
 	}
@@ -75,18 +78,18 @@ public class Player implements Comparable<Player>
 			}
 		}
 	}
-	
-	public HashMap<ColorType, Integer> getTrainCards()
+
+	 HashMap<ColorType, Integer> getTrainCards()
 	{
 		return trainCards;
 	}
-	
-	public void drawTrainCards(TrainCard train)
+
+	 void drawTrainCards(TrainCard train)
 	{
 		trainCards.put(train.getColor(),trainCards.get(train.getColor())+1);
 	}
-	
-	public ArrayList<TrainCard> placeTrains(int num, ColorType col)
+
+	 ArrayList<TrainCard> placeTrains(int num, ColorType col)
 	{
 		if(num==1||num==2)
 			addPoints(num);
@@ -98,7 +101,7 @@ public class Player implements Comparable<Player>
 			addPoints(10);
 		else if(num==6)
 			addPoints(15);
-		decrementtrainsLeft(num);
+		decrementTrainsLeft(num);
 		ArrayList<TrainCard> rtn=new ArrayList<TrainCard>();
 		if(col!=null)
 		{
@@ -124,7 +127,7 @@ public class Player implements Comparable<Player>
 		return name.equals(((Player)(obj)).getName());
 	}
 
-	private void decrementtrainsLeft(int num)
+	private void decrementTrainsLeft(int num)
 	{
 		trainsLeft-=num;
 	}

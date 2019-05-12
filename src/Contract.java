@@ -1,3 +1,6 @@
+/**
+ * This class is a simple data structure that holds Strings indicating the start and end nodes of the contract, the contract's value, and whether it's complete
+ */
 public class Contract {
     private String start, end;
     private int value;
@@ -19,12 +22,12 @@ public class Contract {
         return end;
     }
 
-    public boolean isComplete()
+    protected boolean isComplete()
     {
     	return complete;
     }
-    
-    public void checkComplete(Board b)
+
+    protected void checkComplete(Board b)
     {
     	if(!complete)
     		complete=b.isComplete(this);
@@ -42,7 +45,7 @@ public class Contract {
 		this.value = value;
 	}
 
-	public int getValue() {
+    protected int getValue() {
         return value;
     }
 	

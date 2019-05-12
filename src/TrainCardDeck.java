@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Simple Data Structure class to hold a list of Train Cards and its helper methods to help manage the deck
+ */
 public class TrainCardDeck {
 	private ArrayList<TrainCard> deck;
 
@@ -39,37 +42,32 @@ public class TrainCardDeck {
 		
 		Collections.shuffle(deck);
 	}
-	
-	public ArrayList<TrainCard> getDeck()
+
+	 ArrayList<TrainCard> getDeck()
 	{
 		return deck;
 	}
 
-	public void restartDeck(ArrayList<TrainCard> rep) {
+	 void restartDeck(ArrayList<TrainCard> rep) {
 		if(rep.size()==0)
 			return;
 		deck.addAll(rep);
 		Collections.shuffle(deck);
 	}
-	
-	public void replace(TrainCard t) {
+
+	 void replace(TrainCard t) {
 		deck.add(t);
 		Collections.shuffle(deck);
 	}
-	
-	public TrainCard draw() {
+
+	 TrainCard draw() {
 		if(!needsReset())
 			return deck.remove(0);
 		return null;
 	}
 
-	public boolean needsReset() {
+	 boolean needsReset() {
 		return deck.size()==0;
-	}
-	
-	public int getSize()
-	{
-		return deck.size();
 	}
 	
 	public String toString()

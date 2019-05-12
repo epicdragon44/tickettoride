@@ -1,6 +1,9 @@
 import java.util.*;
 import java.io.*;
 
+/**
+ * This is a simple data structure class that holds a queue of Contracts and provides a few helper methods to assist with their management
+ */
 public class ContractDeck {
 	private Queue<Contract> deck;
 
@@ -19,7 +22,7 @@ public class ContractDeck {
 			deck.add(c);
 	}
 
-	public ArrayList<Contract> draw(int num) 
+	 ArrayList<Contract> draw(int num)
 	{
 		ArrayList<Contract> c = new ArrayList<>();
 		for (int i = 0; i < num; i++)
@@ -27,14 +30,14 @@ public class ContractDeck {
 		return c;
 	}
 
-	public void replace(ArrayList<Contract> c) 
+	 void replace(ArrayList<Contract> c)
 	{
 		while(c.contains(null))
 			c.remove(null);
 		deck.addAll(c);
 	}
-	
-	public int size()
+
+	 int size()
 	{
 		return deck.size();
 	}

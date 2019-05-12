@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * Simple JFrame extension to draw window and manage sounds
+ */
 public class GameFrame extends JFrame {
 	private GamePanel gamePanel;
 	private AudioInputStream input;
@@ -39,7 +42,7 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 
-	public void startDuluth() throws Exception
+	 void startDuluth() throws Exception
 	{
 		if(mute||(clip!=null&&clip.isRunning()))
 			return;
@@ -53,8 +56,8 @@ public class GameFrame extends JFrame {
         clip.start();
 		setVisible(true);
 	}
-	
-	public void endDuluth()
+
+	 void endDuluth()
 	{
 		setContentPane(new BackgroundPanel());
 		add(gamePanel);
@@ -65,8 +68,8 @@ public class GameFrame extends JFrame {
         backMusic.start();
 		setVisible(true);
 	}
-	
-	public void startCanada() throws Exception
+
+	 void startCanada() throws Exception
 	{
 		if(mute||(clip!=null&&clip.isRunning()))
 			return;
@@ -80,8 +83,8 @@ public class GameFrame extends JFrame {
         clip.start();
 		setVisible(true);
 	}
-	
-	public void endCanada()
+
+	 void endCanada()
 	{
 		setContentPane(new BackgroundPanel());
 		add(gamePanel);
@@ -92,8 +95,8 @@ public class GameFrame extends JFrame {
         backMusic.start();
 		setVisible(true);
 	}
-	
-	public void mute()
+
+	 void mute()
 	{
 		mute=true;
 		if(clip!=null)
@@ -105,15 +108,15 @@ public class GameFrame extends JFrame {
 		add(gamePanel);
 		setVisible(true);
 	}
-	
-	public void unmute()
+
+	 void unmute()
 	{
 		mute=false;
 		backMusic.loop(Clip.LOOP_CONTINUOUSLY);
 		backMusic.start();
 	}
-	
-	public void click() throws Exception
+
+	 void click() throws Exception
 	{
 		if(mute)
 			return;
@@ -122,8 +125,8 @@ public class GameFrame extends JFrame {
         click.open(AudioSystem.getAudioInputStream(new File("resources/click.wav").getAbsoluteFile()));
 		click.start();
 	}
-	
-	public void hover() throws Exception
+
+	 void hover() throws Exception
 	{
 		if(mute)
 			return;
@@ -132,8 +135,8 @@ public class GameFrame extends JFrame {
         hover.open(AudioSystem.getAudioInputStream(new File("resources/hover.wav").getAbsoluteFile()));
 		hover.start();
 	}
-	
-	public void ching() throws Exception
+
+	 void ching() throws Exception
 	{
 		if(mute)
 			return;
@@ -142,8 +145,8 @@ public class GameFrame extends JFrame {
         ching.open(AudioSystem.getAudioInputStream(new File("resources/chaChing.wav").getAbsoluteFile()));
 		ching.start();
 	}
-	
-	public void wrong() throws Exception
+
+	 void wrong() throws Exception
 	{
 		if(mute)
 			return;
@@ -168,12 +171,15 @@ public class GameFrame extends JFrame {
 	}
 }
 
+/**
+ * Simple animated loading screen panel
+ */
 class LoadingPanel extends JComponent {
     private Image image;
     private Timer animateTimer2;
 
     private int x, y, length, height;
-    public LoadingPanel(Image im) {
+	 LoadingPanel(Image im) {
 		image = im;
 		x = 0;
 		y = 495;
@@ -199,16 +205,19 @@ class LoadingPanel extends JComponent {
 	}
 }
 
+/**
+ * Simple background panel
+ */
 class BackgroundPanel extends JComponent {
 	private Image image;
 	private boolean def;
-	
-	public BackgroundPanel() {
+
+	 BackgroundPanel() {
         image = null;
         def=true;
     }
-	
-    public BackgroundPanel(Image im) {
+
+	 BackgroundPanel(Image im) {
         image = im;
         def=false;
     }
