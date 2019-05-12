@@ -25,17 +25,17 @@ public class GameFrame extends JFrame {
 		mute=false;
 		clip=null;
         backMusic = AudioSystem.getClip(); 
-        backMusic.open(AudioSystem.getAudioInputStream(new File("Ragtime.wav").getAbsoluteFile()));
+        backMusic.open(AudioSystem.getAudioInputStream(new File("resources/Ragtime.wav").getAbsoluteFile()));
         backMusic.loop(Clip.LOOP_CONTINUOUSLY);
         backMusic.start();
         click = AudioSystem.getClip(); 
-        click.open(AudioSystem.getAudioInputStream(new File("click.wav").getAbsoluteFile()));
+        click.open(AudioSystem.getAudioInputStream(new File("resources/click.wav").getAbsoluteFile()));
         hover = AudioSystem.getClip(); 
-        hover.open(AudioSystem.getAudioInputStream(new File("hover.wav").getAbsoluteFile()));
+        hover.open(AudioSystem.getAudioInputStream(new File("resources/hover.wav").getAbsoluteFile()));
         ching = AudioSystem.getClip(); 
-        ching.open(AudioSystem.getAudioInputStream(new File("chaChing.wav").getAbsoluteFile()));
+        ching.open(AudioSystem.getAudioInputStream(new File("resources/chaChing.wav").getAbsoluteFile()));
         wrong = AudioSystem.getClip(); 
-        wrong.open(AudioSystem.getAudioInputStream(new File("wrong.wav").getAbsoluteFile()));
+        wrong.open(AudioSystem.getAudioInputStream(new File("resources/wrong.wav").getAbsoluteFile()));
 		setVisible(true);
 	}
 
@@ -44,9 +44,9 @@ public class GameFrame extends JFrame {
 		if(mute||(clip!=null&&clip.isRunning()))
 			return;
 		backMusic.stop();
-		setContentPane(new BackgroundPanel(ImageIO.read(new File("Duluth.png"))));
+		setContentPane(new BackgroundPanel(ImageIO.read(new File("resources/Duluth.png"))));
 		add(gamePanel);
-		input= AudioSystem.getAudioInputStream(new File("RealDuluth.wav").getAbsoluteFile()); 
+		input= AudioSystem.getAudioInputStream(new File("resources/RealDuluth.wav").getAbsoluteFile()); 
         clip = AudioSystem.getClip(); 
         clip.open(input);
         clip.loop(clip.LOOP_CONTINUOUSLY);
@@ -70,9 +70,9 @@ public class GameFrame extends JFrame {
 		if(mute||(clip!=null&&clip.isRunning()))
 			return;
 		backMusic.stop();
-		setContentPane(new BackgroundPanel(ImageIO.read(new File("Canada.png"))));
+		setContentPane(new BackgroundPanel(ImageIO.read(new File("resources/Canada.png"))));
 		add(gamePanel);
-		input= AudioSystem.getAudioInputStream(new File("Anthem.wav").getAbsoluteFile()); 
+		input= AudioSystem.getAudioInputStream(new File("resources/Anthem.wav").getAbsoluteFile()); 
         clip = AudioSystem.getClip(); 
         clip.open(input);
         clip.loop(clip.LOOP_CONTINUOUSLY);
@@ -116,7 +116,7 @@ public class GameFrame extends JFrame {
 			return;
 		click.stop();
 		click = AudioSystem.getClip(); 
-        click.open(AudioSystem.getAudioInputStream(new File("click.wav").getAbsoluteFile()));
+        click.open(AudioSystem.getAudioInputStream(new File("resources/click.wav").getAbsoluteFile()));
 		click.start();
 	}
 	
@@ -126,7 +126,7 @@ public class GameFrame extends JFrame {
 			return;
 		hover.stop();
 		hover = AudioSystem.getClip(); 
-        hover.open(AudioSystem.getAudioInputStream(new File("hover.wav").getAbsoluteFile()));
+        hover.open(AudioSystem.getAudioInputStream(new File("resources/hover.wav").getAbsoluteFile()));
 		hover.start();
 	}
 	
@@ -136,7 +136,7 @@ public class GameFrame extends JFrame {
 			return;
 		ching.stop();
 		ching = AudioSystem.getClip(); 
-        ching.open(AudioSystem.getAudioInputStream(new File("chaChing.wav").getAbsoluteFile()));
+        ching.open(AudioSystem.getAudioInputStream(new File("resources/chaChing.wav").getAbsoluteFile()));
 		ching.start();
 	}
 	
@@ -146,13 +146,13 @@ public class GameFrame extends JFrame {
 			return;
 		wrong.stop();
 		wrong = AudioSystem.getClip(); 
-        wrong.open(AudioSystem.getAudioInputStream(new File("wrong.wav").getAbsoluteFile()));
+        wrong.open(AudioSystem.getAudioInputStream(new File("resources/wrong.wav").getAbsoluteFile()));
 		wrong.start();
 	}
 	
 	public static void main(String[] args) throws Exception {
 		JWindow window = new JWindow();
-		window.setContentPane(new LoadingPanel(ImageIO.read(new File("yeet.jpg"))));
+		window.setContentPane(new LoadingPanel(ImageIO.read(new File("resources/yeet.jpg"))));
 		window.setBounds(576, 250, 768, 550);
 		window.setVisible(true);
 		try {
