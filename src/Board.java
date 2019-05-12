@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
  * This is a complex data structure class that manages the graph theory implementation of the game board. Full JavaDoc annotations are available for all of its methods
  */
 public class Board {
-	protected Node[] cities;
+	 Node[] cities;
 	private int maxLen;
 	private ArrayList<Player> bestPlayer;
 	private GameEngine daddyEngine;
@@ -54,7 +54,7 @@ public class Board {
 	 * @param e Name of second node
 	 * @return Cost of connection
 	 */
-	protected int connectionCost(String s, String e) {
+	 int connectionCost(String s, String e) {
 		Node start = findNode(s);
 		Node end = findNode(e);
 		ArrayList<Track> tracks = start.getConnections();
@@ -73,7 +73,7 @@ public class Board {
 	 * @param c The Contract in question
 	 * @return Boolean indicating completeness
 	 */
-	protected boolean isComplete(Contract c) {
+	 boolean isComplete(Contract c) {
 		Node startNode = findNode(c.getStart());
 		Node endNode = findNode(c.getEnd());
 		if(startNode==null||endNode==null)
@@ -107,7 +107,7 @@ public class Board {
 	 * Get the most recently placed Track
 	 * @return The most recently placed Track
 	 */
-	protected Track getLastPlaced()
+	 Track getLastPlaced()
 	{
 		return last;
 	}
@@ -117,7 +117,7 @@ public class Board {
 	 * @param name String name of interest
 	 * @return The Node with the given name, or null if none found
 	 */
-	protected Node findNode(String name) {
+	 Node findNode(String name) {
 		for (Node n : cities) {
 			if(n.toString().equals(name))
 				return n;
@@ -131,7 +131,7 @@ public class Board {
 	 * @param y Y Coordinate
 	 * @return The Node that contains the given coordinates, or null if none found
 	 */
-	protected Node findNode(int x, int y) {
+	 Node findNode(int x, int y) {
 		for (Node n : cities) {
 			if (n.contains(x, y))
 				return n;
@@ -145,7 +145,7 @@ public class Board {
 	 * @param node Second Node
 	 * @return The Track between the two nodes
 	 */
-	protected Track findTrack(Node n, Node node)
+	 Track findTrack(Node n, Node node)
 	{
 		for(Track t:n.getConnections())
 			if(t.getOtherNode(n).equals(node)&&t.getPlayer()==-1)
@@ -159,7 +159,7 @@ public class Board {
 	 * @param y Y Coordinate
 	 * @return Boolean indicating validity
 	 */
-	protected Boolean isNodeEligible(int x,int y)
+	 Boolean isNodeEligible(int x,int y)
 	{
 		Node n=findNode(x,y);
 		if(n==null)
@@ -177,7 +177,7 @@ public class Board {
 	 * @param n The Node to connect to
 	 * @return Boolean indicating validity
 	 */
-	protected Boolean isNodeEligible(int x,int y,Node n)
+	 Boolean isNodeEligible(int x,int y,Node n)
 	{
 		Node node=findNode(x,y);
 		if(node==null)
@@ -212,7 +212,7 @@ public class Board {
 	 * @param players Array of all players in game
 	 * @return List of Player(s) with longest train(s)
 	 */
-	protected ArrayList<Player> findLongestTrainPlayer(Player[] players) {
+	 ArrayList<Player> findLongestTrainPlayer(Player[] players) {
 		maxLen = Integer.MIN_VALUE;
 		for (Player p : players)
 			for (Node n : cities)
@@ -269,7 +269,7 @@ public class Board {
 	 * @param end Ending node
 	 * @return Whether placement was successful
 	 */
-	protected boolean placeTrains(int player, ColorType c, Node start, Node end) {
+	 boolean placeTrains(int player, ColorType c, Node start, Node end) {
 		ArrayList<Track> tracks = start.getConnections();
 		int x=0,y=0;
 		boolean available = false;
