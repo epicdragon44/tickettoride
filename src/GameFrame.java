@@ -61,6 +61,7 @@ public class GameFrame extends JFrame {
 		if(clip!=null)
 			clip.stop();
         clip=null;
+        backMusic.loop(Clip.LOOP_CONTINUOUSLY);
         backMusic.start();
 		setVisible(true);
 	}
@@ -87,6 +88,7 @@ public class GameFrame extends JFrame {
 		if(clip!=null)
 			clip.stop();
         clip=null;
+        backMusic.loop(Clip.LOOP_CONTINUOUSLY);
         backMusic.start();
 		setVisible(true);
 	}
@@ -107,6 +109,7 @@ public class GameFrame extends JFrame {
 	public void unmute()
 	{
 		mute=false;
+		backMusic.loop(Clip.LOOP_CONTINUOUSLY);
 		backMusic.start();
 	}
 	
