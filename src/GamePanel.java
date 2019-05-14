@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Node[] citySelect;
 	private Image icon;
 	private int[][] endData;
-	private boolean hoverT, hoverC, drawDirections, drawMinimization, takeScreen, canadaMode, duluthMode, mute;
+	private boolean hoverT, hoverC, drawDirections, drawMinimization, takeScreen, canadaMode, duluthMode, mute, hoverDone;
 	private Track lastPlaced;
 	private Timer animateTimer, animateTimer2;
 	private BufferedImage bg;
@@ -89,6 +89,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		hoverCon=-1;
 		hoverTab=-1;
 		bg=null;
+		hoverDone=false;
 		lineX=0;
 		lineY=0;
 		lastPlaced=null;
@@ -168,12 +169,58 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				}
 				drawTDeck(g);
 			}
+			/*
+			if(stage==0)
+			{
+				if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=950&&e.getY()<=990)
+				{
+					if(!hoverDone)
+					{
+						try
+						{
+							daddyFrame.hover();
+						}catch(Exception E) {}
+					}
+					hoverDone=true;
+				}
+				else
+					hoverDone=false;
+			}
+			else if(stage==3)
+			{
+				if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980)
+				{
+					if(!hoverDone)
+					{
+						try
+						{
+							daddyFrame.hover();
+						}catch(Exception E) {}
+					}
+					hoverDone=true;
+				}
+				else
+					hoverDone=false;
+			}
+			*/
 			if (stage == 0) 
 			{
 				if(hoverConStart!=-1&&hoverConStart<contracts.size()&&contracts.get(hoverConStart)!=null&&numMoved!=0)
 				{
 					g.setColor(lgreen);
 					g.fillRoundRect(1290, 650+hoverConStart*60, 370, 55, 10, 10);
+				}
+				if(hoverDone&&numMoved!=0)
+				{
+					int count=0;
+					for(Contract c:contracts)
+						if(c==null)
+							count++;
+					if(count>2)
+						g.setColor(lgreen);
+					else
+						g.setColor(lred);
+					g.fillRoundRect(1428, 943, 94, 54, 10, 10);
 				}
 				drawContractSelectStart(g);
 			}
@@ -183,6 +230,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				{
 					g.setColor(lgreen);
 					g.fillRoundRect(1290, 690+hoverCon*80, 370, 80, 10, 10);
+				}
+				if(hoverDone&&numMoved!=0)
+				{
+					if(contracts.contains(null))
+						g.setColor(lgreen);
+					else
+						g.setColor(lred);
+					g.fillRoundRect(1428, 933, 94, 54, 10, 10);
 				}
 				drawContractSelect(g);
 			}
@@ -448,7 +503,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		    g.setFont(font);
 		    g.drawString(text, x, y);
 		}
-		g.setColor(new Color(57,229,109));
+		g.setColor(new Color(51,153,255));
 		g.fillRoundRect(1435, 940, 80, 40, 10, 10);
 		g.setColor(Color.BLACK);
 		g.drawRoundRect(1435, 940, 80, 40, 10, 10);
@@ -456,7 +511,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		FontMetrics metrics = g.getFontMetrics(font);
 	    int x = 1435 + (80 - metrics.stringWidth("Done")) / 2;
 	    int y = 940 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
-	    g.setColor(Color.GRAY);
+	    g.setColor(Color.DARK_GRAY);
 	    g.setFont(font);
 	    g.drawString("Done", x, y);
 	}
@@ -486,7 +541,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		    g.setFont(font);
 		    g.drawString(text, x, y);
 		}
-		g.setColor(new Color(57,229,109));
+		g.setColor(new Color(51,153,255));
 		g.fillRoundRect(1435, 950, 80, 40, 10, 10);
 		g.setColor(Color.BLACK);
 		g.drawRoundRect(1435, 950, 80, 40, 10, 10);
@@ -494,7 +549,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		FontMetrics metrics = g.getFontMetrics(font);
 	    int x = 1435 + (80 - metrics.stringWidth("Done")) / 2;
 	    int y = 950 + ((40 - metrics.getHeight()) / 2) + metrics.getAscent();
-	    g.setColor(Color.GRAY);
+	    g.setColor(Color.DARK_GRAY);
 	    g.setFont(font);
 	    g.drawString("Done", x, y);
 	}
@@ -1408,6 +1463,38 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 					daddyFrame.endDuluth();
 				}catch(Exception E) {}
 			}
+		}
+		if(stage==0)
+		{
+			if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=950&&e.getY()<=990)
+			{
+				if(!hoverDone)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
+				hoverDone=true;
+			}
+			else
+				hoverDone=false;
+		}
+		else if(stage==3)
+		{
+			if(e.getX()>=1435&&e.getX()<=1515&&e.getY()>=940&&e.getY()<=980)
+			{
+				if(!hoverDone)
+				{
+					try
+					{
+						daddyFrame.hover();
+					}catch(Exception E) {}
+				}
+				hoverDone=true;
+			}
+			else
+				hoverDone=false;
 		}
 		if (game.findNode(e.getX(), e.getY()) != null)
 		{
