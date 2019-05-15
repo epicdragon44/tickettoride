@@ -78,18 +78,18 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		numMoved=-1;
 		citySelect = new Node[2];
 		contracts = game.drawContract(5);
-		hoverT=false;
-		hoverC=false;
 		takeScreen=false;
 		drawDirections = true;
 		drawMinimization = true;
-		hoverStack=ColorType.BLACK;
 		icon = new ImageIcon("resources/Flag.gif").getImage();
+		hoverStack=ColorType.BLACK;
+		hoverT=false;
+		hoverC=false;
 		hoverConStart=-1;
 		hoverCon=-1;
 		hoverTab=-1;
-		bg=null;
 		hoverDone=false;
+		bg=null;
 		lineX=0;
 		lineY=0;
 		lastPlaced=null;
@@ -1831,6 +1831,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	 */
 	private void startAnimationTimer() {
 		this.moving = true;
+		hoverStack=ColorType.BLACK;
+		hoverT=false;
+		hoverC=false;
+		hoverConStart=-1;
+		hoverCon=-1;
+		hoverTab=-1;
+		hoverDone=false;
 		ArrayList<Player> playerCopy = new ArrayList<Player>();
 		for (int i = 0; i < game.players.length; i++)
 			playerCopy.add(game.players[i]);
